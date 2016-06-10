@@ -1,0 +1,19 @@
+/*Esse css foi utilizado para organizar o input de busca*/
+.divA{
+	width: 50%;
+	margin-left: 25%;
+	display: block;
+}
+
+.apresentacao{
+	text-align: center;
+}
+
+.table{
+	margin-left: 10%;
+	width: 80%;
+}
+
+.home{
+	text-align: center
+}

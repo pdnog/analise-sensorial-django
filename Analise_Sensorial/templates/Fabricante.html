@@ -1,0 +1,15 @@
+{% extends 'cadastro_principal.html' %}
+
+{% block cadastro %}
+{% load bootstrap %}
+<h2 class="text-success">Cadastro do Fabricante</h2>
+<form class="form-horizontal" method="POST" action="/Cadastro_Formulario/">
+  {% csrf_token %}
+  {{ form|bootstrap_horizontal }}
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-success btn-lg btn-block">Salvar</button>
+    </div>
+  </div>
+</form>
+{% endblock %}
