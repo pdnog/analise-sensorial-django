@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^$', Cadastro_principal_page),
     url(r'^Provador.html/', Provador_page_cadastro),
     url(r'^Fabricante.html/', Fabricante_page_cadastro),
-    url(r'^Cadastro_Formulario/', Cadastro_Formulario)
+    url(r'^Cadastro_Fabricante/', Cadastro_Fabricante),
+    url(r'^Cadastro_Provador/', Cadastro_Provador),
 ]

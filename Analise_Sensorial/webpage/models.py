@@ -25,6 +25,16 @@ class Fabricante(User):
 	def __str__(self):
 		return self.user.username
 
+	class Meta:
+		verbose_name = "Fabricante"
+
+
+class Provador(User):
+	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+	data_nascimento = models.DateField("Data de Nascimento")
+
+	class Meta:
+		verbose_name = "Provador"
 
 
 

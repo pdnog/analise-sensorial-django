@@ -2,33 +2,45 @@ from django import forms
 from webpage.models import *
 from django.contrib.auth.forms import UserCreationForm
 
-#Formulário não utilizado
-class FormFabricante(forms.Form):
-	username = forms.CharField(label="Nome", max_length = 50, widget=forms.TextInput(attrs={'placeholder': 'Nome'}))
-	email = forms.EmailField(label="Email", max_length=75, widget=forms.TextInput(attrs={'placeholder': 'Email'}))
-	senha = forms.CharField(label="Senha",  max_length=50,widget=forms.PasswordInput(attrs={'placeholder': 'Senha'}))
-	
-	TYPE_GROUPS = (
-		(u"A", u"Alimentos"),
-		(u"B", u"Apicultura"),
-	)
-	curso = forms.ChoiceField(choices = TYPE_GROUPS)
-
-
-class FormFabricante2(UserCreationForm):
+#Formulário do Fabricante
+class FormFabricante(UserCreationForm):
 	#Chamando campos do model
 	class Meta:
 		model = Fabricante
 		#username não aceita espaços
-		fields = ("first_name", "last_name","username", "email", "curso")
+		fields = ("first_name", "last_name", "username", "email", "curso")
 
-
-	#Colocando placeholder nos campos do formulário
-	#Colocar todos os campos em placeholder
 	def __init__(self, *args, **kwargs):
-   		super(FormFabricante2, self).__init__(*args, **kwargs)
+   		super(FormFabricante, self).__init__(*args, **kwargs)
+   		#Adicionando placeholders nos campos
    		self.fields['username'].widget.attrs['placeholder'] = 'Usuário'
    		self.fields['first_name'].widget.attrs['placeholder'] = 'Nome'
    		self.fields['last_name'].widget.attrs['placeholder'] = 'Sobrenome'
    		self.fields['email'].widget.attrs['placeholder'] = 'Email'
-   		
+   		self.fields["password1"].widget.attrs["placeholder"] = "Senha"
+   		self.fields["password2"].widget.attrs["placeholder"] = "Confirmar senha"
+
+   		#Tornando campos obrigatórios em caso de submissão do formuário
+   		self.fields["first_name"].required = True
+   		self.fields['email'].required = True
+
+   		#Colocando textos de ajuda no formulário
+   		self.fields["curso"].help_text = "Curso que você está matriculado no IFRN."
+
+#Provador formulário
+class FormProvador(UserCreationForm):
+	"""docstring for FormProvador"""
+	class Meta:
+		model = Provador
+		fields = ("username", "email", "data_nascimento")
+
+	def __init__(self, *args, **kwargs):
+		super(FormProvador, self).__init__(*args, **kwargs)
+		self.fields['username'].widget.attrs['placeholder'] = "Usuário"
+		self.fields['email'].widget.attrs['placeholder'] = "Email"
+		self.fields['password1'].widget.attrs['placeholder'] = "Senha"
+		self.fields['password2'].widget.attrs['placeholder'] = "Confirmar senha"
+
+		#Tornar campos obrigatórios ou retirar
+		self.fields['email'].required = True
+		

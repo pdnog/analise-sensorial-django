@@ -3,7 +3,7 @@
 {% block cadastro %}
 {% load bootstrap %}
 <h2 class="text-success">Cadastro do Fabricante</h2>
-<form class="form-horizontal" method="POST" action="/Cadastro_Formulario/">
+<form class="form-horizontal" method="POST" action="/Cadastro_Fabricante/">
   {% csrf_token %}
   {{ form|bootstrap_horizontal }}
   <div class="form-group">
