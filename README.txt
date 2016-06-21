@@ -4,3 +4,4 @@ O programa está salvando provadores e fabricantes.
 Não reescrevi as classes (como herlan fez) só as extendi
 Ítalo, por favor, faça um serviço na página de cadastro_principal. Quando o usuario clicar em Fabricante, quero que o fabricante fique verde e o provador branco.
 
+Versão 1.0.0
