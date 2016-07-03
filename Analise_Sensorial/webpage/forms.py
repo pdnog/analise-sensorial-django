@@ -44,3 +44,19 @@ class FormProvador(UserCreationForm):
 		#Tornar campos obrigatórios ou retirar
 		self.fields['email'].required = True
 		
+
+
+class FormLogin(forms.Form):
+	username = forms.CharField(label="Usuário")
+	password = forms.CharField(widget=forms.PasswordInput(), label="Senha")
+	
+	def __init__(self, *args, **kwargs):
+		super(FormLogin, self).__init__(*args, **kwargs)
+		self.fields['username'].widget.attrs['placeholder'] = "Usuário"
+		self.fields['password'].widget.attrs['placeholder'] = "Senha"
+
+		#Criando campos necessários
+		self.fields['password'].required = True
+		self.fields['username'].required = True
+	
+

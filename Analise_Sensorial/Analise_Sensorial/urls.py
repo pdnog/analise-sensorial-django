@@ -4,7 +4,7 @@ The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.9/topics/http/urls/
 Examples:
 Function views
-    1. Add an import:  from my_app import views
+    1. Add animport:  from my_app import views
     2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
 Class-based views
     1. Add an import:  from other_app.views import Home
@@ -19,9 +19,11 @@ from webpage.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', Cadastro_principal_page),
-    url(r'^Provador.html/', Provador_page_cadastro),
-    url(r'^Fabricante.html/', Fabricante_page_cadastro),
-    url(r'^Cadastro_Fabricante/', Cadastro_Fabricante),
-    url(r'^Cadastro_Provador/', Cadastro_Provador),
+    url(r'^$', Login_Page, name="principal"),
+    url(r'^Provador', Provador_page_cadastro),
+    url(r'^Fabricante', Fabricante_page_cadastro),
+    url(r'^Cadastro_Fabricante/$', Cadastro_Fabricante),
+    url(r'^Cadastro_Provador/$', Cadastro_Provador),
+    url(r'^Cadastro_principal_page', Cadastro_principal_page),
+    url(r'^Login', Login)
 ]

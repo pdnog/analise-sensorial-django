@@ -1,19 +1,27 @@
-/*Esse css foi utilizado para organizar o input de busca*/
-.divA{
-	width: 50%;
-	margin-left: 25%;
-	display: block;
-}
-
-.apresentacao{
+.mensagem{
+	width: 100%;
+	height: 30px;
+	background-color: #449d44;
+	color: white;
+	font-size: 20px;
 	text-align: center;
+	display: inline-block;
+	float: left;
+	margin-top: 0px;
 }
 
-.table{
-	margin-left: 10%;
-	width: 80%;
+.mensagem_erro{
+	width: 100%;
+	height: 30px;
+	background-color: #d9534f;
+	color: white;
+	font-size: 20px;
+	text-align: center;
+	display: inline-block;
+	float: left;
+	margin-top: 0px;
 }
 
-.home{
-	text-align: center
+.navbar{
+	margin-bottom: 0px;
 }

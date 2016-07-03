@@ -10,7 +10,7 @@ admin.site.unregister(User)
 class FabricanteAdmin(UserAdmin):
 	#Criando campos no administrador
 	fieldsets = (
-            (None, {'fields': ('username', 'password', 'first_name', 'last_name', 'email', 'curso', 'ano') } ),
+            (None, {'fields': ('username', 'password', 'first_name', 'last_name', 'email', 'curso', 'ano',  'is_active') } ),
     	)
 	#O que aparecerá na tabela de Fabricnates.
 	list_display = ('username', 'email', 'first_name', 'last_name',)
@@ -20,7 +20,7 @@ admin.site.register(Fabricante, FabricanteAdmin)
 class ProvadorAdmin(UserAdmin):
 	#Criando campos no administrador
 	fieldsets = (
-            (None, {'fields': ('username', 'password', 'email', 'data_nascimento') } ),
+            (None, {'fields': ('username', 'password', 'email', 'data_nascimento', 'is_active') } ),
     	)
 	#O que aparecerá na tabela de Provador.
 	list_display = ('username', 'email', 'first_name', 'last_name',)

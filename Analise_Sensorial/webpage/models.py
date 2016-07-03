@@ -37,5 +37,10 @@ class Provador(User):
 		verbose_name = "Provador"
 
 
-
-
+class Tipagem(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+	TYPE_USER = (
+		(u'F', u'Fabricante'), 
+		(u'P', u'Provador')
+	)
+	tipo = models.CharField(max_length=1, choices=TYPE_USER) 
