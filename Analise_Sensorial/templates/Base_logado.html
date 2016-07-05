@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>{% block titulo %}{% endblock %}</title>
+  <title>{{nome_usuario}}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   {% load staticfiles %}
   <script src="{% static 'js/jquery.min.js' %}"></script>
-  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>  
   <link href="{% static 'css/bootstrap.min.css' %}" type="text/css" rel="stylesheet">
   <link href="{% static 'estilo_personalizado.css' %}" type="text/css" rel="stylesheet">
   {% block estilo %}{% endblock %}
@@ -26,8 +26,8 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/Cadastro_principal_page"><span class="glyphicon glyphicon-user"></span> Cadastre-se</a></li>
-        <li><a href="/"><span class="glyphicon glyphicon-log-in"></span>  Login</a></li>
+        <li><a><span class="glyphicon glyphicon-user"></span> {{nome_usuario}}</a></li>
+        <li><a href="/Logout/"><span class="glyphicon glyphicon-log-in"></span>  Logout</a></li>
       </ul>
     </div>
   </div>

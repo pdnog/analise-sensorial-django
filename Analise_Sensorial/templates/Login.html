@@ -1,5 +1,7 @@
 {% extends 'Base.html' %}
 
+{% block titulo %} Login {% endblock%}
+
 {% block estilo %}
 {% load staticfiles %}
  <link href="{% static 'css/estilo.css' %}" type="text/css" rel="stylesheet">
@@ -22,7 +24,7 @@
         {{ form|bootstrap_horizontal }}
         <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-success btn-lg btn-block">Salvar</button>
+            <button type="submit" class="btn btn-success btn-lg btn-block">Entrar</button>
         </div>
         </div>
     </form>

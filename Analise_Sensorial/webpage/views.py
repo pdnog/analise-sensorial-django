@@ -30,19 +30,20 @@ def Cadastro_Fabricante(request):
 		#Vendo se o formário com o resquest é válido, se for, ele salva no models, pois o form é uma extensão do model
 		if form.is_valid():
 			form.save()
-			#Retornando o usuário
+			#Retornando o usuário do formulario
 			username = form.cleaned_data['username']
 			#Retornando o objeto usuário
 			usuario = User.objects.get(username=username)
-			#Definindo o tipo de usuário
+			#Definindo o tipo de usuário pelo ID
 			tipagem = Tipagem.objects.create(user_id=usuario.id, tipo='F')
-		#Setando "True" ao parametro da classe
-		_confirmacao.setConfirmacao(True)
-		return redirect("/")
+			#Setando "True" ao parametro da classe
+			_confirmacao.setConfirmacao(True)
+			#Redirecionando para a página principal
+			return redirect("/")
 	else:
 		#Se o método não for POST, ele mostra um formulário em branco
 		form = FormFabricante()
-
+	return render(request, "Fabricante.html", {"form":form})
 #Cadastrando um provador
 def Cadastro_Provador(request):
 	if request.method == 'POST':
@@ -57,17 +58,19 @@ def Cadastro_Provador(request):
 			usuario = User.objects.get(username=username)
 			#Definindo o tipo de usuário
 			tipagem = Tipagem.objects.create(user_id=usuario.id, tipo='P')
-
-		#Setando "True" ao parametro da classe
-		_confirmacao.setConfirmacao(True)
-		return redirect("/")
+			#Setando "True" ao parametro da classe
+			_confirmacao.setConfirmacao(True)
+			#Redirecionando para a página principal
+			return redirect("/")
 	else:
 		form = FormProvador()
+
+	return render(request, "Provador.html", {"form":form})
 
 #Pagina de Login
 def Login_Page(request):
 	form = FormLogin()
-	#Variável do template
+	#Variável que irá para o template
 	confirm = False
 	if(_confirmacao.getConfirmacao()):
 		#Recebendo o valor
@@ -87,9 +90,9 @@ def Login(request):
 	if form.is_valid():
 		username = form.cleaned_data['username']
 		password = form.cleaned_data['password']
-		#Autenticando o usuário
+		#Autenticando o usuário no sistema
 		user = authenticate(username=username, password=password)
-		#Conferindo de existe o usuário
+		#Conferindo se existe o usuário
 		if user is not None:
 			user = User.objects.get(username=username)
 			#Recuperando o tipo do usuário
@@ -97,13 +100,15 @@ def Login(request):
 
 			#Logando e fazendo o backend do usuario
 			if user.is_active:
+				#Retornando o arquivo settings para o caminho do backend
 				user.backend = settings.AUTHENTICATION_BACKENDS
 				#Efetuando login
 				login(request, user)
-
+				request.session['nome'] = user.first_name
 			#Descobrindo qual o tipo do usuário
+			#Isso aqui será alterado
 			if tipo.tipo == 'F':
-				return HttpResponse("Você é um Fabricante")
+				return  redirect("/Funcionalidades/")
 			else:
 				return HttpResponse("Você é um provador")
 		else:
@@ -111,5 +116,11 @@ def Login(request):
 	else:
 		return render(request, "Login.html", {"form":form})
 
-	
+
+def Logout(request):
+	try:	
+		request.session.clear()
+	except KeyError:
+		print("Errado")
+	return redirect('/')
 

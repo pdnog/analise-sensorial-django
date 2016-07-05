@@ -35,6 +35,7 @@ class Provador(User):
 
 	class Meta:
 		verbose_name = "Provador"
+		verbose_name_plural = "Provadores"
 
 
 class Tipagem(models.Model):

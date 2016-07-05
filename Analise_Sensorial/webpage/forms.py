@@ -23,7 +23,6 @@ class FormFabricante(UserCreationForm):
    		#Tornando campos obrigatórios em caso de submissão do formuário
    		self.fields["first_name"].required = True
    		self.fields['email'].required = True
-
    		#Colocando textos de ajuda no formulário
    		self.fields["curso"].help_text = "Curso que você está matriculado no IFRN."
 
@@ -41,6 +40,7 @@ class FormProvador(UserCreationForm):
 		self.fields['password1'].widget.attrs['placeholder'] = "Senha"
 		self.fields['password2'].widget.attrs['placeholder'] = "Confirmar senha"
 
+		self.fields["data_nascimento"].help_text = "Utilize o formato dd/mm/aaaa" 
 		#Tornar campos obrigatórios ou retirar
 		self.fields['email'].required = True
 		

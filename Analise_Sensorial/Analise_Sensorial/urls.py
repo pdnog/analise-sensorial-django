@@ -16,8 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from webpage.views import *
+from Fabricante.views import *
 
 urlpatterns = [
+#  Para login e cadastro
     url(r'^admin/', admin.site.urls),
     url(r'^$', Login_Page, name="principal"),
     url(r'^Provador', Provador_page_cadastro),
@@ -25,5 +27,11 @@ urlpatterns = [
     url(r'^Cadastro_Fabricante/$', Cadastro_Fabricante),
     url(r'^Cadastro_Provador/$', Cadastro_Provador),
     url(r'^Cadastro_principal_page', Cadastro_principal_page),
-    url(r'^Login', Login)
+    url(r'^Login', Login),
+    url(r'^Logout', Logout),
+
+    #Para fabricante
+    url(r'^Funcionalidades', Funcionalidades),
+    url(r'^Form_Dados_Analise_Page', FormDadosAnalise_Page),
+    url(r'^CadastrarFormAnalise', CadastrarFormAnalise)
 ]

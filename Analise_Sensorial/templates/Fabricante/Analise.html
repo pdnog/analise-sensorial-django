@@ -1,0 +1,16 @@
+{% extends 'Fabricante/Funcoes.html' %}
+{% block pagina %}
+{% load bootstrap %}
+{{form.media}}
+<h2 class="text-success">Cadastro da análise sensorial: Dados pessoais</h2>
+<form class="form-horizontal" method="POST" action="/CadastrarFormAnalise/">
+  {% csrf_token %}
+  {{ form|bootstrap_horizontal }}
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-success btn-lg btn-block">
+      			<span class="glyphicon glyphicon-ok"> Salvar</button>
+    </div>
+  </div>
+</form>
+{% endblock %}

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'webpage',
     #Adicionando o bootstrap no DJANGO
     'bootstrapform',
-    'logado',
+    'Fabricante',
+    'Provador'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -119,7 +120,6 @@ USE_L10N = True
 USE_TZ = True
 
 #AUTH_PROFILE_MODULE = 'webpage.Fabricante'
-
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',]
 
 # Static files (CSS, JavaScript, Images)
