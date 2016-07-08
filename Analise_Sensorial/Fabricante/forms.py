@@ -2,7 +2,6 @@ from django import forms
 from Fabricante.models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.admin import widgets
-from bootstrap3_datetime.widgets import DateTimePicker
 from functools import partial
 DateInput = partial(forms.DateInput, {'class': 'datepicker'})
 
