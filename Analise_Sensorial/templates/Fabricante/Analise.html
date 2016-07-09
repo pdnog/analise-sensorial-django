@@ -2,6 +2,7 @@
 {% block pagina %}
 {% load bootstrap %}
 {{form.media}}
+<br>
 <h2 class="text-success">Cadastro da análise sensorial: Dados pessoais</h2>
 <form class="form-horizontal" method="POST" action="/CadastrarFormAnalise/">
   {% csrf_token %}
