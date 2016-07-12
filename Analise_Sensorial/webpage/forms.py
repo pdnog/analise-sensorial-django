@@ -32,14 +32,14 @@ class FormProvador(UserCreationForm):
 	class Meta:
 		model = Provador
 		fields = ("username", "email", "data_nascimento")
-
+		
 	def __init__(self, *args, **kwargs):
 		super(FormProvador, self).__init__(*args, **kwargs)
 		self.fields['username'].widget.attrs['placeholder'] = "Usuário"
 		self.fields['email'].widget.attrs['placeholder'] = "Email"
 		self.fields['password1'].widget.attrs['placeholder'] = "Senha"
 		self.fields['password2'].widget.attrs['placeholder'] = "Confirmar senha"
-
+		
 		self.fields["data_nascimento"].help_text = "Utilize o formato dd/mm/aaaa" 
 		#Tornar campos obrigatórios ou retirar
 		self.fields['email'].required = True

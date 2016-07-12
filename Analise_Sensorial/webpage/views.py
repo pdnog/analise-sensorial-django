@@ -12,6 +12,9 @@ from django.http import HttpResponse
 #Iniciando a classe
 _confirmacao = confirmacao_cadastro()
 
+def Inicio(request):
+	return render(request, "home.html")
+
 def Fabricante_page_cadastro(request):
 	form = FormFabricante()
 	return render(request, "Fabricante.html", {"form":form})

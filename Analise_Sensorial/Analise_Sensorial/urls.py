@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^Cadastro_principal_page', Cadastro_principal_page),
     url(r'^Login', Login),
     url(r'^Logout', Logout),
+    url(r'^Inicio', Inicio),
 
     #Para fabricante
     url(r'^Funcionalidades', Funcionalidades),
