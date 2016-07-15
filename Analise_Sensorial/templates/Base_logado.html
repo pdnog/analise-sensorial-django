@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>{{nome_usuario}}</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  {% load staticfiles %}
-  <script src="{% static 'js/jquery.min.js' %}"></script>
-  <script src="{% static 'js/bootstrap.min.js' %}"></script>  
-  <link href="{% static 'css/bootstrap.min.css' %}" type="text/css" rel="stylesheet">
-  <link href="{% static 'estilo_personalizado.css' %}" type="text/css" rel="stylesheet">
-  {% block estilo %}{% endblock %}
-
-</head>
-<body>
+{% extends 'Base.html' %}
+{% block titulo %}{{nome_usuario}} {% endblock %}
+{% block cabecalho %}
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -32,6 +19,6 @@
     </div>
   </div>
 </nav>
+{% endblock %} 
 {% block conteudo %}{% endblock %}
-</body>
-</html>
+
