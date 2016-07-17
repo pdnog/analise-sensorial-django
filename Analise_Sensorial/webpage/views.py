@@ -87,6 +87,7 @@ def Login_Page(request):
 
 #Fazendo login
 def Login(request):
+
 	#Recebendo o formulário preenchido
 	form = FormLogin(request.POST)
 	#Validando o formullário
@@ -108,6 +109,7 @@ def Login(request):
 				#Efetuando login
 				login(request, user)
 				request.session['nome'] = user.first_name
+				request.session['idSessao'] = user.id
 			#Descobrindo qual o tipo do usuário
 			#Isso aqui será alterado
 			if tipo.tipo == 'F':

@@ -1,0 +1,15 @@
+{% extends 'Base_logado.html' %}
+
+{% block conteudo %}
+{% load bootstrap %}
+<h2 class="text-success">Editar dados do Fabricante</h2>
+<form class="form-horizontal" method="POST" action="/GoEdit/">
+  {% csrf_token %}
+  {{ form|bootstrap_horizontal }}
+  <div class="form-group">
+    <div class="col-sm-offset-10 col-sm-2">
+      <button type="submit" class="btn btn-success btn-lg btn-block">Editar</button>
+    </div>
+  </div>
+</form>
+{% endblock %}
