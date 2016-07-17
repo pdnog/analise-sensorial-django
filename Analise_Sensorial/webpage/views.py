@@ -109,7 +109,7 @@ def Login(request):
 				#Efetuando login
 				login(request, user)
 				request.session['nome'] = user.first_name
-				request.session['idSessao'] = user.id
+				request.session['teste'] = user.id
 			#Descobrindo qual o tipo do usuário
 			#Isso aqui será alterado
 			if tipo.tipo == 'F':

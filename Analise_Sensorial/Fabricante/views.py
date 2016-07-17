@@ -10,7 +10,7 @@ def Funcionalidades(request):
 def get_name(request):
 	nome = request.session.get('nome')
 	return nome
-#Pegando o ID do cara que Logou
+#Pegando a sessão teste
 def get_test(request):
 	idTeste = request.session.get('teste')
 	return idTeste
@@ -37,11 +37,6 @@ def CadastrarFormAnalise(request):
 	else:
 		return verificar(request, {'form':form}, "Fabricante/Analise.html")
 
-
-""" Só coloquei a edição do Fabricante, tava usando como teste. Amanhã ou depois
-eu coloco as demais edições de usuário e do cadastro das análises sensoriais.
-Existe um bug a ser corrigido ainda, que é, quando o usuário edita, a sessão do nome
-da página /Funcionalidade/ expira e não aparece o nome dele lá."""
 def editaRed(request):
 	idTeste = get_test(request)
 	usuario = User.objects.get(id = idTeste)	
