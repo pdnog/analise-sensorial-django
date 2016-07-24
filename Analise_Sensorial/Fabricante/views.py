@@ -1,3 +1,4 @@
+#NEED MORE SPACE
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
@@ -31,7 +32,6 @@ def FormDadosAnalise_Page(request):
 	return verificar(request, {'form':form}, "Fabricante/Analise.html")
 
 def CadastrarFormAnalise(request):
-	
 	form = FormDadosAnalise(request.POST)
 
 	if form.is_valid():
@@ -47,8 +47,10 @@ def CadastrarFormAnalise(request):
 	else:
 		return verificar(request, {'form':form}, "Fabricante/Analise.html")
 
+
 def editaRed(request):
 	idTeste = get_test(request)
+	#Pegando o usuário 
 	usuario = User.objects.get(id = idTeste)	
 	if request.method == "POST":
 		#Uso o instance para instanciar o objeto para o formulário
