@@ -3,8 +3,8 @@
 {% block conteudo %}
 {% load bootstrap %}
 <h2 class="text-success">Editar dados do Fabricante</h2>
-<!-- col-md-offset-1 col-md-10 -->
-<form class="form-horizontal " method="POST" action="/GoEdit/">
+<!-- col-md-offset-1 col-md-10 bug ao tentar colocar o tamanho correto-->
+<form class="form-horizontal" method="POST" action="/GoEdit/">
 	{% csrf_token %}
 	{{ form|bootstrap_horizontal }}
 	<div class="form-group">

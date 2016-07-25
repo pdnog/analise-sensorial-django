@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
 from Fabricante.forms import *
 from webpage.forms import FormFabricante
 # Create your views here.
@@ -30,10 +31,19 @@ def FormDadosAnalise_Page(request):
 	return verificar(request, {'form':form}, "Fabricante/Analise.html")
 
 def CadastrarFormAnalise(request):
+	
 	form = FormDadosAnalise(request.POST)
 
 	if form.is_valid():
-		pass
+		#Campo que diz: Espere, vou adicionar o usuário
+		analise = form.save(commit=False)
+		#Adicionei o usuário, que é obrigatório
+		idTeste = get_test(request)
+		usuario = User.objects.get(id = idTeste)	
+		analise.user = usuario
+		#Salvei
+		analise.save()
+		return HttpResponseRedirect('/Funcionalidades/')
 	else:
 		return verificar(request, {'form':form}, "Fabricante/Analise.html")
 
