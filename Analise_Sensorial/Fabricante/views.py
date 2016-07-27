@@ -5,29 +5,11 @@ from django.http import HttpResponseRedirect
 from Fabricante.forms import *
 from webpage.forms import FormFabricante
 from Fabricante.models import Analise_Dados_Pessoais
+from webpage.views import edita, get_test, verificar, get_name
 
 # Create your views here.
 def Funcionalidades(request):
 	return verificar(request, {}, "Fabricante/Funcoes.html")
-
-#Pegando a sessão feita
-def get_name(request):
-	nome = request.session.get('nome')
-	return nome
-#Pegando a sessão teste
-def get_test(request):
-	idTeste = request.session.get('teste')
-	return idTeste
-
-#Verificãção de login- toda página criada será preciso chama-la
-def  verificar(request, dicionario, html):
-	nome = get_name(request)
-	dicionario['nome_usuario'] = nome
-	if nome is not None:
-		return render(request, html, dicionario)
-	else:
-		return redirect('/')
-
 
 def FormDadosAnalise_Page(request):
 	form = FormDadosAnalise()
@@ -49,22 +31,15 @@ def CadastrarFormAnalise(request):
 	else:
 		return FormDadosAnalise_Page(request)
 
-
+#Edita os dados do fábricante
 def editaRed(request):
-	idTeste = get_test(request)
-	#Pegando o usuário 
-	usuario = User.objects.get(id = idTeste)	
-	if request.method == "POST":
-		#Uso o instance para instanciar o objeto para o formulário
-		form = FormFabricante(request.POST, instance = usuario)
-		if form.is_valid():
-			form.save()
-			#Falta colocar uma confirmação de "editou!"
-			return Funcionalidades(request)
-	else:
-		form = FormFabricante(instance=usuario)
-	return verificar(request,{'form':form}, 'editar.html')
+	return edita(request, FormFabricante)
 
+#Edita os dados da análise
+def editaAnalise(request):
+	return edita(request, Analise_Dados_Pessoais)
+
+#Retorna as análises cadastradas
 def retornaAnalises(request):
 	idTeste = get_test(request)
 	analise = Analise_Dados_Pessoais.objects.filter(user = idTeste)

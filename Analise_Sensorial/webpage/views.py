@@ -129,3 +129,40 @@ def Logout(request):
 		print("Errado")
 	return redirect('/')
 
+
+"""Funções default para o sistema devem ficar nessa página:"""
+
+def edita(request, formulario):
+
+	idTeste = get_test(request)
+	#Pegando o usuário 
+	usuario = User.objects.get(id = idTeste)	
+	if request.method == "POST":
+		#Uso o instance para instanciar o objeto para o formulário
+		form = formulario(request.POST, instance = usuario)
+		if form.is_valid():
+			form.save()
+			#Falta colocar uma confirmação de "editou!"
+			return Funcionalidades(request)
+	else:
+		form = formulario(instance=usuario)
+	return verificar(request,{'form':form}, 'editar.html')
+
+#Pegando a sessão teste
+def get_test(request):
+	idTeste = request.session.get('teste')
+	return idTeste
+
+
+#Verificãção de login- toda página criada será preciso chama-la
+def  verificar(request, dicionario, html):
+	nome = get_name(request)
+	dicionario['nome_usuario'] = nome
+	if nome is not None:
+		return render(request, html, dicionario)
+	else:
+		return redirect('/')
+#Pegando a sessão feita
+def get_name(request):
+	nome = request.session.get('nome')
+	return nome
