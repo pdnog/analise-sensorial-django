@@ -47,7 +47,7 @@ def CadastrarFormAnalise(request):
 		analise.save()
 		return HttpResponseRedirect('/Funcionalidades/')
 	else:
-		return verificar(request, {'form':form}, "Fabricante/Analise.html")
+		return FormDadosAnalise_Page(request)
 
 
 def editaRed(request):
@@ -60,7 +60,7 @@ def editaRed(request):
 		if form.is_valid():
 			form.save()
 			#Falta colocar uma confirmação de "editou!"
-			return render(request, "Fabricante/Funcoes.html")
+			return Funcionalidades(request)
 	else:
 		form = FormFabricante(instance=usuario)
 	return verificar(request,{'form':form}, 'editar.html')
@@ -71,7 +71,6 @@ def retornaAnalises(request):
 	if analise is None:
 		return HttpResponse("<h1>Nenhuma Análise Cadastrada</h1>")
 	else:	
-		return render(request, 'retornaAnalise.html',
-                      {'analise': analise})
+		return verificar(request, {'analise': analise}, 'retornaAnalise.html')
 	
 
