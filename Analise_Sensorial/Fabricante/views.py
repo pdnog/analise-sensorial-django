@@ -67,7 +67,7 @@ def editaRed(request):
 
 def retornaAnalises(request):
 	idTeste = get_test(request)
-	analise = Analise_Dados_Pessoais.objects.get(user = idTeste)
+	analise = Analise_Dados_Pessoais.objects.filter(user = idTeste)
 	if analise is None:
 		return HttpResponse("<h1>Nenhuma Análise Cadastrada</h1>")
 	else:	
