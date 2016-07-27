@@ -4,6 +4,8 @@ from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
 from Fabricante.forms import *
 from webpage.forms import FormFabricante
+from Fabricante.models import Analise_Dados_Pessoais
+
 # Create your views here.
 def Funcionalidades(request):
 	return verificar(request, {}, "Fabricante/Funcoes.html")
@@ -62,4 +64,14 @@ def editaRed(request):
 	else:
 		form = FormFabricante(instance=usuario)
 	return verificar(request,{'form':form}, 'editar.html')
+
+def retornaAnalises(request):
+	idTeste = get_test(request)
+	analise = Analise_Dados_Pessoais.objects.get(user = idTeste)
+	if analise is None:
+		return HttpResponse("<h1>Nenhuma Análise Cadastrada</h1>")
+	else:	
+		return render(request, 'retornaAnalise.html',
+                      {'analise': analise})
+	
 

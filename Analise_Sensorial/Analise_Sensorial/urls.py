@@ -35,6 +35,8 @@ urlpatterns = [
     url(r'^Funcionalidades', Funcionalidades),
     url(r'^Form_Dados_Analise_Page', FormDadosAnalise_Page),
     url(r'^CadastrarFormAnalise', CadastrarFormAnalise),
-    #teste
+    #Edição dos dados do Fabricante
     url(r'^GoEdit', editaRed),
+    #Mostra análises
+    url(r'^MostraAnalise', retornaAnalises),
 ]
