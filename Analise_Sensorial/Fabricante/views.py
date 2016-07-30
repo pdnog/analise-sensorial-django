@@ -6,10 +6,11 @@ from Fabricante.forms import *
 from webpage.forms import FormFabricante
 from Fabricante.models import Analise_Dados_Pessoais
 from webpage.views import edita, get_test, verificar, get_name
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def Funcionalidades(request):
-	return verificar(request, {}, "Fabricante/Funcoes.html")
+	return verificar(request, {}, "Funcoes.html")
 
 def FormDadosAnalise_Page(request):
 	form = FormDadosAnalise()
@@ -46,6 +47,6 @@ def retornaAnalises(request):
 	if analise is None:
 		return HttpResponse("<h1>Nenhuma Análise Cadastrada</h1>")
 	else:	
-		return verificar(request, {'analise': analise}, 'retornaAnalise.html')
+		return verificar(request, {'analise': analise}, 'Fabricante/retornaAnalise.html')
 	
 

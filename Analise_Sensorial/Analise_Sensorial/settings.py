@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     #Adicionando o bootstrap no DJANGO
     'bootstrapform',
     'Fabricante',
-    'Provador'
+    'Provador',
 ]
 
 MIDDLEWARE_CLASSES = [

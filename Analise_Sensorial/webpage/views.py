@@ -6,6 +6,7 @@ from django.conf import settings
 from webpage.models import *
 from webpage.utilitarios import confirmacao_cadastro
 from django.http import HttpResponse
+
 # Create your views here.
 #Jogando o formulário para o html
 
@@ -47,6 +48,7 @@ def Cadastro_Fabricante(request):
 		#Se o método não for POST, ele mostra um formulário em branco
 		form = FormFabricante()
 	return render(request, "Fabricante.html", {"form":form})
+
 #Cadastrando um provador
 def Cadastro_Provador(request):
 	if request.method == 'POST':
@@ -162,6 +164,7 @@ def  verificar(request, dicionario, html):
 		return render(request, html, dicionario)
 	else:
 		return redirect('/')
+
 #Pegando a sessão feita
 def get_name(request):
 	nome = request.session.get('nome')
