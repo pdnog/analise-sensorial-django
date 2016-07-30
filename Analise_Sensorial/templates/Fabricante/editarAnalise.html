@@ -1,10 +1,10 @@
-{% extends 'Base_logado.html' %}
+{% extends 'Funcoes.html' %}
 
-{% block conteudo %}
+{% block pagina %}
 {% load bootstrap %}
 <h2 class="text-success">Editar dados da Analise</h2>
 <!-- col-md-offset-1 col-md-10 bug ao tentar colocar o tamanho correto-->
-<form class="form-horizontal" method="POST" action="/EditaAnalise/">
+<form class="form-horizontal" method="POST" action="/EditarAnalise/{{ analise.id }}">
 	{% csrf_token %}
 	{{ form|bootstrap_horizontal }}
 	<div class="form-group">

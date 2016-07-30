@@ -37,11 +37,12 @@
          <tbody>
          {% for a in analise %} 
              <tr>
-                <form action="" method="get">
+                <form action="/EditarAnalise/{{ a.id }}" method="POST">
+                {% csrf_token %}
                  <td>{{a.Nome|safe}}</td>
                  <td>{{a.Data_Inicio|safe}}</td>
                  <td>{{a.Data_Final|safe}}</td>
-                 <td><button type = "submit" class="btn btn-success">Acesso</button></td>
+                 <td><button type = "submit" class="btn btn-success">Editar</button></td>
                 </form>
              </tr>
         {% endfor %}

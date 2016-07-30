@@ -135,7 +135,6 @@ def Logout(request):
 """Funções default para o sistema devem ficar nessa página:"""
 
 def edita(request, formulario):
-
 	idTeste = get_test(request)
 	#Pegando o usuário 
 	usuario = User.objects.get(id = idTeste)	

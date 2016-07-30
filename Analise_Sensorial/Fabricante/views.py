@@ -1,8 +1,9 @@
 #NEED MORE SPACE
 from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from Fabricante.forms import *
+from Fabricante.models import *
 from webpage.forms import FormFabricante
 from Fabricante.models import Analise_Dados_Pessoais
 from webpage.views import edita, get_test, verificar, get_name
@@ -37,8 +38,23 @@ def editaRed(request):
 	return edita(request, FormFabricante)
 
 #Edita os dados da análise
-def editaAnalise(request):
-	return edita(request, Analise_Dados_Pessoais)
+def editaAnalise(request, id):
+	#pegando objeto do banco
+	analise = get_object_or_404(Analise_Dados_Pessoais, id=id)
+	_id_user = get_test(request)
+
+	#comparando o usuario logado com o usuario da analise
+	#se o usuário tentar acessar uma anaálise que não é dele, irá ser direcionado a pagina principal
+	if request.method == 'POST' and analise.user_id == _id_user:
+		form = FormDadosAnalise(request.POST, instance=analise)
+		if form.is_valid():
+			form.save()
+			return retornaAnalises(request)
+		else:
+			form = FormDadosAnalise(instance=analise)
+			return verificar(request, {'form':form, 'analise':analise}, 'Fabricante/editarAnalise.html')
+	else:
+		return redirect('/Funcionalidades/')
 
 #Retorna as análises cadastradas
 def retornaAnalises(request):
@@ -48,5 +64,4 @@ def retornaAnalises(request):
 		return HttpResponse("<h1>Nenhuma Análise Cadastrada</h1>")
 	else:	
 		return verificar(request, {'analise': analise}, 'Fabricante/retornaAnalise.html')
-	
-
+	 
