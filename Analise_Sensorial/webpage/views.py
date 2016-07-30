@@ -145,7 +145,7 @@ def edita(request, formulario):
 		if form.is_valid():
 			form.save()
 			#Falta colocar uma confirmação de "editou!"
-			return Funcionalidades(request)
+			return redirect('/Funcionalidades/')
 	else:
 		form = formulario(instance=usuario)
 	return verificar(request,{'form':form}, 'editar.html')
