@@ -45,16 +45,21 @@ def editaAnalise(request, id):
 
 	#comparando o usuario logado com o usuario da analise
 	#se o usuário tentar acessar uma anaálise que não é dele, irá ser direcionado a pagina principal
-	if request.method == 'POST' and analise.user_id == _id_user:
+	if analise.user_id == _id_user:
 		form = FormDadosAnalise(request.POST, instance=analise)
-		if form.is_valid():
+		if form.is_valid() and request.method == 'POST':
 			form.save()
-			return retornaAnalises(request)
+			return redirect('/MostraAnalise/')
 		else:
 			form = FormDadosAnalise(instance=analise)
 			return verificar(request, {'form':form, 'analise':analise}, 'Fabricante/editarAnalise.html')
 	else:
 		return redirect('/Funcionalidades/')
+
+def deletar_analise(request, id):
+	analise = get_object_or_404(Analise_Dados_Pessoais, id=id)
+	analise.delete()
+	return redirect('/MostraAnalise/')
 
 #Retorna as análises cadastradas
 def retornaAnalises(request):

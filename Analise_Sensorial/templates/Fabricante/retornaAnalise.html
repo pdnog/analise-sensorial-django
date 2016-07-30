@@ -37,17 +37,18 @@
          <tbody>
          {% for a in analise %} 
              <tr>
-                <form action="/EditarAnalise/{{ a.id }}" method="POST">
-                {% csrf_token %}
                  <td>{{a.Nome|safe}}</td>
                  <td>{{a.Data_Inicio|safe}}</td>
                  <td>{{a.Data_Final|safe}}</td>
-                 <td><button type = "submit" class="btn btn-success">Editar</button></td>
+                 <td><a href="/EditarAnalise/{{ a.id }}" class="btn btn-success">Editar</a>
+                 <a href="/DeletarAnalise/{{ a.id }}" class="btn btn-danger">Deletar</a></td>
                 </form>
              </tr>
         {% endfor %}
          </tbody>
         </table>
+        {% else %}
+        <h2>Nenhuma análise encontrada</h2>
         {% endif %}
      	
     </div>

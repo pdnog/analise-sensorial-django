@@ -39,6 +39,8 @@ urlpatterns = [
     url(r'^GoEdit', editaRed),
     #Edição dos dados das análises
     url(r'^EditarAnalise/(?P<id>[^\.]+)', editaAnalise),
+    #Deletando
+    url(r'^DeletarAnalise/(?P<id>[^\.]+)', deletar_analise),
     #Mostra análises
     url(r'^MostraAnalise', retornaAnalises),
 ]
