@@ -41,6 +41,7 @@ urlpatterns = [
     url(r'^EditarAnalise/(?P<id>[^\.]+)', editaAnalise),
     #Deletando
     url(r'^DeletarAnalise/(?P<id>[^\.]+)', deletar_analise),
+    url(r'^NumerosAnalise/(?P<id>[^\.]+)/numeros', Gerar_numeros_page),
     #Mostra análises
     url(r'^MostraAnalise', retornaAnalises),
 ]

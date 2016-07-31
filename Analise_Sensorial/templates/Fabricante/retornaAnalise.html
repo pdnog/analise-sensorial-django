@@ -3,10 +3,10 @@
 {% block conteudo %}
 {% load bootstrap %}
 {% load staticfiles %}
-	<div class="col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-10 col-xs-offset-1">
+	<div class="col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12 col-xs-offset-0">
 	<h1>Suas Análises:</h1>
 	</div>
-    <div class="col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-10 col-xs-offset-1">
+    <div class="col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12 col-xs-offset-0">
 <!--
      	<div class="row">
      		<h3>Análise Sensorial número {{ a.id | safe}}</h3>
@@ -30,18 +30,21 @@
         <th>Título</th>
         <th>Início</th>
         <th>Fim</th>
-        <th>Acesso</th>
+        <th>Ações</th>
         
          </tr>
          </thead> 
          <tbody>
          {% for a in analise %} 
              <tr>
-                 <td>{{a.Nome|safe}}</td>
-                 <td>{{a.Data_Inicio|safe}}</td>
-                 <td>{{a.Data_Final|safe}}</td>
-                 <td><a href="/EditarAnalise/{{ a.id }}" class="btn btn-success">Editar</a>
-                 <a href="/DeletarAnalise/{{ a.id }}" class="btn btn-danger">Deletar</a></td>
+                 <td>{{a.Nome}}</td>
+                 <td>{{a.Data_Inicio}}</td>
+                 <td>{{a.Data_Final}}</td>
+                 <td><a href="/EditarAnalise/{{ a.id }}" class="btn btn-success btn-xs">Editar</a>
+                 <a href="/NumerosAnalise/{{a.id}}/numeros/" class="btn btn-primary btn-xs">Números</a>
+                 <a href="" class="btn btn-warning btn-xs">Perguntas</a>
+                 <a href="/DeletarAnalise/{{ a.id }}" class="btn btn-danger btn-xs">Deletar</a>
+                 </td>
                 </form>
              </tr>
         {% endfor %}

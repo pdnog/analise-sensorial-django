@@ -6,6 +6,7 @@ from random import randint
 from io import StringIO 
 
 
+
 def imprimir_numeros(request):
 	buffer = BytesIO()
 	p = canvas.Canvas(buffer, pagesize=letter)

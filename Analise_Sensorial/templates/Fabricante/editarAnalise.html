@@ -7,11 +7,11 @@
 <form class="form-horizontal" method="POST" action="/EditarAnalise/{{ analise.id }}">
 	{% csrf_token %}
 	{{ form|bootstrap_horizontal }}
-	<div class="col-sm-offset-8 col-sm-4 col-md-offset-8 col-md-4">
+	<div class="col-sm-offset-8 col-sm-4 col-md-offset-9 col-md-3">
 	<div class="btn-group">
-	      <button type="submit" class="btn btn-success btn-lg btn-large">
+	      <button type="submit" class="btn btn-success btn-small">
 	      	<span class="glyphicon glyphicon-ok"> Salvar</button>
-	      <a href="/DeletarAnalise/{{analise.id}}" class="btn btn-danger btn-lg btn-large"> 
+	      <a href="/DeletarAnalise/{{analise.id}}" class="btn btn-danger btn-small"> 
 	      <span class="glyphicon glyphicon-remove"> Deletar</a>
 	 </div>
 
