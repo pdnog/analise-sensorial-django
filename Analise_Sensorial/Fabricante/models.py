@@ -1,49 +1,49 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.admin import widgets
+from webpage.models import Provador
 
 # Create your models here.
-class Analise_Dados_Pessoais(models.Model):
-	Nome = models.CharField(max_length=255)
-	Descricao = models.TextField()
-	Data_Inicio = models.DateTimeField()
-	Data_Final = models.DateTimeField()
+class AnaliseSensorial(models.Model):
+	nome = models.CharField(max_length=255)
+	descricao = models.TextField()
+	data_Inicio = models.DateTimeField()
+	data_Final = models.DateTimeField()
+	possui_amostras = models.BooleanField()
+	ativado = models.BooleanField()
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	quantidade_amostras = models.IntegerField()
+	quantidade_pessoas = models.IntegerField()
+
+	def __str__ (self):
+		return self.nome
 
 	class Meta:
 		verbose_name = 'Análise'
 
-class Dados_Numeros_Aleatorios(models.Model):
-	QUANT = (
-		('2', '2'), 
-		('3', '3')
-	)
-	TAMANHO = (
-		('60','60'), 
-		('30', '30'), 
-		('90', '90'),
-		('120', '120'),
-		('150', '150'),
-		('180', '180'),
-		('210', '210'),
-		('240', '240'),
-		('270', '270'),
-		('300', '300')
-	)
 
-	quantidade_amostras = models.CharField(max_length=1, choices =QUANT, default='2')
-	quantidade_pessoas = models.CharField(max_length=5, choices=TAMANHO, default='180')
-	ativado = models.BooleanField()
-	analise = models.OneToOneField(Analise_Dados_Pessoais, on_delete=models.CASCADE)
+class Teste(models.Model):
+	#Esse campo será incrementado mais para frente
+	analise = models.ForeignKey(AnaliseSensorial, on_delete=models.CASCADE)
+	provador = models.OneToOneField(Provador, on_delete=models.CASCADE, null=True)
 
-class Numero_Aleatorio(models.Model):
-	TIPO = (
-		('A','A'), 
-		('B','B'), 
-		('C','C')
-	)
+	class Meta:
+		verbose_name = 'Teste sensorial'
+		verbose_name_plural = 'Testes sensoriais'
+
+	def __str__(self):
+		_numero = str(self.id)
+		return _numero
+
+class Amostra(models.Model):
+	teste = models.ForeignKey(Teste, on_delete=models.CASCADE)
 	numero = models.IntegerField()
-	analise = models.ForeignKey(Analise_Dados_Pessoais, on_delete=models.CASCADE)
-	tipo = models.CharField(max_length=1, choices=TIPO)
-	utilizado = models.BooleanField()
+	tipo = models.CharField(max_length=10)
 
+	class Meta:
+		verbose_name = 'Amostra'
+		verbose_name_plural = 'Amostras'
+
+	def __str__(self):
+		_numero = str(self.numero)
+		return _numero

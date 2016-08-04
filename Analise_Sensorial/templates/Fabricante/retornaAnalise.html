@@ -37,9 +37,9 @@
          <tbody>
          {% for a in analise %} 
              <tr>
-                 <td>{{a.Nome}}</td>
-                 <td>{{a.Data_Inicio}}</td>
-                 <td>{{a.Data_Final}}</td>
+                 <td>{{a.nome}}</td>
+                 <td>{{a.data_Inicio}}</td>
+                 <td>{{a.data_Final}}</td>
                  <td><a href="/EditarAnalise/{{ a.id }}" class="btn btn-success btn-xs">Editar</a>
                  <a href="/NumerosAnalise/{{a.id}}/numeros/" class="btn btn-primary btn-xs">Números</a>
                  <a href="" class="btn btn-warning btn-xs">Perguntas</a>

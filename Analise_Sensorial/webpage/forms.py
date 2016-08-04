@@ -26,6 +26,26 @@ class FormFabricante(UserCreationForm):
    		#Colocando textos de ajuda no formulário
    		self.fields["curso"].help_text = "Curso que você está matriculado no IFRN."
 
+class FormFabricanteEditar(forms.ModelForm):
+	class Meta:
+		model = Fabricante
+		fields = ("first_name", "last_name", "username", "email", "curso")
+
+	def __init__(self, *args, **kwargs):
+   		super(FormFabricanteEditar, self).__init__(*args, **kwargs)
+   		#Adicionando placeholders nos campos
+   		self.fields['username'].widget.attrs['placeholder'] = 'Usuário'
+   		self.fields['first_name'].widget.attrs['placeholder'] = 'Nome'
+   		self.fields['last_name'].widget.attrs['placeholder'] = 'Sobrenome'
+   		self.fields['email'].widget.attrs['placeholder'] = 'Email'
+
+   		#Tornando campos obrigatórios em caso de submissão do formuário
+   		self.fields["first_name"].required = True
+   		self.fields['email'].required = True
+   		#Colocando textos de ajuda no formulário
+   		self.fields["curso"].help_text = "Curso que você está matriculado no IFRN."
+		
+
 #Provador formulário
 class FormProvador(UserCreationForm):
 	"""docstring for FormProvador"""
