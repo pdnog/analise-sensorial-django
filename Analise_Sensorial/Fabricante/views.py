@@ -25,34 +25,13 @@ def gerar_teste_page(request, id):
 
 def gerar_amostras_action(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
-	gerar_amostras(id, analise.quantidade_pessoas, analise.quantidade_amostras)
-	
-	#gerando_amostras(id, analise.quantidade_amostras)
+	#Métdo antiquado
+	#gerando_amostras(id, analise.quantidade_pessoas, analise.quantidade_amostras)
+	#Criando analises
+	gerar_amostras(id, analise.quantidade_amostras)
 	analise.possui_amostras = True
 	analise.save()
 	return redirect('/MostraAnalise/')
-
-#Método não terminado
-"""def Gerar_numeros(request, id):
-	analise = get_object_or_404(Analise_Dados_Pessoais, id=id) 
-	form = FormDadosNumerosAleatorios(request.POST)
-
-	if form.is_valid():
-		formulario = form.save(commit=False)
-		amostras = form.cleaned_data['quantidade_amostras']
-		pessoas = form.cleaned_data['quantidade_pessoas']
-		analise.Possui_numeros = True
-		analise.save()
-		formulario.analise_id = analise.id
-		formulario.save()
-		#Método encontrado no arquivo 'gerador.py'
-		salvar_numeros(analise.id, pessoas, amostras)
-		return redirect('/MostraAnalise/')
-
-	form = FormDadosNumerosAleatorios()
-	return verificar(request, {'form':form}, 'Fabricante/Analise.html')
-
-"""
 
 def CadastrarFormAnalise(request):
 	if request.method == 'POST':
@@ -69,8 +48,8 @@ def CadastrarFormAnalise(request):
 			analise.ativado = False
 			#Salvei
 			analise.save()
-
-			#gerar_amostras(analise.id, analise.quantidade_pessoas, analise.quantidade_amostras)
+			#Criando testes
+			gerar_testes(analise.id, analise.quantidade_pessoas)
 			return redirect('/MostraAnalise/')
 	else:
 		form = FormAnaliseSensorial()

@@ -1,13 +1,18 @@
 from Fabricante.models import *
 from django.shortcuts import redirect, get_object_or_404
 from random import randint
+from django.db import connection,transaction
+
+from django.core.exceptions import *
 
 #Utilizar o SQL mesmo 
 #Gerando 180 testes com 3 amostras em 1:07 min:seg
 #Mudar para mysql
 #Fazer tudo em uma unica string
 #USar fuñções do prórpio banco
-def gerar_amostras(id_analise, pessoas, amostras):
+#Método antiquado
+def gerarando_amostras(id_analise, pessoas, amostras):
+
 	vetor = []
 	for i in range(pessoas):
 		teste = Teste.objects.create(analise_id=id_analise)
@@ -23,20 +28,21 @@ def gerar_amostras(id_analise, pessoas, amostras):
 			amostra = Amostra.objects.create(numero=number, tipo=transcricao_numero_letra(j), teste_id=teste.id)
 
 
-def gerar_amostra(id_analise, pessoas, amostras):
+#Utilizando o mysql caiu para 34 segundos 
+
+def gerar_testes(id_analise, pessoas):
 	vetor = []
+	Testes = []
+	cursor = connection.cursor()
 	for i in range(pessoas):
-		teste = Teste.objects.create(analise_id=id_analise)
+		#Criando o array de números
+		Testes.append(str(id_analise))
 
-		for j in range(amostras):
-			number = randint(100, 999)
+	query = 'INSERT INTO Fabricante_teste (analise_id, provador_id) VALUES (%s, null);'
+	#Enviando para o banco de dados
+	cursor.executemany(query, Testes)
 
-			while number in vetor:
-				number = randint(100, 999)
-
-			vetor.append(number)
-
-			amostra = Amostra.objects.create(numero=number, tipo=transcricao_numero_letra(j), teste_id=teste.id)
+			
 
 
 def transcricao_numero_letra(numero):
@@ -53,27 +59,31 @@ def transcricao_numero_letra(numero):
 		return VETOR[numero]
 
 #16 segundos com 180 testes
-def gerando_testes(id_analise, pessoas):
-	for i in range(pessoas):
-		teste= Teste.objects.create(analise_id=id_analise)
 
-def gerando_amostras(id_analise, amostras):
-	try:
-		vetor = Teste.objects.filter(analise_id=id_analise)
-	except Teste.DoesNotExist:
-		print('Erro')
+def gerar_amostras(id_analise, amostras):
+	#Iniciando um conexão
+	cursor = connection.cursor()
 		
 	vetor_verificar = []
+	Amostras = []
 
-	for i in vetor:
+	for i in Teste.objects.filter(analise_id=id_analise):
+
 		for j in range(amostras):
 			number = randint(100, 999)
 
-			while number in vetor:
+			while number in vetor_verificar:
 				number = randint(100, 999)
 
 			vetor_verificar.append(number)
-			amostra = Amostra.objects.create(numero=number, tipo=transcricao_numero_letra(j), teste_id=vetor[i].id)
+			tipo = transcricao_numero_letra(j)
+			#Adicionando no vetor
+			Amostras.append((str(number), str(tipo), str(i.id)))
+
+	query = "INSERT INTO Fabricante_amostra (numero, tipo, teste_id) VALUES (%s, %s, %s); "
+	#Executando a query junto com o vetor
+	cursor.executemany(query, Amostras)
+
 
 
 
