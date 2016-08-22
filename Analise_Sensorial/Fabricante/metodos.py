@@ -2,7 +2,6 @@ from Fabricante.models import *
 from django.shortcuts import redirect, get_object_or_404
 from random import randint
 from django.db import connection,transaction
-
 from django.core.exceptions import *
 
 #Utilizar o SQL mesmo 
@@ -78,11 +77,23 @@ def gerar_amostras(id_analise, amostras):
 			vetor_verificar.append(number)
 			tipo = transcricao_numero_letra(j)
 			#Adicionando no vetor
-			Amostras.append((str(number), str(tipo), str(i.id)))
+			Amostras.append((str(number), str(tipo), str(i.id), str(id_analise)))
 
-	query = "INSERT INTO Fabricante_amostra (numero, tipo, teste_id) VALUES (%s, %s, %s); "
+	query = "INSERT INTO Fabricante_amostra (numero, tipo, teste_id, analise_id) VALUES (%s, %s, %s, %s); "
 	#Executando a query junto com o vetor
 	cursor.executemany(query, Amostras)
+
+def retornar_amostras(id_analise):
+
+	amostras = []
+	#Pegando todos as amostras do banco de dados
+	for amostra in Amostra.objects.filter(analise_id=id_analise):
+		amostras.append(amostra)
+
+	return amostras
+	#Precisar fazer uma consulta que pegue todos as análises
+	#part_query_one = "SELECT * FROM Fabricante_amostra WHERE teste_id = ();"
+	#part_query_two = "SELECT id FROM Fabricante_teste WHERE analise_id = " + str(id_analise)
 
 
 

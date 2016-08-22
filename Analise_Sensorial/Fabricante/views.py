@@ -20,8 +20,16 @@ def FormDadosAnalise_Page(request):
 #Quando o usuário cadastrar os números não aparecerá o botão de cadastrar números
 def gerar_teste_page(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
-	return verificar(request, {'analise':id, 'numeros_presentes':analise.possui_amostras}, 
-		"Fabricante/numeros_page.html")
+	if analise.possui_amostras:
+		amostras = retornar_amostras(id)
+		print(amostras)
+		return verificar(request, {'analise':id, 
+			'numeros_presentes':analise.possui_amostras, 'amostras':amostras}, 
+			"Fabricante/numeros_page.html")
+	else:
+		return verificar(request, {'analise':id, 
+			'numeros_presentes':analise.possui_amostras,}, 
+			"Fabricante/numeros_page.html")
 
 def gerar_amostras_action(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
@@ -65,7 +73,8 @@ def editaAnalise(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
 	_id_user = get_test(request)
 	#comparando o usuario logado com o usuario da analise
-	#se o usuário tentar acessar uma anaálise que não é dele, irá ser direcionado a pagina principal
+	#se o usuário tentar acessar uma anaálise que não é dele,
+	# irá ser direcionado a pagina principal
 	if analise.user_id == _id_user:
 		form = FormAnaliseSensorialEditar(request.POST, instance=analise)
 		if form.is_valid() and request.method == 'POST':

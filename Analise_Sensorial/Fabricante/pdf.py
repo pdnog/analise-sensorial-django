@@ -1,9 +1,90 @@
 # Create your views here.
 from reportlab.pdfgen import canvas
 from io import BytesIO
-from reportlab.lib.pagesizes import letter
+from reportlab.lib.pagesizes import letter, A4
 from random import randint
 from io import StringIO 
+from Fabricante.metodos import transcricao_numero_letra
+from django.http import HttpResponse
+from Fabricante.models import *
+from django.shortcuts import redirect, get_object_or_404
+
+def gerar_linhas_colunas(page, horizontal, vertical):
+	for j in range(8):
+			page.line(horizontal, 700, horizontal, 50)
+			horizontal = horizontal + 100
+
+	for j in range(21):
+		page.line(5, vertical, 605, vertical)
+		vertical = vertical - 50
+
+
+def criando_estrutura(request, id):
+	analise = get_object_or_404(AnaliseSensorial, id=id)
+
+	buffer = BytesIO()
+	page = canvas.Canvas(buffer, pagesize=letter)
+	page.setFont('Helvetica', 20)
+	#Entre linhas deve ter 30px 
+	#Entre coluna deverá ter 70px
+	for i in range(analise.quantidade_amostras):
+		letra = str(transcricao_numero_letra(i))
+		page.drawString(230, 750, "Números da amostra " + letra)
+		
+		#Declarando variáveis
+		horizontal = 5
+		vertical = 700
+		
+		gerar_linhas_colunas(page, horizontal, vertical)
+
+		#Reiniciando as variáveis
+		horizontal_numero = 10
+		vertical_numero = 670
+		contador = 0
+		contador_pular_linha = 0
+		#O número deve iniciar em um x que seja +10 do horizontal
+		#O número deve iniciar em um y que seja -20 do vertical 
+
+		while contador<analise.quantidade_pessoas:
+		
+			for j in Amostra.objects.filter(analise_id=id, tipo=letra):
+				contador = contador + 1
+				page.drawString(horizontal_numero, 
+					vertical_numero, str(contador) + "- '" + str(j.numero) + "'")
+				contador_pular_linha += 1
+				horizontal_numero += 100
+
+				if(contador_pular_linha == 6):
+					horizontal_numero = 10
+					vertical_numero -= 50
+					contador_pular_linha = 0
+					print(vertical_numero)
+
+				if vertical_numero==20:
+					page.showPage()
+					page.setFont('Helvetica', 20)
+					letra = str(transcricao_numero_letra(i))
+					page.drawString(220, 750, "Continuação da amostra " + letra)
+					#Variaveis para gerar linha e colunas
+					horizontal = 5
+					vertical = 700
+					gerar_linhas_colunas(page, horizontal, vertical)
+					#Variaveis para posição de numeros
+					horizontal_numero = 10
+					vertical_numero = 670
+
+		page.showPage()
+		page.setFont('Helvetica', 20)
+
+	page.save()
+
+	pdf = buffer.getvalue()
+	buffer.close()
+
+	response = HttpResponse(content_type='application/pdf')
+	response['Content-Disposition'] = 'attachment; filename="numeros_aleatorios.pdf"'
+	response.write(pdf)
+	return response
 
 
 

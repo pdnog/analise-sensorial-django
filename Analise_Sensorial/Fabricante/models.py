@@ -39,6 +39,7 @@ class Amostra(models.Model):
 	teste = models.ForeignKey(Teste, on_delete=models.CASCADE)
 	numero = models.IntegerField()
 	tipo = models.CharField(max_length=10)
+	analise = models.ForeignKey(AnaliseSensorial, on_delete=models.CASCADE)
 
 	class Meta:
 		verbose_name = 'Amostra'

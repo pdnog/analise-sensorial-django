@@ -17,6 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from webpage.views import *
 from Fabricante.views import *
+from Fabricante.pdf import *
 
 urlpatterns = [
 #  Para login e cadastro
@@ -45,4 +46,5 @@ urlpatterns = [
     url(r'^GerarAmostras/(?P<id>[^\.]+)/salvar', gerar_amostras_action),
     #Mostra análises
     url(r'^MostraAnalise', retornaAnalises),
+    url(r'^GerarPdf/(?P<id>[^\.]+)', criando_estrutura),
 ]
