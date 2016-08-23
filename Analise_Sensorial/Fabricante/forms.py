@@ -74,4 +74,9 @@ class FormAnaliseSensorialEditar(forms.ModelForm):
 	   	self.fields["data_Inicio"].help_text = "Utilize os formatos dd/mm/aaaa e hh:mm"
 	   	self.fields["data_Final"].help_text = "Data e hora de término da análise sensorial"
          
-
+"""
+class FormInserirPerguntas(forms.ModelForm):
+	class Meta:
+		model = PerguntaHedonica
+		fields = ('pergunta',)
+"""

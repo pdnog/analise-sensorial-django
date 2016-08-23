@@ -48,3 +48,23 @@ class Amostra(models.Model):
 	def __str__(self):
 		_numero = str(self.numero)
 		return _numero
+
+class Pergunta(models.Model):
+	analise = models.ForeignKey(AnaliseSensorial, on_delete=models.CASCADE)
+	pergunta = models.CharField(max_length=255)
+
+class PerguntaSimNao(Pergunta):
+	nao = models.BooleanField(default=False, verbose_name='Não')
+	sim = models.BooleanField(default=False, verbose_name='Sim')
+
+
+class PerguntaHedonica(Pergunta):
+	escala = ((1, 'Desgostei Muitissimo'),
+		(2, 'Desgostei Moderadamente'),
+		(3, 'Gostei'), 
+		(4, 'Gostei Moderadamente'),
+		(5, 'Gostei Muitissimo'))
+	hedonica = models.IntegerField(choices=escala)
+
+class PerguntaDissertativa(Pergunta):
+	descricao = models.TextField()

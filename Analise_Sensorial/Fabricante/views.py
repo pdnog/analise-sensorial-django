@@ -103,3 +103,17 @@ def retornaAnalises(request):
 		return verificar(request, {'analise': analise}, 'Fabricante/retornaAnalise.html')
 
 	 
+def cadastrarPerguntas(request):
+	return verificar(request,{}, 'Fabricante/cadastrarPerguntas.html')
+"""
+def inserirPergunta(request, id):
+	analise = get_object_or_404(AnaliseSensorial, id=id)
+	Pergunta.analise = analise
+	form = FormInserirPerguntas(request.POST)
+	if form.is_valid() and request.method == 'POST':
+		form.save()
+		return redirect('/MostraAnalise/')
+	else:
+		form = FormInserirPerguntas()
+		return verificar(request,{'form':form}, 'inserirPergunta.html')
+"""
