@@ -79,4 +79,4 @@ class FormAnaliseSensorialEditar(forms.ModelForm):
 class FormInserirPerguntas(forms.ModelForm):
 	class Meta:
 		model = PerguntaHedonica
-		fields = ('pergunta','hedonica')
+		fields = ('pergunta',)

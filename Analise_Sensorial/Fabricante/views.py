@@ -120,3 +120,7 @@ def cadastrarPerguntas(request, id):
 		form = FormInserirPerguntas()
 	return verificar(request,{'form': form, 'analise':analise}, 'Fabricante/inserirPergunta.html')
 
+
+	
+	
+	

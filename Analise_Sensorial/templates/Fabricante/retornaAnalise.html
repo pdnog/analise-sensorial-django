@@ -40,10 +40,12 @@
                  <td>{{a.nome}}</td>
                  <td>{{a.data_Inicio}}</td>
                  <td>{{a.data_Final}}</td>
-                 <td><a href="/EditarAnalise/{{ a.id }}" class="btn btn-success btn-xs">Editar</a>
-                 <a href="/NumerosAnalise/{{a.id}}/numeros/" class="btn btn-primary btn-xs">Números</a>
-                 <a href="/Perguntas/{{a.id}}" class="btn btn-warning btn-xs">Perguntas</a>
-                 <a href="/DeletarAnalise/{{ a.id }}" class="btn btn-danger btn-xs">Deletar</a>
+                 <td>
+                 <a href="/EditarAnalise/{{ a.id }}" class="btn btn-success btn-sm">Editar</a>
+                 <a href="/NumerosAnalise/{{a.id}}/numeros/" class="btn btn-primary btn-sm">Números</a>
+                 <a href="/Perguntas/{{a.id}}" class="btn btn-warning btn-sm">Perguntas</a>
+                 <a href="/DeletarAnalise/{{ a.id }}" class="btn btn-danger btn-sm">Deletar</a>
+                 <a href="#" class="btn btn-default btn-sm">Formulário</a>
                  </td>
                 </form>
              </tr>
