@@ -1,0 +1,20 @@
+{% extends 'Funcoes.html' %}
+
+{% block pagina %}
+{% load bootstrap %}
+<h2 class="text-success">Editar dados da Analise</h2>
+<!-- col-md-offset-1 col-md-10 bug ao tentar colocar o tamanho correto-->
+<form class="form-horizontal" method="POST" action="/Perguntas/{{ analise.id }}">
+	{% csrf_token %}
+	{{ form|bootstrap_horizontal }}
+	<div class="col-sm-offset-8 col-sm-4 col-md-offset-9 col-md-3">
+	<div class="btn-group">
+	      <button type="submit" class="btn btn-success btn-small">
+	      	<span class="glyphicon glyphicon-ok"> Salvar</button>
+	 </div>
+
+
+
+  	</div>
+</form>
+{% endblock %}

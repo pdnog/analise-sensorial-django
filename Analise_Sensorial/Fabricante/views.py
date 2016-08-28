@@ -1,5 +1,5 @@
 #NEED MORE SPACE
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.shortcuts import redirect, get_object_or_404
 from Fabricante.forms import *
 from Fabricante.models import *
@@ -103,17 +103,15 @@ def retornaAnalises(request):
 		return verificar(request, {'analise': analise}, 'Fabricante/retornaAnalise.html')
 
 	 
-def cadastrarPerguntas(request):
-	return verificar(request,{}, 'Fabricante/cadastrarPerguntas.html')
-"""
-def inserirPergunta(request, id):
-	analise = get_object_or_404(AnaliseSensorial, id=id)
-	Pergunta.analise = analise
-	form = FormInserirPerguntas(request.POST)
-	if form.is_valid() and request.method == 'POST':
-		form.save()
-		return redirect('/MostraAnalise/')
+def cadastrarPerguntas(request, id):
+	analise = get_object_or_404(AnaliseSensorial, id = id)
+	if request.method == 'POST':
+		PerguntaHedonica.analise = analise
+		form = FormInserirPerguntas(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect('/MostraAnalise/')
 	else:
 		form = FormInserirPerguntas()
-		return verificar(request,{'form':form}, 'inserirPergunta.html')
-"""
+	return verificar(request,{'form': form, 'analise':analise}, 'Fabricante/inserirPergunta.html')
+

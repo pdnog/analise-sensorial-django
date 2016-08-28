@@ -64,7 +64,7 @@ class PerguntaHedonica(Pergunta):
 		(3, 'Gostei'), 
 		(4, 'Gostei Moderadamente'),
 		(5, 'Gostei Muitissimo'))
-	hedonica = models.IntegerField(choices=escala)
+	hedonica = models.IntegerField(choices=escala, null=True, blank = True)
 
 class PerguntaDissertativa(Pergunta):
 	descricao = models.TextField()
