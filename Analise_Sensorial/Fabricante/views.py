@@ -106,10 +106,15 @@ def retornaAnalises(request):
 def cadastrarPerguntas(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id = id)
 	if request.method == 'POST':
-		PerguntaHedonica.analise = analise
+		#Pegando o request
 		form = FormInserirPerguntas(request.POST)
 		if form.is_valid():
-			form.save()
+			#Recebendo o form mas não commitando para o bd
+			pergunta = form.save(commit=False)
+			#Acrescentadno novos dados de atributos
+			pergunta.analise_id = analise.id
+			#Inserindo no banco de dados
+			pergunta.save()
 			return redirect('/MostraAnalise/')
 	else:
 		form = FormInserirPerguntas()
