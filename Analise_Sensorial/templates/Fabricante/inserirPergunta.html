@@ -4,7 +4,19 @@
 {% load bootstrap %}
 <h2 class="text-success">Editar dados da Analise</h2>
 <!-- col-md-offset-1 col-md-10 bug ao tentar colocar o tamanho correto-->
-<form class="form-horizontal" method="POST" action="/Perguntas/{{ analise.id }}">
+{% if hedonica %}
+	<form class="form-horizontal" method="POST" action="/Perguntas/{{ analise.id }}">
+{% endif %}
+
+{% if simNao %}
+	<form class="form-horizontal" method="POST" action="/PerguntaSimNao/{{ analise.id }}">
+{% endif %}
+
+{% if dissertativa %}
+	<form class="form-horizontal" method="POST" action="/PerguntaDissertativa/{{ analise.id }}">
+{% endif %}
+
+
 	{% csrf_token %}
 	{{ form|bootstrap_horizontal }}
 	<div class="col-sm-offset-8 col-sm-4 col-md-offset-9 col-md-3">

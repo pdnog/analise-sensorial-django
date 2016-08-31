@@ -80,3 +80,14 @@ class FormInserirPerguntas(forms.ModelForm):
 	class Meta:
 		model = PerguntaHedonica
 		fields = ('pergunta',)
+
+class FormInserirPerguntaDissertativa(forms.ModelForm):
+	class Meta:
+		model = PerguntaDissertativa
+		fields = ('pergunta',)
+
+class FormInserirPerguntaSimNao(forms.ModelForm):
+	class Meta:
+		model = PerguntaSimNao
+		fields = ('pergunta',)
+				

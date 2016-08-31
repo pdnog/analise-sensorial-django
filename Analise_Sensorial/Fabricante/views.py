@@ -102,9 +102,11 @@ def retornaAnalises(request):
 	else:	
 		return verificar(request, {'analise': analise}, 'Fabricante/retornaAnalise.html')
 
-	 
+"""Depois arrumamos a repetição de código, 
+só estou fazendo isso para mostrar a Jeferson hoje"""
 def cadastrarPerguntas(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id = id)
+	hedonica = True
 	if request.method == 'POST':
 		#Pegando o request
 		form = FormInserirPerguntas(request.POST)
@@ -118,9 +120,42 @@ def cadastrarPerguntas(request, id):
 			return redirect('/MostraAnalise/')
 	else:
 		form = FormInserirPerguntas()
-	return verificar(request,{'form': form, 'analise':analise}, 'Fabricante/inserirPergunta.html')
+	return verificar(request,{'form': form, 'analise':analise,'hedonica':hedonica}, 'Fabricante/inserirPergunta.html')
 
-
+def cadastrarPerguntaDissertativa(request, id):
+	analise = get_object_or_404(AnaliseSensorial, id = id)
+	dissertativa = True
+	if request.method == 'POST':
+		#Pegando o request
+		form = FormInserirPerguntaDissertativa(request.POST)
+		if form.is_valid():
+			#Recebendo o form mas não commitando para o bd
+			pergunta = form.save(commit=False)
+			#Acrescentadno novos dados de atributos
+			pergunta.analise_id = analise.id
+			#Inserindo no banco de dados
+			pergunta.save()
+			return redirect('/MostraAnalise/')
+	else:
+		form = FormInserirPerguntas()
+	return verificar(request,{'form': form, 'analise':analise, 'dissertativa':dissertativa}, 'Fabricante/inserirPergunta.html')
 	
+def cadastrarPerguntaSimNao(request, id):
+	analise = get_object_or_404(AnaliseSensorial, id = id)
+	simNao = True
+	if request.method == 'POST':
+		#Pegando o request
+		form = FormInserirPerguntaSimNao(request.POST)
+		if form.is_valid():
+			#Recebendo o form mas não commitando para o bd
+			pergunta = form.save(commit=False)
+			#Acrescentadno novos dados de atributos
+			pergunta.analise_id = analise.id
+			#Inserindo no banco de dados
+			pergunta.save()
+			return redirect('/MostraAnalise/')
+	else:
+		form = FormInserirPerguntas()
+	return verificar(request,{'form': form, 'analise':analise, 'simNao':simNao}, 'Fabricante/inserirPergunta.html')
 	
 	
