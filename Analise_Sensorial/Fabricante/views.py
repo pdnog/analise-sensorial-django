@@ -158,4 +158,10 @@ def cadastrarPerguntaSimNao(request, id):
 		form = FormInserirPerguntas()
 	return verificar(request,{'form': form, 'analise':analise, 'simNao':simNao}, 'Fabricante/inserirPergunta.html')
 	
+def retornaFormulario (request, id):
+	analise = get_object_or_404(AnaliseSensorial, id=id)
+	pergunta = Pergunta.objects.filter(analise=analise)
+	form = FormMostrarHedonica(request.POST)
+	return verificar(request, {'form':form, 'pergunta':pergunta, 'nome':analise.nome}, 'Fabricante/retornaFormulario.html')
+	
 	

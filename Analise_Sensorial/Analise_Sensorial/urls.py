@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'^Perguntas/(?P<id>[^\.]+)', cadastrarPerguntas),
     url(r'^PerguntaDissertativa/(?P<id>[^\.]+)', cadastrarPerguntaDissertativa),
     url(r'^PerguntaSimNao/(?P<id>[^\.]+)', cadastrarPerguntaSimNao),
+    url(r'^RetornaFormulario/(?P<id>[^\.]+)', retornaFormulario),
     #Edição dos dados do Fabricante
     url(r'^GoEdit', editaRed),
     #Edição dos dados das análises

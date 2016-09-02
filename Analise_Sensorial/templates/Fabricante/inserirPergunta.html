@@ -2,17 +2,20 @@
 
 {% block pagina %}
 {% load bootstrap %}
-<h2 class="text-success">Editar dados da Analise</h2>
+
 <!-- col-md-offset-1 col-md-10 bug ao tentar colocar o tamanho correto-->
 {% if hedonica %}
+	<h2 class="text-success">Cadastrar Pergunta Hedônica</h2>
 	<form class="form-horizontal" method="POST" action="/Perguntas/{{ analise.id }}">
 {% endif %}
 
 {% if simNao %}
+	<h2 class="text-success">Cadastrar Pergunta Sim ou Não</h2>
 	<form class="form-horizontal" method="POST" action="/PerguntaSimNao/{{ analise.id }}">
 {% endif %}
 
 {% if dissertativa %}
+	<h2 class="text-success">Cadastrar Pergunta Dissertativa</h2>
 	<form class="form-horizontal" method="POST" action="/PerguntaDissertativa/{{ analise.id }}">
 {% endif %}
 

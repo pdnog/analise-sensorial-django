@@ -1,0 +1,33 @@
+{% extends 'Funcoes.html' %}
+
+{% block pagina %}
+{% load bootstrap %}
+	<h1> Suas Perguntas da Analise: {{ nome }}</h1>
+	{% if pergunta %}
+		
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Título da Pergunta</th>
+						<th>Tipo da Pergunta</th>
+						<th>Ação</th>
+					</tr>
+				</thead>
+		{% for p in pergunta%}
+				<tbody>
+					<tr>
+						<td>{{p.pergunta}}</td>
+						<td></td>
+						<td></td>
+					<tr>
+		
+				</tbody>
+		{% endfor %}		
+			</table>
+		
+	{% else %}
+		<h3>Não há perguntas cadastradas</h3>
+	{% endif %}
+  	</div>
+</form>
+{% endblock %}

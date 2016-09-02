@@ -90,4 +90,8 @@ class FormInserirPerguntaSimNao(forms.ModelForm):
 	class Meta:
 		model = PerguntaSimNao
 		fields = ('pergunta',)
-				
+			
+class FormMostrarHedonica(forms.ModelForm):
+	class Meta:
+		model = PerguntaHedonica
+		fields = ('pergunta', 'hedonica')	
