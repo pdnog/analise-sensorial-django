@@ -13,19 +13,24 @@ from django.http import HttpResponse
 #Iniciando a classe
 _confirmacao = confirmacao_cadastro()
 
+def render_com_login(request, html, dicionario):
+	dicionario['form_login'] = FormLogin()
+	return render(request, html, dicionario)
+
+
 def Inicio(request):
-	return render(request, "home.html")
+	return render_com_login(request, "home.html", {})
 
 def Fabricante_page_cadastro(request):
 	form = FormFabricante()
-	return render(request, "Fabricante.html", {"form":form})
+	return render_com_login(request, "Fabricante.html", {"form":form})
 
 def Provador_page_cadastro(request):
 	form = FormProvador()
-	return render(request, "Provador.html", {"form":form})
+	return render_com_login(request, "Provador.html", {"form":form})
 
 def Cadastro_principal_page(request):
-	return render(request, "cadastro_principal.html")
+	return render_com_login(request, "cadastro_principal.html", {})
 
 #Cadastrando um fabricante
 def Cadastro_Fabricante(request):
@@ -47,7 +52,7 @@ def Cadastro_Fabricante(request):
 	else:
 		#Se o método não for POST, ele mostra um formulário em branco
 		form = FormFabricante()
-	return render(request, "Fabricante.html", {"form":form})
+	return render_com_login(request, "Fabricante.html", {"form":form})
 
 #Cadastrando um provador
 def Cadastro_Provador(request):
@@ -70,7 +75,7 @@ def Cadastro_Provador(request):
 	else:
 		form = FormProvador()
 
-	return render(request, "Provador.html", {"form":form})
+	return render_com_login(request, "Provador.html", {"form":form})
 
 #Pagina de Login
 def Login_Page(request):
@@ -85,7 +90,7 @@ def Login_Page(request):
 		#Quando o usuário recarregar a página, a mensagem não estará mais lá
 		confirm = False
 
-	return render(request, "Login.html", {"form":form, "confirmacao":confirm})
+	return render_com_login(request, "Login.html", {"form":form, "confirmacao":confirm})
 
 #Fazendo login
 def Login(request):
@@ -115,13 +120,13 @@ def Login(request):
 			#Descobrindo qual o tipo do usuário
 			#Isso aqui será alterado
 			if tipo.tipo == 'F':
-				return  redirect("/Funcionalidades/")
+				return  redirect("/MostraAnalise/")
 			else:
 				return HttpResponse("Você é um provador")
 		else:
-			return render(request, "Login.html", {"form":form, 'erro':True})
+			return render_com_login(request, "Login.html", {"form":form, 'erro':True})
 	else:
-		return render(request, "Login.html", {"form":form})
+		return render_com_login(request, "Login.html", {"form":form})
 
 
 def Logout(request):

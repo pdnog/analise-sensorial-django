@@ -1,26 +1,26 @@
 {% extends 'Base_logado.html' %} {% block conteudo %} 
 {% load bootstrap %} {% load staticfiles %}
+
+<script type="text/javascript">
+	function abrirModal(){
+		$("#editar").modal('show').find("form")[0].reset();
+	}
+
+
+</script>
+
+<script type="text/javascript">
+	function fecharModal() {
+		$("#editar").modal('hide').find("form")[0].reset();
+	}
+</script>
 <div
 	class="col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12 col-xs-offset-0">
 	<h1>Suas Análises:</h1>
 </div>
 <div
 	class="col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12 col-xs-offset-0">
-	<!--
-     	<div class="row">
-     		<h3>Análise Sensorial número {{ a.id | safe}}</h3>
-     		<h3 style="color:gray">Título:<span style="color:black"> {{a.Nome|safe}}</span></h3>
-     	</div>
-     	<div class="row">
-     		<h3 style="color:gray">Descrição:<span style="color:black">  {{a.Descricao|safe}}</span></h3>
-     	</div>
-     	<div class="row">
-     		<h3 style="color:gray">Descrição:<span style="color:black">  {{a.Data_Inicio|safe}}</span></h3>
-     	</div>
-     	<div class="row">
-     		<h3 style="color:gray">Descrição:<span style="color:black">  {{a.Data_Final|safe}}</span></h3>
-     	</div-->
-	{% if analise %}
+	{% if analises %}
 
 	<table class="table table-bordered">
 		<thead>
@@ -34,40 +34,35 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for a in analise %}
+			{% for a in analises %}
 			<tr>
 				<td>{{a.nome}}</td>
 				<td>{{a.data_Inicio}}</td>
 				<td>{{a.data_Final}}</td>
 				<td>
-					<a href="/EditarAnalise/{{ a.id }}" class="btn btn-success btn-md">Editar</a>
-				  	<a href="/NumerosAnalise/{{a.id}}/numeros/" class="btn btn-primary btn-md">Números</a>
-					<div class="btn-group">
-						<button type="button" class="btn btn-warning">
-							<i class="fa fa-check-circle fa-lg text-success"></i> Perguntas
-						</button>
-						<button type="button" class="btn btn-warning dropdown-toggle"
-							data-toggle="dropdown" aria-expanded="false">
-							<span class="caret"></span> <span class="sr-only">Toggle
-								Dropdown</span>
-						</button>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="/Perguntas/{{a.id}}">Hedônica</a></li>
-							<li><a href="/PerguntaDissertativa/{{a.id}}">Dissertativa</a></li>
-							<li><a href="/PerguntaSimNao/{{a.id}}">Sim ou Não</a></li>
-						</ul>
-					</div> 
-					<a href="/DeletarAnalise/{{ a.id }}" class="btn btn-danger btn-md">Deletar</a>
-					<a href="/RetornaFormulario/{{a.id}}" class="btn btn-default btn-md">Formulário</a>
+					<a href="/EditarAnalise/{{ a.id }}"
+					class="btn btn-success btn-sm">Editar</a>
+					<!-- Recebe o layout do modal fade de editar-->
+			
+				  	<a href="/NumerosAnalise/{{ a.id }}/numeros/" class="btn btn-primary btn-sm">Números</a>
+				  	<a href="/Perguntas/{{a.id}}" class="btn btn-warning btn-sm">Perguntas</a>
+				  	
+					<a href="/DeletarAnalise/{{ a.id }}" class="btn btn-danger btn-sm">Deletar</a>
+					<!--<a href="/RetornaFormulario/{{a.id}}" class="btn btn-default btn-md">Formulário</a>-->
 				</td>
 			</tr>
 			{% endfor %}
+
+			
+			
 		</tbody>
 	</table>
 	{% else %}
 	<h2>Nenhuma análise encontrada</h2>
 	{% endif %}
 
+	
+	
 </div>
 
 {% endblock %}

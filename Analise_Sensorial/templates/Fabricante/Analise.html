@@ -5,7 +5,51 @@
 <h2 class="text-success">Cadastro da análise sensorial: Dados pessoais</h2>
 <form class="form-horizontal" method="POST" action="/CadastrarFormAnalise/">
   {% csrf_token %}
-  {{ form|bootstrap_horizontal }}
+  <div class="row">
+		<div class="col-md-12" style="margin-bottom:10px">
+		{{form.nome|bootstrap_horizontal}}
+		</div>
+	</div>
+
+
+	<div class="row">
+	<div class="col-md-11 col-xs-12" style="float:right">
+		<div class="col-lg-6 col-xs-6">
+			{{form.data_Inicio|bootstrap_horizontal}}
+		</div>
+		<div class="col-lg-6 col-xs-6">
+			{{form.time_Inicio|bootstrap_horizontal}}
+		</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-11 col-xs-12" style="float:right">
+		<div class="col-md-6 col-xs-6">
+			{{form.data_Final|bootstrap_horizontal}}
+		</div>
+		<div class="col-md-6 col-xs-6">
+			{{form.time_Final|bootstrap_horizontal}}
+		</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-11 col-xs-12" style="float:right">
+		<div class="col-md-6 col-xs-6">
+			{{form.quantidade_amostras|bootstrap_horizontal}}
+		</div>
+		<div class="col-md-6 col-xs-6">
+			{{form.quantidade_pessoas|bootstrap_horizontal}}
+		</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+		{{form.descricao|bootstrap_horizontal}}
+		</div>
+	</div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       <button type="submit" class="col-sm-offset-10 col-sm-2 col-md-offset-10  col-md-2 btn btn-success btn-lg">

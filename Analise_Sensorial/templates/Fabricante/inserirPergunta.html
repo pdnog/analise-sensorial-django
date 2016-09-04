@@ -3,33 +3,51 @@
 {% block pagina %}
 {% load bootstrap %}
 
-<!-- col-md-offset-1 col-md-10 bug ao tentar colocar o tamanho correto-->
-{% if hedonica %}
-	<h2 class="text-success">Cadastrar Pergunta Hedônica</h2>
-	<form class="form-horizontal" method="POST" action="/Perguntas/{{ analise.id }}">
+<script type="text/javascript">
+
+function abrirModal() {
+	$("#myModal").find('form')[0].reset();
+	$('#myModal').modal('show');
+}
+
+function fecharModal(){
+	$("#myModal").modal('hide');
+}
+
+</script>
+
+<button class="btn btn-success btn-lg" onclick="abrirModal()" 
+	style="margin-top:10px;" >Cadastrar nova pergunta</button>
+
+	<div class="modal fade" id="myModal" >
+    <div class="modal-dialog modal-lg">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" onclick="fecharModal()">&times;</button>
+          <h4 class="modal-title">Cadastrar nova pergunta</h4>
+        </div>
+        <form class="form-horizontal" method="POST" 
+          action="/SalvarPergunta/{{id}}" data-toggle='validator' role='form'>
+        <div class="modal-body">
+          {% csrf_token %}
+          {{form|bootstrap_horizontal}}
+        </div>
+        <div class="modal-footer">
+        	<button type="submit" class="btn btn-success">Salvar</button>
+        	<button type="button" onclick="fecharModal()" class="btn btn-danger">Cancelar</button>
+        </div>
+        </form>
+      </div>
+      
+    </div>
+    </div>
+
+<!-- Mostrar as perguntas -->
+{% if perguntas %}
+<h2>Perguntas cadastradas</h2>
+{% else %}
+<h2>Nenhuma pergunta cadastrada</h2>
 {% endif %}
-
-{% if simNao %}
-	<h2 class="text-success">Cadastrar Pergunta Sim ou Não</h2>
-	<form class="form-horizontal" method="POST" action="/PerguntaSimNao/{{ analise.id }}">
-{% endif %}
-
-{% if dissertativa %}
-	<h2 class="text-success">Cadastrar Pergunta Dissertativa</h2>
-	<form class="form-horizontal" method="POST" action="/PerguntaDissertativa/{{ analise.id }}">
-{% endif %}
-
-
-	{% csrf_token %}
-	{{ form|bootstrap_horizontal }}
-	<div class="col-sm-offset-8 col-sm-4 col-md-offset-9 col-md-3">
-	<div class="btn-group">
-	      <button type="submit" class="btn btn-success btn-small">
-	      	<span class="glyphicon glyphicon-ok"> Salvar</button>
-	 </div>
-
-
-
-  	</div>
-</form>
 {% endblock %}

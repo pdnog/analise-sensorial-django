@@ -17,8 +17,9 @@
 {% endif %}
 {% load bootstrap %}
 
+
  <div class="container col-md-offset-3 col-md-6">
-    <h2 class="text-success">Login</h2><br>
+    <h2 class="text-success">Entrar</h2><br>
     <form class="form-horizontal" method = "POST" action="/Login/">
         {% csrf_token %}
         {{ form|bootstrap_horizontal }}
@@ -28,7 +29,27 @@
         </div>
         </div>
     </form>
-</div> <!-- /container -->
+</div> 
+
+<!--<div class="modal fade" id="login">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Entrar</h3>
+      </div>
+      <form class="form-horizontal" method = "POST" action="/Login/">
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+             <button type="submit" class="btn btn-success btn-lg btn-block">Entrar</button>
+      </div>
+
+    </div>
+  </div>
+</div>-->
+
+<!-- /container -->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 {% endblock %}

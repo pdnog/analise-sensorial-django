@@ -7,8 +7,10 @@ from webpage.models import Provador
 class AnaliseSensorial(models.Model):
 	nome = models.CharField(max_length=255)
 	descricao = models.TextField()
-	data_Inicio = models.DateTimeField()
-	data_Final = models.DateTimeField()
+	data_Inicio = models.DateField()
+	time_Inicio = models.TimeField()
+	time_Final = models.TimeField()
+	data_Final = models.DateField()
 	possui_amostras = models.BooleanField()
 	ativado = models.BooleanField()
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -51,7 +53,14 @@ class Amostra(models.Model):
 
 class Pergunta(models.Model):
 	analise = models.ForeignKey(AnaliseSensorial, on_delete=models.CASCADE)
-	pergunta = models.CharField(max_length=255)
+	pergunta = models.TextField()
+
+	class Meta:
+		verbose_name = 'Pergunta'
+		verbose_name_plural = 'Perguntas'
+
+	def __str__(self):
+		return self.pergunta
 
 class PerguntaSimNao(Pergunta):
 	nao = models.BooleanField(default=False, verbose_name='Não')
@@ -59,12 +68,28 @@ class PerguntaSimNao(Pergunta):
 
 
 class PerguntaHedonica(Pergunta):
-	escala = ((1, 'Desgostei Muitissimo'),
-		(2, 'Desgostei Moderadamente'),
-		(3, 'Gostei'), 
-		(4, 'Gostei Moderadamente'),
-		(5, 'Gostei Muitissimo'))
-	hedonica = models.IntegerField(choices=escala, null=True, default=5)
+	escala = ((1, 'Desgostei extremamente (detestei)'),
+		(2, 'Desgostei muito'),
+		(3, 'Desgostei moderadamente'), 
+		(4, 'Desgostei ligeiramente'),
+		(5, 'Nem gostei / Nem desgostei'),
+		(6, 'Gostei ligeiramente'),
+		(7, 'Gostei moderadamente'),
+		(8, 'Gostei muito'),
+		(9, 'Gostei muitíssimo (adorei)'),
+		)
+	hedonica = models.IntegerField(choices=escala, null=True)
 
 class PerguntaDissertativa(Pergunta):
 	descricao = models.TextField()
+
+class PerguntaIntencaoCompra(Pergunta):
+	LEVEL = (
+		(1, 'Certamente não compraria o produto'),
+		(2, 'Possivelmente não compraria o produto'),
+		(3, 'Talvez comprasse / Talvez não comprasse'),
+		(4, 'Possivelmente compraria o produto'),
+		(5, 'Certamente compraria o produto')
+		)
+
+	compra = models.IntegerField(choices=LEVEL, null=True)

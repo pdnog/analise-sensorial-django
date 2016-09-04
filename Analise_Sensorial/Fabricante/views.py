@@ -4,9 +4,15 @@ from django.shortcuts import redirect, get_object_or_404
 from Fabricante.forms import *
 from Fabricante.models import *
 from webpage.forms import *
-from webpage.views import edita, get_test, verificar, get_name
+from webpage.views import edita, get_test, verificar, get_name, Logout
 from django.contrib.auth.decorators import login_required
 from Fabricante.metodos import *
+
+#Quando o usuário digirar uma url que não pertença a ele, ele será deslogado e irá para tela inicial
+def verificacao_usuario(request, analise):
+	if(analise.user.first_name != get_name(request)):
+		return Logout(request)
+
 
 # Create your views here.
 def Funcionalidades(request):
@@ -20,6 +26,7 @@ def FormDadosAnalise_Page(request):
 #Quando o usuário cadastrar os números não aparecerá o botão de cadastrar números
 def gerar_teste_page(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
+	verificacao_usuario(request, analise)
 	if analise.possui_amostras:
 		amostras = retornar_amostras(id)
 		print(amostras)
@@ -33,6 +40,7 @@ def gerar_teste_page(request, id):
 
 def gerar_amostras_action(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
+	verificacao_usuario(request, analise)
 	#Métdo antiquado
 	#gerando_amostras(id, analise.quantidade_pessoas, analise.quantidade_amostras)
 	#Criando analises
@@ -71,6 +79,7 @@ def editaRed(request):
 def editaAnalise(request, id):
 	#pegando objeto do banco
 	analise = get_object_or_404(AnaliseSensorial, id=id)
+	verificacao_usuario(request, analise)
 	_id_user = get_test(request)
 	#comparando o usuario logado com o usuario da analise
 	#se o usuário tentar acessar uma anaálise que não é dele,
@@ -90,6 +99,7 @@ def editaAnalise(request, id):
 #Deletando objeto do banco de dados
 def deletar_analise(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
+	verificacao_usuario(request, analise)
 	analise.delete()
 	return redirect('/MostraAnalise/')
 
@@ -97,71 +107,45 @@ def deletar_analise(request, id):
 def retornaAnalises(request):
 	idTeste = get_test(request)
 	analise = AnaliseSensorial.objects.filter(user = idTeste)
+	print(analise)
+	#request.session['analises'] = analise
 	if analise is None:
 		return HttpResponse("<h1>Nenhuma Análise Cadastrada</h1>")
 	else:	
-		return verificar(request, {'analise': analise}, 'Fabricante/retornaAnalise.html')
+		return verificar(request, {'analises': analise}, 'Fabricante/retornaAnalise.html')
 
-"""Depois arrumamos a repetição de código, 
-só estou fazendo isso para mostrar a Jeferson hoje"""
-def cadastrarPerguntas(request, id):
-	analise = get_object_or_404(AnaliseSensorial, id = id)
-	hedonica = True
-	if request.method == 'POST':
-		#Pegando o request
-		form = FormInserirPerguntas(request.POST)
-		if form.is_valid():
-			#Recebendo o form mas não commitando para o bd
-			pergunta = form.save(commit=False)
-			#Acrescentadno novos dados de atributos
-			pergunta.analise_id = analise.id
-			#Inserindo no banco de dados
-			pergunta.save()
-			return redirect('/MostraAnalise/')
-	else:
-		form = FormInserirPerguntas()
-	return verificar(request,{'form': form, 'analise':analise,'hedonica':hedonica}, 'Fabricante/inserirPergunta.html')
 
-def cadastrarPerguntaDissertativa(request, id):
-	analise = get_object_or_404(AnaliseSensorial, id = id)
-	dissertativa = True
-	if request.method == 'POST':
-		#Pegando o request
-		form = FormInserirPerguntaDissertativa(request.POST)
-		if form.is_valid():
-			#Recebendo o form mas não commitando para o bd
-			pergunta = form.save(commit=False)
-			#Acrescentadno novos dados de atributos
-			pergunta.analise_id = analise.id
-			#Inserindo no banco de dados
-			pergunta.save()
-			return redirect('/MostraAnalise/')
-	else:
-		form = FormInserirPerguntas()
-	return verificar(request,{'form': form, 'analise':analise, 'dissertativa':dissertativa}, 'Fabricante/inserirPergunta.html')
-	
-def cadastrarPerguntaSimNao(request, id):
-	analise = get_object_or_404(AnaliseSensorial, id = id)
-	simNao = True
-	if request.method == 'POST':
-		#Pegando o request
-		form = FormInserirPerguntaSimNao(request.POST)
-		if form.is_valid():
-			#Recebendo o form mas não commitando para o bd
-			pergunta = form.save(commit=False)
-			#Acrescentadno novos dados de atributos
-			pergunta.analise_id = analise.id
-			#Inserindo no banco de dados
-			pergunta.save()
-			return redirect('/MostraAnalise/')
-	else:
-		form = FormInserirPerguntas()
-	return verificar(request,{'form': form, 'analise':analise, 'simNao':simNao}, 'Fabricante/inserirPergunta.html')
-	
-def retornaFormulario (request, id):
+def page_perguntas(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
-	pergunta = Pergunta.objects.filter(analise=analise)
-	form = FormMostrarHedonica(request.POST)
-	return verificar(request, {'form':form, 'pergunta':pergunta, 'nome':analise.nome}, 'Fabricante/retornaFormulario.html')
-	
-	
+	verificacao_usuario(request, analise)
+	perguntas = Pergunta.objects.filter(analise_id = id)
+	form = FormInserirPerguntas()
+	#print(perguntas)
+	return verificar(request, {'perguntas':perguntas, 'id':id, 'form':form}, 'Fabricante/inserirPergunta.html')
+
+def cadastrar_pergunta(request, id):
+	analise = get_object_or_404(AnaliseSensorial, id=id)
+	form = FormInserirPerguntas(request.POST)
+
+
+	if form.is_valid():
+		pergunta = form.cleaned_data['pergunta']
+		tipo = form.cleaned_data['tipo']
+
+		if tipo == 'PHD':
+			salvar = PerguntaHedonica.objects.create(analise_id = id, pergunta=pergunta)
+			print(form.tipo)
+		elif tipo == 'PSN':
+			salvar = PerguntaSimNao.objects.create(analise_id=id, pergunta=pergunta)
+			pass
+		elif tipo == 'PDT':
+			salvar = PerguntaDissertativa.objects.create(analise_id=id, pergunta=pergunta)
+		else:
+			salvar = PerguntaIntencaoCompra.objects.create(analise_id=id, pergunta=pergunta) 
+
+		print(tipo)
+
+		#pergunta.save()
+
+	return page_perguntas(request, id)
+

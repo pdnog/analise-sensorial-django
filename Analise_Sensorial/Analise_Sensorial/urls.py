@@ -22,12 +22,13 @@ from Fabricante.pdf import *
 urlpatterns = [
 #  Para login e cadastro
     url(r'^admin/', admin.site.urls),
-    url(r'^$', Login_Page, name="principal"),
+    url(r'^$', Inicio, name="principal"),
     url(r'^Provador', Provador_page_cadastro),
     url(r'^Fabricante', Fabricante_page_cadastro),
     url(r'^Cadastro_Fabricante/$', Cadastro_Fabricante),
     url(r'^Cadastro_Provador/$', Cadastro_Provador),
     url(r'^Cadastro_principal_page', Cadastro_principal_page),
+    url(r'^testeModal', Teste),
     url(r'^Login', Login),
     url(r'^Logout', Logout),
     url(r'^Inicio', Inicio),
@@ -36,11 +37,12 @@ urlpatterns = [
     url(r'^Funcionalidades', Funcionalidades),
     url(r'^Form_Dados_Analise_Page', FormDadosAnalise_Page),
     url(r'^CadastrarFormAnalise', CadastrarFormAnalise),
-    url(r'^Perguntas/(?P<id>[^\.]+)', cadastrarPerguntas),
-    url(r'^PerguntaDissertativa/(?P<id>[^\.]+)', cadastrarPerguntaDissertativa),
-    url(r'^PerguntaSimNao/(?P<id>[^\.]+)', cadastrarPerguntaSimNao),
-    url(r'^RetornaFormulario/(?P<id>[^\.]+)', retornaFormulario),
+    #url(r'^Perguntas/(?P<id>[^\.]+)', cadastrarPerguntas),
+    #url(r'^PerguntaDissertativa/(?P<id>[^\.]+)', cadastrarPerguntaDissertativa),
+    #url(r'^PerguntaSimNao/(?P<id>[^\.]+)', cadastrarPerguntaSimNao),
+    #url(r'^RetornaFormulario/(?P<id>[^\.]+)', retornaFormulario),
     #Edição dos dados do Fabricante
+    url(r'^Perguntas/(?P<id>[^\.]+)', page_perguntas),
     url(r'^GoEdit', editaRed),
     #Edição dos dados das análises
     url(r'^EditarAnalise/(?P<id>[^\.]+)', editaAnalise),
@@ -51,4 +53,5 @@ urlpatterns = [
     #Mostra análises
     url(r'^MostraAnalise', retornaAnalises),
     url(r'^GerarPdf/(?P<id>[^\.]+)', criando_estrutura),
+    url(r'^SalvarPergunta/(?P<id>[^\.]+)', cadastrar_pergunta)
 ]

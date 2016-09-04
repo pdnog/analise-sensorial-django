@@ -75,6 +75,11 @@ class FormLogin(forms.Form):
 		self.fields['username'].widget.attrs['placeholder'] = "Usuário"
 		self.fields['password'].widget.attrs['placeholder'] = "Senha"
 
+		self.fields['username'].widget.attrs['data-error'] = "Você deve preencher esse campo."
+		self.fields['username'].widget.attrs['required'] = "true"
+
+		self.fields['password'].widget.attrs['data-error'] = "Você deve preencher esse campo."
+		self.fields['password'].widget.attrs['required'] = "true"
 		#Criando campos necessários
 		self.fields['password'].required = True
 		self.fields['username'].required = True
