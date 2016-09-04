@@ -134,7 +134,6 @@ def cadastrar_pergunta(request, id):
 
 		if tipo == 'PHD':
 			salvar = PerguntaHedonica.objects.create(analise_id = id, pergunta=pergunta)
-			print(form.tipo)
 		elif tipo == 'PSN':
 			salvar = PerguntaSimNao.objects.create(analise_id=id, pergunta=pergunta)
 			pass
