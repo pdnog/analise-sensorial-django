@@ -52,11 +52,27 @@
 				</td>
 			</tr>
 			{% endfor %}
-
+			
 			
 			
 		</tbody>
 	</table>
+
+	<ul class="pager">
+    
+        {% if analises.has_previous %}
+            <li><a href="?pagina={{ analises.previous_page_number }}">Anterior</a></li>
+        {% endif %}
+
+        <span class="current">
+            Página {{ analises.number }} de {{ analises.paginator.num_pages }}.
+        </span>
+
+        {% if analises.has_next %}
+            <li><a href="?pagina={{ analises.next_page_number }}">Próximo</a></li>
+        {% endif %}
+    </ul>
+</div>
 	{% else %}
 	<h2>Nenhuma análise encontrada</h2>
 	{% endif %}

@@ -7,6 +7,7 @@ from webpage.forms import *
 from webpage.views import edita, get_test, verificar, get_name, Logout
 from django.contrib.auth.decorators import login_required
 from Fabricante.metodos import *
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 #Quando o usuário digirar uma url que não pertença a ele, ele será deslogado e irá para tela inicial
 def verificacao_usuario(request, analise):
@@ -107,12 +108,22 @@ def deletar_analise(request, id):
 def retornaAnalises(request):
 	idTeste = get_test(request)
 	analise = AnaliseSensorial.objects.filter(user = idTeste)
+	#Mostra 10 análises do que foi retornado pelo banco de dados
+	paginacao = Paginator(analise,1)
+	#Só para utilizar o get ?pagina=1 na url
+	pagina = request.GET.get('pagina')
+	try: 
+		analises = paginacao.page(pagina)
+	except PageNotAnInteger:
+		analises = paginacao.page(1)
+	except EmptyPage:
+		analises = paginacao.page(paginacao.num_pages)
 	print(analise)
 	#request.session['analises'] = analise
 	if analise is None:
 		return HttpResponse("<h1>Nenhuma Análise Cadastrada</h1>")
 	else:	
-		return verificar(request, {'analises': analise}, 'Fabricante/retornaAnalise.html')
+		return verificar(request, {'analises': analises}, 'Fabricante/retornaAnalise.html')
 
 
 def page_perguntas(request, id):
