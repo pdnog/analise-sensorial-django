@@ -1,0 +1,17 @@
+<!-- Depois você coloca essa página como modal do inserirPergunta.html -->
+{% extends 'Funcoes.html' %}
+
+{% block pagina %}
+{% load bootstrap %}
+<div class="container col-md-offset-1 col-md-10" style="margin-top:20px">
+<form class="form-horizontal" method="POST" 
+          action="/EditarPergunta/{{id}}" data-toggle='validator' role='form'>
+        
+          {% csrf_token %}
+          {{form|bootstrap_horizontal}}
+        	<a href="/Perguntas/{{id}}" type="submit" class="btn btn-danger pull-right" style="margin-left:10px">Cancelar</a>
+        	<button type="submit" class="btn btn-success pull-right">Editar</button>
+        	
+</form>
+</div>
+{%endblock%}

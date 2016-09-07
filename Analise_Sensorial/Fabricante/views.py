@@ -131,6 +131,7 @@ def page_perguntas(request, id):
 	verificacao_usuario(request, analise)
 	perguntas = Pergunta.objects.filter(analise_id = id)
 	form = FormInserirPerguntas()
+	pergunta = Pergunta.objects.filter(analise = analise)
 	#print(perguntas)
 	return verificar(request, {'perguntas':perguntas, 'id':id, 'form':form}, 'Fabricante/inserirPergunta.html')
 
@@ -159,3 +160,20 @@ def cadastrar_pergunta(request, id):
 
 	return page_perguntas(request, id)
 
+def editarPergunta(request, id):
+	pergunta = get_object_or_404(Pergunta, id = id)
+	analise = pergunta.analise
+	form = FormEditarPergunta(request.POST, instance=pergunta)
+	if  request.method == 'POST':
+		if form.is_valid():
+			form.save()
+			return redirect('/Perguntas/'+str(analise.id))
+	else:
+		form = FormEditarPergunta(instance = pergunta)
+	return verificar(request, {'form':form,'id':pergunta.id}, 'Fabricante/editarPergunta.html')
+	
+def deletarPergunta(request, id):
+	pergunta = get_object_or_404(Pergunta, id = id)
+	analise = pergunta.analise
+	pergunta.delete()
+	return redirect('/Perguntas/' + str(analise.id))

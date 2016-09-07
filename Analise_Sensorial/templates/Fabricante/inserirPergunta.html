@@ -46,7 +46,32 @@ function fecharModal(){
 
 <!-- Mostrar as perguntas -->
 {% if perguntas %}
-<h2>Perguntas cadastradas</h2>
+<h2>Perguntas cadastradas:</h2>
+
+<table class="table table-bordered">
+		<thead>
+			<tr>
+
+				<th>Título</th>
+				<th>Ações</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for i in perguntas %}
+			<tr>
+				<td>{{i.pergunta}}</td>
+				<td>
+					<a href="/EditarPergunta/{{ i.id }}"
+					class="btn btn-success btn-sm">Editar</a>
+					<a href="/DeletarPergunta/{{ i.id }}" class="btn btn-danger btn-sm">Deletar</a>
+					<!--<a href="/RetornaFormulario/{{a.id}}" class="btn btn-default btn-md">Formulário</a>-->
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
 {% else %}
 <h2>Nenhuma pergunta cadastrada</h2>
 {% endif %}
