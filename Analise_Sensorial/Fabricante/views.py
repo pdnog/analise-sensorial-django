@@ -109,7 +109,7 @@ def retornaAnalises(request):
 	idTeste = get_test(request)
 	analise = AnaliseSensorial.objects.filter(user = idTeste)
 	#Mostra 10 análises do que foi retornado pelo banco de dados
-	paginacao = Paginator(analise,1)
+	paginacao = Paginator(analise,10)
 	#Só para utilizar o get ?pagina=1 na url
 	pagina = request.GET.get('pagina')
 	try: 
@@ -129,9 +129,17 @@ def retornaAnalises(request):
 def page_perguntas(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
 	verificacao_usuario(request, analise)
-	perguntas = Pergunta.objects.filter(analise_id = id)
+	pergunta = Pergunta.objects.filter(analise_id = id)
+	paginacao = Paginator(pergunta,10)
+	#Só para utilizar o get ?pagina=1 na url
+	pagina = request.GET.get('pagina')
+	try: 
+		perguntas = paginacao.page(pagina)
+	except PageNotAnInteger:
+		perguntas = paginacao.page(1)
+	except EmptyPage:
+		perguntas = paginacao.page(paginacao.num_pages)
 	form = FormInserirPerguntas()
-	pergunta = Pergunta.objects.filter(analise = analise)
 	#print(perguntas)
 	return verificar(request, {'perguntas':perguntas, 'id':id, 'form':form}, 'Fabricante/inserirPergunta.html')
 
@@ -170,10 +178,10 @@ def editarPergunta(request, id):
 			return redirect('/Perguntas/'+str(analise.id))
 	else:
 		form = FormEditarPergunta(instance = pergunta)
-	return verificar(request, {'form':form,'id':pergunta.id}, 'Fabricante/editarPergunta.html')
+	return verificar(request, {'form':form,'id':pergunta.id,'analiseID':analise.id}, 'Fabricante/editarPergunta.html')
 	
 def deletarPergunta(request, id):
 	pergunta = get_object_or_404(Pergunta, id = id)
 	analise = pergunta.analise
 	pergunta.delete()
-	return redirect('/Perguntas/' + str(analise.id))
+	return redirect('/Perguntas/'+str(analise.id))

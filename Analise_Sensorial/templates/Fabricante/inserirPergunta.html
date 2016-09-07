@@ -71,6 +71,20 @@ function fecharModal(){
 			{% endfor %}
 		</tbody>
 	</table>
+		<ul class="pager">
+    
+        {% if perguntas.has_previous %}
+            <li><a href="?pagina={{ perguntas.previous_page_number }}">Anterior</a></li>
+        {% endif %}
+
+        <span class="current">
+            Página {{ perguntas.number }} de {{ perguntas.paginator.num_pages }}.
+        </span>
+
+        {% if perguntas.has_next %}
+            <li><a href="?pagina={{ perguntas.next_page_number }}">Próximo</a></li>
+        {% endif %}
+    </ul>
 
 {% else %}
 <h2>Nenhuma pergunta cadastrada</h2>
