@@ -3,10 +3,11 @@
 {% block conteudo %}
 {% load bootstrap %}
 <div class="col-md-10 col-md-offset-1">
-	<form class="form-horizontal">
-		{% csrf_token %}
 		<!-- Deixar cada amostra em uma página-->
 		{% for numero in amostras %}
+		<form class="form-horizontal" method="POST" action="/salvarRespostas/{{id}}">
+		{% csrf_token %}
+			<button type="submit" class="btn btn-success">Enviar</button>
 			<div class="col-md-12" style="border:1px solid;
 			margin-top:10px;
 			margin-bottom:10px;">
@@ -18,8 +19,8 @@
 				</div>
 			{% endfor %}
 			</div>
+		</form>
 		{% endfor %}
-	</form>
 
 </div>
 {% endblock %}

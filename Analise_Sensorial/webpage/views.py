@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from webpage.forms import *
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -6,6 +6,7 @@ from django.conf import settings
 from webpage.models import *
 from webpage.utilitarios import confirmacao_cadastro
 from django.http import HttpResponse
+
 
 # Create your views here.
 #Jogando o formulário para o html
@@ -115,7 +116,7 @@ def Login(request):
 				#Efetuando login
 				login(request, user)
 				request.session['nome'] = user.first_name
-				request.session['teste'] = user.id
+				request.session['id'] = user.id
 			#Descobrindo qual o tipo do usuário
 			#Isso aqui será alterado
 			if tipo.tipo == 'F':
@@ -156,7 +157,7 @@ def edita(request, formulario):
 
 #Pegando a sessão teste
 def get_test(request):
-	idTeste = request.session.get('teste')
+	idTeste = request.session.get('id')
 	return idTeste
 
 

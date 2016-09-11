@@ -16,10 +16,12 @@ def home_provador(request):
 def page_respostas(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
 	perguntas = Pergunta.objects.filter(analise_id=id)
+	dicionario = {}
 
 	#Incrementando o dicionário
-	dicionario = formularios(perguntas, id)
+	dicionario['forms'] = formularios(perguntas, id)
 	dicionario['amostras'] = range(analise.quantidade_amostras)
+	dicionario['id'] = id
 
 	#Tenho que ver como concatenar várias perguntas de tipos diferentes
 	return verificar(request, dicionario, 'Provador/responder_analise.html')
@@ -29,12 +31,12 @@ def page_respostas(request, id):
 #Esse método é responsavel por pegar as perguntas e transformas-las em forms
 def formularios(perguntas, id):
 	#Iniciando variavéis
-	dicionario = {}
 	objetos = []
 
 	for pergunta in perguntas:
 		if pergunta.tipo == 'PSN':
 			form = FormPerguntaSimNao(instance=pergunta)
+			print(form)
 		elif pergunta.tipo == 'PHD':
 			form = FormHedonica(instance=pergunta)
 		elif pergunta.tipo == 'PDT':
@@ -51,9 +53,14 @@ def formularios(perguntas, id):
 		objetos.append(object)
 
 	#Adicionando a lista no dicionário
-	dicionario['forms'] = objetos
-	return dicionario
+	return objetos
 
+def receber_formularios(request, id):
+	analise = get_object_or_404(AnaliseSensorial, id=id)
+	if request.method == 'POST':
+		print()
+
+	return redirect('/Home_Provador/')
 
 """ Classes de concatenação """
 #Classe usada para concatenar a pergunta com o input do formulário 

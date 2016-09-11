@@ -152,3 +152,66 @@ class FormIntencaoCompra(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(FormIntencaoCompra, self).__init__(*args, **kwargs)
 		self.fields['compra'].label = ''
+
+#Tentar fazer um form interativo
+
+"""class FormGeneral(forms.Form):
+	
+	def __init__(self, lista):
+
+		YESNO_CHOICES = ((True, 'Não'), (False, 'Sim'))
+
+		LIKE_CHOICES = (
+			(1, 'Desgostei extremamente (detestei)'),
+			(2, 'Desgostei muito'),
+			(3, 'Desgostei moderadamente'), 
+			(4, 'Desgostei ligeiramente'),
+			(5, 'Nem gostei / Nem desgostei'),
+			(6, 'Gostei ligeiramente'),
+			(7, 'Gostei moderadamente'),
+			(8, 'Gostei muito'),
+			(9, 'Gostei muitíssimo (adorei)'),
+			)
+
+		BUY_CHOICES = (
+			(1, 'Certamente não compraria o produto'),
+			(2, 'Possivelmente não compraria o produto'),
+			(3, 'Talvez comprasse / Talvez não comprasse'),
+			(4, 'Possivelmente compraria o produto'),
+			(5, 'Certamente compraria o produto')
+			)
+
+		for item in lista:
+			if item == 'PSN':
+
+				field = forms.TypedChoiceField(
+					choices=YESNO_CHOICES, 
+					widget=forms.RadioSelect,
+					label=''
+					)
+
+			elif item == 'PHD':
+
+				field = forms.TypedChoiceField(
+					choices=LIKE_CHOICES,
+					label=''
+					)
+
+			elif item == 'PDT':
+
+				field = forms.CharField(
+					widget=forms.Textarea(attrs={'size':3}),
+					label=''
+					)
+			else:
+
+				field = forms.TypedChoiceField(
+					choices=BUY_CHOICES,
+					label=''
+					)
+
+			self.fields = ('field',)"""
+
+
+
+

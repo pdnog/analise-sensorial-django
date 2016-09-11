@@ -4,7 +4,7 @@ from django.shortcuts import redirect, get_object_or_404
 from Fabricante.forms import *
 from Fabricante.models import *
 from webpage.forms import *
-from webpage.views import edita, get_test, verificar, get_name, Logout, verificacao_usuario
+from webpage.views import *
 from django.contrib.auth.decorators import login_required
 from Fabricante.metodos import *
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -37,9 +37,6 @@ def gerar_teste_page(request, id):
 def gerar_amostras_action(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
 	verificacao_usuario(request, analise)
-	#Métdo antiquado
-	#gerando_amostras(id, analise.quantidade_pessoas, analise.quantidade_amostras)
-	#Criando analises
 	gerar_amostras(id, analise.quantidade_amostras)
 	analise.possui_amostras = True
 	analise.save()
