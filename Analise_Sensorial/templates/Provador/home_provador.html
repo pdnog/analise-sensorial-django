@@ -1,0 +1,36 @@
+{% extends 'Base_logado.html' %}
+
+{% block conteudo %}
+<!-- Ele deve ver quais analises sensoriais estão ativas -->
+
+<div class="col-md-offset-1 col-md-10 col-sm-10 col-sm-offset-1">
+<h2>Análises ativas</h2>
+</div>
+
+<div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+{% if analises %}
+<table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Fabricante</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+    	{% for analise in analises %}
+    	<tr>
+    		<td>{{analise.nome}}</td>
+    		<td>{{analise.user.first_name}}</td>
+    		<!-- Enviar o id da análise selecionada-->
+    		<td><a href="/page_respostas/{{ analise.id }}" class="btn btn-success">Fazer</a></td>
+    	</tr>
+    	{% endfor %}
+    </tbody>
+  </table> 
+{% else %}
+<h3>Nenhuma análise está ativa</h3>
+{% endif %}
+</div>
+
+{% endblock %}

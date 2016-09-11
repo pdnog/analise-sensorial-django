@@ -94,7 +94,6 @@ def Login_Page(request):
 
 #Fazendo login
 def Login(request):
-
 	#Recebendo o formulário preenchido
 	form = FormLogin(request.POST)
 	#Validando o formullário
@@ -122,7 +121,8 @@ def Login(request):
 			if tipo.tipo == 'F':
 				return  redirect("/MostraAnalise/")
 			else:
-				return HttpResponse("Você é um provador")
+				#Redirecionar provador para outra página
+				return redirect("/Home_Provador/")
 		else:
 			return render_com_login(request, "Login.html", {"form":form, 'erro':True})
 	else:
@@ -161,7 +161,7 @@ def get_test(request):
 
 
 #Verificãção de login- toda página criada será preciso chama-la
-def  verificar(request, dicionario, html):
+def verificar(request, dicionario, html):
 	nome = get_name(request)
 	dicionario['nome_usuario'] = nome
 	if nome is not None:
@@ -173,3 +173,8 @@ def  verificar(request, dicionario, html):
 def get_name(request):
 	nome = request.session.get('nome')
 	return nome
+
+#Quando o usuário digirar uma url que não pertença a ele, ele será deslogado e irá para tela inicial
+def verificacao_usuario(request, analise):
+	if(analise.user.first_name != get_name(request)):
+		return Logout(request)

@@ -55,6 +55,15 @@ class Pergunta(models.Model):
 	analise = models.ForeignKey(AnaliseSensorial, on_delete=models.CASCADE)
 	pergunta = models.TextField()
 
+	TYPE = (
+		('PSN', 'Pergunta sim/não'),
+		('PHD', 'Pergunta hedônica'),
+		('PDT', 'Pergunta dissertativa'),
+		('PIC', 'Pergunta de inteção de compra'),
+		)
+
+	tipo = models.CharField(choices=TYPE, max_length=4)
+
 	class Meta:
 		verbose_name = 'Pergunta'
 		verbose_name_plural = 'Perguntas'
@@ -82,6 +91,7 @@ class PerguntaHedonica(Pergunta):
 
 class PerguntaDissertativa(Pergunta):
 	descricao = models.TextField()
+
 
 class PerguntaIntencaoCompra(Pergunta):
 	LEVEL = (

@@ -12,12 +12,13 @@ function abrirModal() {
 
 function fecharModal(){
 	$("#myModal").modal('hide');
+  $("#myModal").find('form')[0].reset();
 }
 
 </script>
 
 <button class="btn btn-success btn-lg" onclick="abrirModal()" 
-	style="margin-top:10px;" >Cadastrar nova pergunta</button>
+	style="margin-top:10px;" ><span class="glyphicon glyphicon-plus"> Pergunta</button>
 
 	<div class="modal fade" id="myModal" >
     <div class="modal-dialog modal-lg">
@@ -35,7 +36,7 @@ function fecharModal(){
           {{form|bootstrap_horizontal}}
         </div>
         <div class="modal-footer">
-        	<button type="submit" class="btn btn-success">Salvar</button>
+        	<button type="submit" class="btn btn-success" onclick="javascript:window.history.go(-1)">Salvar</button>
         	<button type="button" onclick="fecharModal()" class="btn btn-danger">Cancelar</button>
         </div>
         </form>
@@ -46,7 +47,26 @@ function fecharModal(){
 
 <!-- Mostrar as perguntas -->
 {% if perguntas %}
-<h2>Perguntas cadastradas</h2>
+<table class="table table-bordered" style="margin-top:20px">
+    <thead>
+      <tr>
+
+        <th>Perguntas</th>
+        <th>Ações</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in perguntas%}
+      <tr>
+        <td>{{p.pergunta}}</td>
+        <td class="col-md-2"><a href="" class="btn btn-success"> Editar </a>
+        <a href="/RemoverPergunta/{{id}}/pergunta/{{p.id}}" 
+        class="btn btn-danger">Apagar</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% else %}
 <h2>Nenhuma pergunta cadastrada</h2>
 {% endif %}

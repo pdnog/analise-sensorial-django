@@ -39,6 +39,7 @@
 				<td>{{a.nome}}</td>
 				<td>{{a.data_Inicio}}</td>
 				<td>{{a.data_Final}}</td>
+				{% if not a.ativado %}
 				<td>
 					<a href="/EditarAnalise/{{ a.id }}"
 					class="btn btn-success btn-sm">Editar</a>
@@ -50,6 +51,9 @@
 					<a href="/DeletarAnalise/{{ a.id }}" class="btn btn-danger btn-sm">Deletar</a>
 					<!--<a href="/RetornaFormulario/{{a.id}}" class="btn btn-default btn-md">Formulário</a>-->
 				</td>
+				{% else %}
+				<td>Sua análise está ativada, você não pode fazer alterações nela </td>
+				{% endif %}
 			</tr>
 			{% endfor %}
 			

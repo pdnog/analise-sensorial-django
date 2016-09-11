@@ -1,8 +1,9 @@
-{% extends 'cadastro_principal.html' %}
+{% extends 'Base.html' %}
 
-{% block cadastro %}
+{% block conteudo %}
 {% load bootstrap %}
-<h2 class="text-success">Cadastro do Provador</h2>
+<div class="col-md-10 col-md-offset-1">
+<h2 class="text-success">Cadastre-se</h2>
 <form class="form-horizontal" method="POST" action="/Cadastro_Provador/">
  {% csrf_token %}
 {{ form|bootstrap_horizontal }}
@@ -12,4 +13,5 @@
     </div>
   </div>
 </form>
+</div>
 {% endblock %}

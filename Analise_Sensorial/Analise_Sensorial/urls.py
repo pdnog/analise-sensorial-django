@@ -17,6 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from webpage.views import *
 from Fabricante.views import *
+from Provador.views import *
 from Fabricante.pdf import *
 
 urlpatterns = [
@@ -53,5 +54,11 @@ urlpatterns = [
     #Mostra análises
     url(r'^MostraAnalise', retornaAnalises),
     url(r'^GerarPdf/(?P<id>[^\.]+)', criando_estrutura),
-    url(r'^SalvarPergunta/(?P<id>[^\.]+)', cadastrar_pergunta)
+    url(r'^SalvarPergunta/(?P<id>[^\.]+)', cadastrar_pergunta),
+    url(r'^RemoverPergunta/(?P<id>[^\.]+)/pergunta/(?P<pergunta>[^\.]+)', deletar_pergunta),
+
+    #Para provador
+    url(r'^Home_Provador', home_provador),
+    url(r'^page_respostas/(?P<id>[^\.]+)', page_respostas),
+
 ]

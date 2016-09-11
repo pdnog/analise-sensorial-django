@@ -107,18 +107,43 @@ class FormInserirPerguntas(forms.Form):
 		#self.fields['pergunta'].widget.attrs['oninvalid'] = "this.setCustomValidity(\'Campo requerido\')"
 		#Definindo qauntidade de linhas do textfield
 		self.fields['pergunta'].widget.attrs['rows'] = 5
-
-class FormInserirPerguntaDissertativa(forms.ModelForm):
+	
+class FormDissertativa(forms.ModelForm):
 	class Meta:
 		model = PerguntaDissertativa
-		fields = ('pergunta',)
+		fields = ('descricao',)
 
-class FormInserirPerguntaSimNao(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(FormDissertativa, self).__init__(*args, **kwargs)
+		self.fields['descricao'].widget.attrs['rows'] = 3
+		self.fields['descricao'].label = ''
+
+class FormPerguntaSimNao(forms.ModelForm):
+	YESNO_CHOICES = ((True, 'Não'), (False, 'Sim'))
+	sim = forms.TypedChoiceField(choices=YESNO_CHOICES, widget=forms.RadioSelect)
+
 	class Meta:
 		model = PerguntaSimNao
-		fields = ('pergunta',)
+		fields = ('sim',)
+
+	def __init__(self, *args, **kwargs):
+		super(FormPerguntaSimNao, self).__init__(*args, **kwargs)
+		self.fields['sim'].label = ''
 			
-class FormMostrarHedonica(forms.ModelForm):
+class FormHedonica(forms.ModelForm):
 	class Meta:
 		model = PerguntaHedonica
-		fields = ('pergunta', 'hedonica')	
+		fields = ('hedonica',)
+
+	def __init__(self, *args, **kwargs):
+		super(FormHedonica, self).__init__(*args, **kwargs)
+		self.fields['hedonica'].label = ''
+
+class FormIntencaoCompra(forms.ModelForm):
+	class Meta:
+		model = PerguntaIntencaoCompra
+		fields = ('compra',)
+
+	def __init__(self, *args, **kwargs):
+		super(FormIntencaoCompra, self).__init__(*args, **kwargs)
+		self.fields['compra'].label = ''

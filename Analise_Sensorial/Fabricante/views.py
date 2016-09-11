@@ -4,15 +4,10 @@ from django.shortcuts import redirect, get_object_or_404
 from Fabricante.forms import *
 from Fabricante.models import *
 from webpage.forms import *
-from webpage.views import edita, get_test, verificar, get_name, Logout
+from webpage.views import edita, get_test, verificar, get_name, Logout, verificacao_usuario
 from django.contrib.auth.decorators import login_required
 from Fabricante.metodos import *
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-
-#Quando o usuário digirar uma url que não pertença a ele, ele será deslogado e irá para tela inicial
-def verificacao_usuario(request, analise):
-	if(analise.user.first_name != get_name(request)):
-		return Logout(request)
 
 
 # Create your views here.
@@ -108,8 +103,9 @@ def deletar_analise(request, id):
 def retornaAnalises(request):
 	idTeste = get_test(request)
 	analise = AnaliseSensorial.objects.filter(user = idTeste)
+
 	#Mostra 10 análises do que foi retornado pelo banco de dados
-	paginacao = Paginator(analise,1)
+	paginacao = Paginator(analise,6)
 	#Só para utilizar o get ?pagina=1 na url
 	pagina = request.GET.get('pagina')
 	try: 
@@ -118,7 +114,7 @@ def retornaAnalises(request):
 		analises = paginacao.page(1)
 	except EmptyPage:
 		analises = paginacao.page(paginacao.num_pages)
-	print(analise)
+	#print(analise)
 	#request.session['analises'] = analise
 	if analise is None:
 		return HttpResponse("<h1>Nenhuma Análise Cadastrada</h1>")
@@ -138,24 +134,34 @@ def cadastrar_pergunta(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
 	form = FormInserirPerguntas(request.POST)
 
-
 	if form.is_valid():
 		pergunta = form.cleaned_data['pergunta']
 		tipo = form.cleaned_data['tipo']
 
 		if tipo == 'PHD':
-			salvar = PerguntaHedonica.objects.create(analise_id = id, pergunta=pergunta)
+			salvar = PerguntaHedonica.objects.create(analise_id = id, pergunta=pergunta, tipo=tipo)
 		elif tipo == 'PSN':
-			salvar = PerguntaSimNao.objects.create(analise_id=id, pergunta=pergunta)
+			salvar = PerguntaSimNao.objects.create(analise_id=id, pergunta=pergunta, tipo=tipo)
 			pass
 		elif tipo == 'PDT':
-			salvar = PerguntaDissertativa.objects.create(analise_id=id, pergunta=pergunta)
+			salvar = PerguntaDissertativa.objects.create(analise_id=id, pergunta=pergunta, tipo=tipo)
 		else:
-			salvar = PerguntaIntencaoCompra.objects.create(analise_id=id, pergunta=pergunta) 
+			salvar = PerguntaIntencaoCompra.objects.create(analise_id=id, pergunta=pergunta, tipo=tipo)
 
-		print(tipo)
+	return redirect('/Perguntas/' + id)
 
-		#pergunta.save()
+def editar_perguntas(request, id):
+	analise = get_object_or_404(AnaliseSensorial, id=id)
+	verificacao_usuario(request, analise)
 
-	return page_perguntas(request, id)
+def deletar_pergunta(request, id, pergunta):
+	verificacao_usuario(request, analise)
+
+	pergunta = get_object_or_404(Pergunta, id=pergunta)
+	pergunta.delete()
+
+	return redirect('/Perguntas/' + id)
+
+
+
 

@@ -1,0 +1,25 @@
+{% extends 'Base_logado.html' %}
+
+{% block conteudo %}
+{% load bootstrap %}
+<div class="col-md-10 col-md-offset-1">
+	<form class="form-horizontal">
+		{% csrf_token %}
+		<!-- Deixar cada amostra em uma página-->
+		{% for numero in amostras %}
+			<div class="col-md-12" style="border:1px solid;
+			margin-top:10px;
+			margin-bottom:10px;">
+			{% for form in forms %}
+				<div style="margin-top:10px;margin-bottom:10px;" class="col-md-12">
+					<h4 class="col-md-10 col-md-offset-1">{{form.descricao}}</h4>
+					{{ form.formulario|bootstrap_horizontal }}
+					<hr>
+				</div>
+			{% endfor %}
+			</div>
+		{% endfor %}
+	</form>
+
+</div>
+{% endblock %}

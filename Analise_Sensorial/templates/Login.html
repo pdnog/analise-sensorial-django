@@ -22,6 +22,7 @@
     <h2 class="text-success">Entrar</h2><br>
     <form class="form-horizontal" method = "POST" action="/Login/">
         {% csrf_token %}
+        {% csrf_token %}
         {{ form|bootstrap_horizontal }}
         <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
