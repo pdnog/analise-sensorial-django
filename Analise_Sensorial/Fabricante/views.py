@@ -105,11 +105,8 @@ def retornaAnalises(request):
 	analise = AnaliseSensorial.objects.filter(user = idTeste)
 
 	#Mostra 10 análises do que foi retornado pelo banco de dados
-<<<<<<< HEAD
 	paginacao = Paginator(analise,6)
-=======
-	paginacao = Paginator(analise,10)
->>>>>>> origin
+
 	#Só para utilizar o get ?pagina=1 na url
 	pagina = request.GET.get('pagina')
 	try: 
@@ -173,27 +170,6 @@ def editarPergunta(request, id):
 			return redirect('/Perguntas/'+str(analise.id))
 	else:
 		form = FormInserirPerguntas(instance = pergunta)
-	return verificar(request, {'form':form,'id':pergunta.id,'analiseID':analise.id}, 'Fabricante/editarPergunta.html')
-	
-def deletarPergunta(request, id):
-	pergunta = get_object_or_404(Pergunta, id = id)
-	analise = pergunta.analise
-	pergunta.delete()
-	return redirect('/Perguntas/'+str(analise.id))
-
-
-
-
-def editarPergunta(request, id):
-	pergunta = get_object_or_404(Pergunta, id = id)
-	analise = pergunta.analise
-	form = FormEditarPergunta(request.POST, instance=pergunta)
-	if  request.method == 'POST':
-		if form.is_valid():
-			form.save()
-			return redirect('/Perguntas/'+str(analise.id))
-	else:
-		form = FormEditarPergunta(instance = pergunta)
 	return verificar(request, {'form':form,'id':pergunta.id,'analiseID':analise.id}, 'Fabricante/editarPergunta.html')
 	
 def deletarPergunta(request, id):

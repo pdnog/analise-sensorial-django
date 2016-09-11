@@ -47,7 +47,6 @@ function fecharModal(){
 
 <!-- Mostrar as perguntas -->
 {% if perguntas %}
-<<<<<<< HEAD
 <table class="table table-bordered" style="margin-top:20px">
     <thead>
       <tr>
@@ -69,33 +68,7 @@ function fecharModal(){
       {% endfor %}
     </tbody>
   </table>
-=======
-<h2>Perguntas cadastradas:</h2>
-
-<table class="table table-bordered">
-		<thead>
-			<tr>
-
-				<th>Título</th>
-				<th>Ações</th>
-
-			</tr>
-		</thead>
-		<tbody>
-			{% for i in perguntas %}
-			<tr>
-				<td>{{i.pergunta}}</td>
-				<td>
-					<a href="/EditarPergunta/{{ i.id }}"
-					class="btn btn-success btn-sm">Editar</a>
-					<a href="/DeletarPergunta/{{ i.id }}" class="btn btn-danger btn-sm">Deletar</a>
-					<!--<a href="/RetornaFormulario/{{a.id}}" class="btn btn-default btn-md">Formulário</a>-->
-				</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-		<ul class="pager">
+    <ul class="pager">
     
         {% if perguntas.has_previous %}
             <li><a href="?pagina={{ perguntas.previous_page_number }}">Anterior</a></li>
@@ -110,7 +83,6 @@ function fecharModal(){
         {% endif %}
     </ul>
 
->>>>>>> origin
 {% else %}
 <h2>Nenhuma pergunta cadastrada</h2>
 {% endif %}
