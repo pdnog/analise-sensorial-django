@@ -150,17 +150,23 @@ def cadastrar_pergunta(request, id):
 
 	return redirect('/Perguntas/' + id)
 
-def editar_perguntas(request, id):
-	analise = get_object_or_404(AnaliseSensorial, id=id)
-	verificacao_usuario(request, analise)
-
-def deletar_pergunta(request, id, pergunta):
-	verificacao_usuario(request, analise)
-
-	pergunta = get_object_or_404(Pergunta, id=pergunta)
+def editarPergunta(request, id):
+	pergunta = get_object_or_404(Pergunta, id = id)
+	analise = pergunta.analise
+	form = FormInserirPerguntas(request.POST, instance=pergunta)
+	if  request.method == 'POST':
+		if form.is_valid():
+			form.save()
+			return redirect('/Perguntas/'+str(analise.id))
+	else:
+		form = FormInserirPerguntas(instance = pergunta)
+	return verificar(request, {'form':form,'id':pergunta.id,'analiseID':analise.id}, 'Fabricante/editarPergunta.html')
+	
+def deletarPergunta(request, id):
+	pergunta = get_object_or_404(Pergunta, id = id)
+	analise = pergunta.analise
 	pergunta.delete()
-
-	return redirect('/Perguntas/' + id)
+	return redirect('/Perguntas/'+str(analise.id))
 
 
 

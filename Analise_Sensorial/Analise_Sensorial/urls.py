@@ -55,7 +55,8 @@ urlpatterns = [
     url(r'^MostraAnalise', retornaAnalises),
     url(r'^GerarPdf/(?P<id>[^\.]+)', criando_estrutura),
     url(r'^SalvarPergunta/(?P<id>[^\.]+)', cadastrar_pergunta),
-    url(r'^RemoverPergunta/(?P<id>[^\.]+)/pergunta/(?P<pergunta>[^\.]+)', deletar_pergunta),
+    url(r'^EditarPergunta/(?P<id>[^\.]+)', editarPergunta),
+    url(r'^DeletarPergunta/(?P<id>[^\.]+)', deletarPergunta),
 
     #Para provador
     url(r'^Home_Provador', home_provador),

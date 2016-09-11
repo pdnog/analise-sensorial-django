@@ -60,9 +60,10 @@ function fecharModal(){
       {% for p in perguntas%}
       <tr>
         <td>{{p.pergunta}}</td>
-        <td class="col-md-2"><a href="" class="btn btn-success"> Editar </a>
-        <a href="/RemoverPergunta/{{id}}/pergunta/{{p.id}}" 
-        class="btn btn-danger">Apagar</a></td>
+        <td class="col-md-2"><a href="/EditarPergunta/{{ p.id }}"
+					class="btn btn-success btn-sm">Editar</a>
+					<a href="/DeletarPergunta/{{ p.id }}" class="btn btn-danger btn-sm">Deletar</a></td>
+
       </tr>
       {% endfor %}
     </tbody>

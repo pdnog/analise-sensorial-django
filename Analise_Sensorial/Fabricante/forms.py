@@ -87,8 +87,8 @@ class FormAnaliseSensorialEditar(forms.ModelForm):
          
 #Não necessita usar analise aqui, pois quando ele clicar em perguntas,
 #já irá pegar o id da análise selecionada
-class FormInserirPerguntas(forms.Form):
-	pergunta = forms.CharField(widget=forms.Textarea)
+class FormInserirPerguntas(forms.ModelForm):
+	#pergunta = forms.CharField(widget=forms.Textarea)
 	TYPE = (
 		('PSN', 'Pergunta sim/não'),
 		('PHD', 'Pergunta hedônica'),
@@ -97,6 +97,10 @@ class FormInserirPerguntas(forms.Form):
 		)
 
 	tipo = forms.ChoiceField(choices = TYPE)
+
+	class Meta:
+		model = Pergunta
+		fields = ('pergunta', 'tipo')
 
 	def __init__(self, *args, **kwargs):
 		super(FormInserirPerguntas, self).__init__(*args, **kwargs)
