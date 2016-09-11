@@ -44,6 +44,8 @@ urlpatterns = [
     #url(r'^RetornaFormulario/(?P<id>[^\.]+)', retornaFormulario),
     #Edição dos dados do Fabricante
     url(r'^Perguntas/(?P<id>[^\.]+)', page_perguntas),
+    url(r'^EditarPergunta/(?P<id>[^\.]+)', editarPergunta),
+    url(r'^DeletarPergunta/(?P<id>[^\.]+)', deletarPergunta),
     url(r'^GoEdit', editaRed),
     #Edição dos dados das análises
     url(r'^EditarAnalise/(?P<id>[^\.]+)', editaAnalise),

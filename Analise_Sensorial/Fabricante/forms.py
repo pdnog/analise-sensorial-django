@@ -111,8 +111,15 @@ class FormInserirPerguntas(forms.ModelForm):
 		#self.fields['pergunta'].widget.attrs['oninvalid'] = "this.setCustomValidity(\'Campo requerido\')"
 		#Definindo qauntidade de linhas do textfield
 		self.fields['pergunta'].widget.attrs['rows'] = 5
+<<<<<<< HEAD
 	
 class FormDissertativa(forms.ModelForm):
+=======
+	class Meta:
+		model = Pergunta
+		fields = ('pergunta',)
+class FormInserirPerguntaDissertativa(forms.ModelForm):
+>>>>>>> origin
 	class Meta:
 		model = PerguntaDissertativa
 		fields = ('descricao',)
@@ -137,6 +144,7 @@ class FormPerguntaSimNao(forms.ModelForm):
 class FormHedonica(forms.ModelForm):
 	class Meta:
 		model = PerguntaHedonica
+<<<<<<< HEAD
 		fields = ('hedonica',)
 
 	def __init__(self, *args, **kwargs):
@@ -151,3 +159,13 @@ class FormIntencaoCompra(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(FormIntencaoCompra, self).__init__(*args, **kwargs)
 		self.fields['compra'].label = ''
+=======
+		fields = ('pergunta', 'hedonica')
+		
+class FormEditarPergunta(forms.ModelForm):
+	class Meta:
+		model = Pergunta
+		fields = ('pergunta',)
+		
+	
+>>>>>>> origin
