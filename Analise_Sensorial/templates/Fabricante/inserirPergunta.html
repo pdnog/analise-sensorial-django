@@ -19,6 +19,8 @@ function fecharModal(){
 
 <button class="btn btn-success btn-lg" onclick="abrirModal()" 
 	style="margin-top:10px;" ><span class="glyphicon glyphicon-plus"> Pergunta</button>
+<button class="btn btn-default btn-lg" onclick="abrirModal()" 
+	style="margin-top:10px;" ><span class="glyphicon glyphicon-list-alt"> Formulário</button>
 
 	<div class="modal fade" id="myModal" >
     <div class="modal-dialog modal-lg">
@@ -52,6 +54,7 @@ function fecharModal(){
       <tr>
 
         <th>Perguntas</th>
+		<th>tipo</th>
         <th>Ações</th>
 
       </tr>
@@ -60,6 +63,7 @@ function fecharModal(){
       {% for p in perguntas%}
       <tr>
         <td>{{p.pergunta}}</td>
+        <td>{%for key,value in p.tipo %}{{value}}{%endfor%}</td>
         <td class="col-md-2"><a href="/EditarPergunta/{{ p.id }}"
 					class="btn btn-success btn-sm">Editar</a>
 					<a href="/DeletarPergunta/{{ p.id }}" class="btn btn-danger btn-sm">Deletar</a></td>

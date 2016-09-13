@@ -11,12 +11,10 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 # Create your views here.
-def Funcionalidades(request):
-	return verificar(request, {}, "Funcoes.html")
 
 def FormDadosAnalise_Page(request):
 	form = FormAnaliseSensorial()
-	return verificar(request, {'form':form}, "Fabricante/Analise.html")
+	return verificarFabricante(request, {'form':form}, "Fabricante/Analise.html")
 
 #Precisa aperfeiçoar esse método
 #Quando o usuário cadastrar os números não aparecerá o botão de cadastrar números
@@ -26,7 +24,7 @@ def gerar_teste_page(request, id):
 	if analise.possui_amostras:
 		amostras = retornar_amostras(id)
 		print(amostras)
-		return verificar(request, {'analise':id, 
+		return verificarFabricante(request, {'analise':id, 
 			'numeros_presentes':analise.possui_amostras, 'amostras':amostras}, 
 			"Fabricante/numeros_page.html")
 	else:
@@ -62,7 +60,7 @@ def CadastrarFormAnalise(request):
 			return redirect('/MostraAnalise/')
 	else:
 		form = FormAnaliseSensorial()
-	return verificar(request, {'form':form}, "Fabricante/Analise.html" )
+	return verificarFabricante(request, {'form':form}, "Fabricante/Analise.html" )
 
 #Edita os dados do fábricante
 def editaRed(request):
@@ -86,7 +84,7 @@ def editaAnalise(request, id):
 			form = FormAnaliseSensorialEditar(instance=analise)
 			return verificar(request, {'form':form, 'analise':analise}, 'Fabricante/editarAnalise.html')
 	else:
-		return redirect('/Funcionalidades/')
+		return redirect('/MostraAnalise/')
 
 
 #Deletando objeto do banco de dados
@@ -102,7 +100,7 @@ def retornaAnalises(request):
 	analise = AnaliseSensorial.objects.filter(user = idTeste)
 
 	#Mostra 10 análises do que foi retornado pelo banco de dados
-	paginacao = Paginator(analise,6)
+	paginacao = Paginator(analise,10)
 
 	#Só para utilizar o get ?pagina=1 na url
 	pagina = request.GET.get('pagina')
@@ -117,7 +115,7 @@ def retornaAnalises(request):
 	if analise is None:
 		return HttpResponse("<h1>Nenhuma Análise Cadastrada</h1>")
 	else:	
-		return verificar(request, {'analises': analises}, 'Fabricante/retornaAnalise.html')
+		return verificarFabricante(request, {'analises': analises}, 'Fabricante/retornaAnalise.html')
 
 
 def page_perguntas(request, id):
@@ -135,7 +133,7 @@ def page_perguntas(request, id):
 		perguntas = paginacao.page(paginacao.num_pages)
 	form = FormInserirPerguntas()
 	#print(perguntas)
-	return verificar(request, {'perguntas':perguntas, 'id':id, 'form':form}, 'Fabricante/inserirPergunta.html')
+	return verificarFabricante(request, {'perguntas':perguntas, 'id':id, 'form':form}, 'Fabricante/inserirPergunta.html')
 
 def cadastrar_pergunta(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
@@ -161,16 +159,34 @@ def editarPergunta(request, id):
 	pergunta = get_object_or_404(Pergunta, id = id)
 	analise = pergunta.analise
 	form = FormInserirPerguntas(request.POST, instance=pergunta)
+	form = FormPerguntaSimNao(request.POST)
 	if  request.method == 'POST':
 		if form.is_valid():
 			form.save()
 			return redirect('/Perguntas/'+str(analise.id))
 	else:
 		form = FormInserirPerguntas(instance = pergunta)
-	return verificar(request, {'form':form,'id':pergunta.id,'analiseID':analise.id}, 'Fabricante/editarPergunta.html')
+	return verificarFabricante(request, {'form':form,'id':pergunta.id,'analiseID':analise.id}, 'Fabricante/editarPergunta.html')
 	
 def deletarPergunta(request, id):
 	pergunta = get_object_or_404(Pergunta, id = id)
 	analise = pergunta.analise
 	pergunta.delete()
 	return redirect('/Perguntas/'+str(analise.id))
+#Retorna o formulário já preenchido, igual vai ser mostrado ao provador.
+def prototipoFormulario(request, id):
+	pergunta = get_object_or_404(Pergunta, id = id)
+	analise = pergunta.analise
+	perguntaHedonica = PerguntaHedonica.objects.filter(id = pergunta.id)
+	
+	return verificarFabricante(request, {'form':form,'perguntaHedonica':perguntaHedonica}, 'Fabricante/editarPergunta.html')
+	
+	
+	
+	
+	
+	
+	
+	
+	
+

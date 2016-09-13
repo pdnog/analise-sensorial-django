@@ -6,6 +6,7 @@ from django.conf import settings
 from webpage.models import *
 from webpage.utilitarios import confirmacao_cadastro
 from django.http import HttpResponse
+from django.template.context_processors import request
 
 
 # Create your views here.
@@ -143,7 +144,8 @@ def Logout(request):
 def edita(request, formulario):
 	idTeste = get_test(request)
 	#Pegando o usuário 
-	usuario = User.objects.get(id = idTeste)	
+	usuario = User.objects.get(id = idTeste)
+	tipagem = Tipagem.objects.get(pk = idTeste)	
 	if request.method == "POST":
 		#Uso o instance para instanciar o objeto para o formulário
 		form = formulario(request.POST, instance = usuario)
@@ -153,7 +155,10 @@ def edita(request, formulario):
 			return redirect('/Funcionalidades/')
 	else:
 		form = formulario(instance=usuario)
-	return verificar(request,{'form':form}, 'editar.html')
+	if tipagem.tipo == "F":
+		return verificarFabricante(request,{'form':form}, 'editar.html')
+	else:
+		return verificarProvador(request,{'form':form}, 'editar.html',)
 
 #Pegando a sessão teste
 def get_test(request):
@@ -161,15 +166,36 @@ def get_test(request):
 	return idTeste
 
 
-#Verificãção de login- toda página criada será preciso chama-la
-def verificar(request, dicionario, html):
-	nome = get_name(request)
-	dicionario['nome_usuario'] = nome
-	if nome is not None:
-		return render(request, html, dicionario)
-	else:
-		return redirect('/')
 
+
+#Verificãção de login- toda página criada será preciso chama-la
+
+def verificarFabricante(request, dicionario, html):
+	id = get_test(request)
+	tipoUsuario = Tipagem.objects.get(pk = id)
+	if tipoUsuario.tipo == "P":
+		redirect("/MostraAnalises/")
+	else:
+		nome = get_name(request)
+		dicionario['nome_usuario'] = nome
+		if nome is not None:
+			return render(request, html, dicionario) 
+		else:
+			return redirect('/')	
+	
+def verificarProvador(request, dicionario, html):
+	id = get_test(request)
+	tipoUsuario = Tipagem.objects.get(pk = id)
+	if tipoUsuario.tipo == "F":
+		redirect("/Logout/")
+	else:
+		nome = get_name(request)
+		dicionario['nome_usuario'] = nome
+		
+		if nome is not None:
+			return render(request, html, dicionario) 
+		else:
+			return redirect('/')		
 #Pegando a sessão feita
 def get_name(request):
 	nome = request.session.get('nome')

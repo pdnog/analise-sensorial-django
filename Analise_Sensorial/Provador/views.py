@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import redirect, get_object_or_404
-from webpage.views import verificar
+from webpage.views import verificarProvador
 from Fabricante.models import *
 from django.db import connection,transaction
 from django.core.exceptions import *
@@ -10,7 +10,7 @@ from Fabricante.forms import *
 """ Renderização de paginas """
 def home_provador(request):
 	analises = AnaliseSensorial.objects.filter(ativado=True)
-	return verificar(request, {"analises":analises}, "Provador/home_provador.html")
+	return verificarProvador(request, {"analises":analises}, "Provador/home_provador.html")
 
 
 def page_respostas(request, id):
@@ -24,7 +24,7 @@ def page_respostas(request, id):
 	dicionario['id'] = id
 
 	#Tenho que ver como concatenar várias perguntas de tipos diferentes
-	return verificar(request, dicionario, 'Provador/responder_analise.html')
+	return verificarProvador(request, dicionario, 'Provador/responder_analise.html')
 
 
 """ Lógicas de sistema """
@@ -59,7 +59,6 @@ def receber_formularios(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
 	if request.method == 'POST':
 		print()
-
 	return redirect('/Home_Provador/')
 
 """ Classes de concatenação """

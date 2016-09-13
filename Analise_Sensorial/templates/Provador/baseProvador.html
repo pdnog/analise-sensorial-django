@@ -1,0 +1,25 @@
+{% extends 'Base_logado.html' %}
+{%block colapso%}
+<div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-apple"></span> 
+        Análise Sensorial<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            
+          </ul>
+        </li>
+        
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> 
+        {{nome_usuario}}<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/GoEdit/"><span class="glyphicon glyphicon-cog"></span>  Editar Perfil</a></li>
+            
+          </ul>
+        </li>
+        <li>
+        <a href="/Logout/"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+        </li>
+      </ul>
+    </div>
+
+{%endblock%}

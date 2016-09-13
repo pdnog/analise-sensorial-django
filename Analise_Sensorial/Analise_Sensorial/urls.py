@@ -35,13 +35,9 @@ urlpatterns = [
     url(r'^Inicio', Inicio),
 
     #Para fabricante
-    url(r'^Funcionalidades', Funcionalidades),
+    
     url(r'^Form_Dados_Analise_Page', FormDadosAnalise_Page),
     url(r'^CadastrarFormAnalise', CadastrarFormAnalise),
-    #url(r'^Perguntas/(?P<id>[^\.]+)', cadastrarPerguntas),
-    #url(r'^PerguntaDissertativa/(?P<id>[^\.]+)', cadastrarPerguntaDissertativa),
-    #url(r'^PerguntaSimNao/(?P<id>[^\.]+)', cadastrarPerguntaSimNao),
-    #url(r'^RetornaFormulario/(?P<id>[^\.]+)', retornaFormulario),
     #Edição dos dados do Fabricante
     url(r'^Perguntas/(?P<id>[^\.]+)', page_perguntas),
     url(r'^EditarPergunta/(?P<id>[^\.]+)', editarPergunta),

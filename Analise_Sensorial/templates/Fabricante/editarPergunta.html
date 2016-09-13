@@ -12,6 +12,11 @@
         	<a href="/Perguntas/{{analiseID}}" type="submit" class="btn btn-danger pull-right" style="margin-left:10px">Cancelar</a>
         	<button type="submit" class="btn btn-success pull-right">Editar</button>
         	
+        	{% for a in perguntaHedonica %}
+        	{{a.pergunta}}
+        	{{a.escala}}
+        	{%endfor%}
+        	
 </form>
 </div>
 {%endblock%}
