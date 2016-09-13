@@ -58,6 +58,8 @@ def CadastrarFormAnalise(request):
 			#Salvei
 			analise.save()
 			#Criando testes
+			print (analise.id)
+			print (analise.quantidade_pessoas)
 			gerar_testes(analise.id, analise.quantidade_pessoas)
 			return redirect('/MostraAnalise/')
 	else:

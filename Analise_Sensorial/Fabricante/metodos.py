@@ -35,9 +35,9 @@ def gerar_testes(id_analise, pessoas):
 	cursor = connection.cursor()
 	for i in range(pessoas):
 		#Criando o array de números
-		Testes.append(str(id_analise))
+		Testes.append((str(id_analise), None))
 
-	query = 'INSERT INTO Fabricante_teste (analise_id, provador_id) VALUES (%s, null);'
+	query = 'INSERT INTO Fabricante_teste (analise_id, provador_id) VALUES (%s, %s);'
 	#Enviando para o banco de dados
 	cursor.executemany(query, Testes)
 
