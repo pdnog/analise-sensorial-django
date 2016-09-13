@@ -33,11 +33,10 @@ def Provador_page_cadastro(request):
 
 def Cadastro_principal_page(request):
 	return render_com_login(request, "cadastro_principal.html", {})
-
-#Cadastrando um fabricante
-def Cadastro_Fabricante(request):
+#Cadastro default
+def Cadastro_User(request, formulario, html, tipoUser):
 	if request.method == 'POST':
-		form = FormFabricante(request.POST)
+		form = formulario(request.POST)
 		#Vendo se o formário com o resquest é válido, se for, ele salva no models, pois o form é uma extensão do model
 		if form.is_valid():
 			form.save()
@@ -46,39 +45,25 @@ def Cadastro_Fabricante(request):
 			#Retornando o objeto usuário
 			usuario = User.objects.get(username=username)
 			#Definindo o tipo de usuário pelo ID
-			tipagem = Tipagem.objects.create(user_id=usuario.id, tipo='F')
+			tipagem = Tipagem.objects.create(user_id=usuario.id, tipo=tipoUser)
 			#Setando "True" ao parametro da classe
 			_confirmacao.setConfirmacao(True)
 			#Redirecionando para a página principal
 			return redirect("/")
 	else:
 		#Se o método não for POST, ele mostra um formulário em branco
-		form = FormFabricante()
-	return render_com_login(request, "Fabricante.html", {"form":form})
+		form = formulario()
+	return render_com_login(request, html, {"form":form})
 
+
+#Cadastrando um fabricante
+def Cadastro_Fabricante(request):
+	return Cadastro_User(request, FormFabricante, "fabricante.html", 'F')
+	
 #Cadastrando um provador
 def Cadastro_Provador(request):
-	if request.method == 'POST':
-		#Tenho que fazer o tratamento de erros na view!!!
-		form = FormProvador(request.POST)
-		#Verificando se o formulário é válido
-		if form.is_valid():
-			form.save()
-			#Retornando o usuário
-			username = form.cleaned_data['username']
-			#Retornando o objeto usuário
-			usuario = User.objects.get(username=username)
-			#Definindo o tipo de usuário
-			tipagem = Tipagem.objects.create(user_id=usuario.id, tipo='P')
-			#Setando "True" ao parametro da classe
-			_confirmacao.setConfirmacao(True)
-			#Redirecionando para a página principal
-			return redirect("/")
-	else:
-		form = FormProvador()
-
-	return render_com_login(request, "Provador.html", {"form":form})
-
+	return Cadastro_User(request, FormProvador,"Provador.html",'P')
+	
 #Pagina de Login
 def Login_Page(request):
 	form = FormLogin()
