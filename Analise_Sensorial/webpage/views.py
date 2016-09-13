@@ -154,12 +154,11 @@ def get_test(request):
 
 
 #Verificãção de login- toda página criada será preciso chama-la
-
-def verificarFabricante(request, dicionario, html):
+def verificarUser(request, dicionario, html, tipoUser):
 	id = get_test(request)
 	tipoUsuario = Tipagem.objects.get(pk = id)
-	if tipoUsuario.tipo == "P":
-		redirect("/MostraAnalises/")
+	if tipoUsuario.tipo == tipoUser:
+		redirect("/Logout/")
 	else:
 		nome = get_name(request)
 		dicionario['nome_usuario'] = nome
@@ -167,20 +166,14 @@ def verificarFabricante(request, dicionario, html):
 			return render(request, html, dicionario) 
 		else:
 			return redirect('/')	
-	
-def verificarProvador(request, dicionario, html):
-	id = get_test(request)
-	tipoUsuario = Tipagem.objects.get(pk = id)
-	if tipoUsuario.tipo == "F":
-		redirect("/Logout/")
-	else:
-		nome = get_name(request)
-		dicionario['nome_usuario'] = nome
+
+
+
+def verificarFabricante(request, dicionario, html):
+	return verificarUser(request, dicionario, html, "P")
 		
-		if nome is not None:
-			return render(request, html, dicionario) 
-		else:
-			return redirect('/')		
+def verificarProvador(request, dicionario, html):
+	return verificarUser(request, dicionario, html, "F")		
 #Pegando a sessão feita
 def get_name(request):
 	nome = request.session.get('nome')
