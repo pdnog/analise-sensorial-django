@@ -122,6 +122,7 @@ class FormDissertativa(forms.ModelForm):
 		super(FormDissertativa, self).__init__(*args, **kwargs)
 		self.fields['descricao'].widget.attrs['rows'] = 3
 		self.fields['descricao'].label = ''
+		#self.fields['descricao'].widget.attrs['name'] = str(id)
 
 class FormPerguntaSimNao(forms.ModelForm):
 	YESNO_CHOICES = ((True, 'Não'), (False, 'Sim'))
@@ -131,9 +132,14 @@ class FormPerguntaSimNao(forms.ModelForm):
 		model = PerguntaSimNao
 		fields = ('sim',)
 
-	def __init__(self, *args, **kwargs):
+	def __init__(self, id, *args, **kwargs):
 		super(FormPerguntaSimNao, self).__init__(*args, **kwargs)
 		self.fields['sim'].label = ''
+		self.fields['sim'].widget.attrs['name'] = str(id)
+	
+	"""def __setPk__(self, id, *args, **kwargs):
+		super(FormPerguntaSimNao, self).__(id)
+		self.fields['sim'].widget.attrs['name'] = str(id)"""
 			
 class FormHedonica(forms.ModelForm):
 	class Meta:

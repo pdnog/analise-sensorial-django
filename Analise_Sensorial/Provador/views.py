@@ -35,8 +35,7 @@ def formularios(perguntas, id):
 
 	for pergunta in perguntas:
 		if pergunta.tipo == 'PSN':
-			form = FormPerguntaSimNao(instance=pergunta)
-			print(form)
+			form = FormPerguntaSimNao(34)
 		elif pergunta.tipo == 'PHD':
 			form = FormHedonica(instance=pergunta)
 		elif pergunta.tipo == 'PDT':
@@ -44,6 +43,7 @@ def formularios(perguntas, id):
 		else:
 			form = FormIntencaoCompra(instance=pergunta)
 
+		print(form)
 		#Iniciando um objeto e atribuindo os atributos 
 		object = form_to_renderizar(None, None)
 		object.descricao = pergunta.pergunta
@@ -57,10 +57,12 @@ def formularios(perguntas, id):
 
 def receber_formularios(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
+
 	if request.method == 'POST':
-		print()
+		pass
 
 	return redirect('/Home_Provador/')
+
 
 """ Classes de concatenação """
 #Classe usada para concatenar a pergunta com o input do formulário 
