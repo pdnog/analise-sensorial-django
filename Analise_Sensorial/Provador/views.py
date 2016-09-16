@@ -35,7 +35,8 @@ def formularios(perguntas, id):
 
 	for pergunta in perguntas:
 		if pergunta.tipo == 'PSN':
-			form = FormPerguntaSimNao(34)
+			pass
+			#form = FormPerguntaSimNao(34)
 		elif pergunta.tipo == 'PHD':
 			form = FormHedonica(instance=pergunta)
 		elif pergunta.tipo == 'PDT':
