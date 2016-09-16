@@ -155,4 +155,57 @@ class FormIntencaoCompra(forms.ModelForm):
 		self.fields['compra'].label = ''
 
 
+class General(forms.Form):
+	#Campo para a pergunta de sim ou não
+	YESNO_CHOICES = ((True, 'Não'), (False, 'Sim'))
+	yes_or_no = forms.TypedChoiceField(choices=YESNO_CHOICES, 
+		widget=forms.RadioSelect, disabled=True, label='')
 
+	#Campo para a pergunta hedônica
+	SCALE_CHOICES = ((1, 'Desgostei extremamente (detestei)'),
+		(2, 'Desgostei muito'),
+		(3, 'Desgostei moderadamente'), 
+		(4, 'Desgostei ligeiramente'),
+		(5, 'Nem gostei / Nem desgostei'),
+		(6, 'Gostei ligeiramente'),
+		(7, 'Gostei moderadamente'),
+		(8, 'Gostei muito'),
+		(9, 'Gostei muitíssimo (adorei)'),
+		)
+
+	hedonic_scale = forms.TypedChoiceField(choices=SCALE_CHOICES, disabled=True, label='')
+
+	#Campo para a pergunta dissertativa
+	essay = forms.CharField(widget=forms.Textarea(attrs={'size':3}), 
+		disabled=True, label='')
+
+
+	#Campo para a pergunta de intenção de compra
+	BUY_CHOICES = (
+			(1, 'Certamente não compraria o produto'),
+			(2, 'Possivelmente não compraria o produto'),
+			(3, 'Talvez comprasse / Talvez não comprasse'),
+			(4, 'Possivelmente compraria o produto'),
+			(5, 'Certamente compraria o produto')
+			)
+
+	buy_intention = forms.TypedChoiceField(choices=BUY_CHOICES, disabled=True, label='')
+
+	def __init__(self, *args, **kwargs):
+		super(General, self).__init__(*args, **kwargs)
+		self.tipo = None
+		self.tipo = None
+
+		#Campos e condições de enable ou disable
+		if(self.tipo=='PSN'):
+			self.fields['buy_intention'].help_text = 'Eu sou limão'
+			fields=('yes_or_no')
+
+		elif(self.tipo=='PHD'):
+			fields = ('hedonic_scale',)
+
+		elif(self.tipo=='PDT'):
+			fields = ('essay',)
+			
+		elif(self.tipo=='PIC'):
+			fields = ('buy_intention',)

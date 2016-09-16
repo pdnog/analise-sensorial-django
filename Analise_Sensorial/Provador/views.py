@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import redirect, get_object_or_404
 from webpage.views import verificar
+from django.forms import formset_factory, BaseFormSet
+from django.utils.functional import curry   
 from Fabricante.models import *
 from django.db import connection,transaction
 from django.core.exceptions import *
@@ -18,7 +20,7 @@ def page_respostas(request, id):
 	perguntas = Pergunta.objects.filter(analise_id=id)
 	dicionario = {}
 
-	#Incrementando o dicionário
+	
 	dicionario['forms'] = formularios(perguntas, id)
 	dicionario['amostras'] = range(analise.quantidade_amostras)
 	dicionario['id'] = id
@@ -35,8 +37,7 @@ def formularios(perguntas, id):
 
 	for pergunta in perguntas:
 		if pergunta.tipo == 'PSN':
-			pass
-			#form = FormPerguntaSimNao(34)
+			form = FormPerguntaSimNao(instance=pergunta)
 		elif pergunta.tipo == 'PHD':
 			form = FormHedonica(instance=pergunta)
 		elif pergunta.tipo == 'PDT':
@@ -44,7 +45,7 @@ def formularios(perguntas, id):
 		else:
 			form = FormIntencaoCompra(instance=pergunta)
 
-		print(form)
+		#print(form)
 		#Iniciando um objeto e atribuindo os atributos 
 		object = form_to_renderizar(None, None)
 		object.descricao = pergunta.pergunta
@@ -55,6 +56,37 @@ def formularios(perguntas, id):
 
 	#Adicionando a lista no dicionário
 	return objetos
+
+def formsets(perguntas):
+	GeneralFormset = formset_factory(General, extra=len(perguntas))
+	#kwargs = [{'tipo':x.tipo, 'ask':x.pergunta} for x in perguntas]
+	#GeneralFormset.form = staticmethod(curry(General, *kwargs))
+	"""for pergunta in perguntas:
+		kwargs = {'tipo':pergunta.tipo, 'ask':pergunta.pergunta}
+		GeneralFormset.form = staticmethod(curry(General, **kwargs))
+		print(pergunta.pergunta)"""	
+
+	"""args = []
+	for pergunta in perguntas:
+		kwargs = {'tipo':pergunta.tipo, 'ask':pergunta.pergunta}
+		args.append(kwargs)"""
+
+	formset = GeneralFormset(initial=[])
+
+	for index in range(len(perguntas)):
+		formset[index].titulo = perguntas[index].pergunta
+		formset[index].tipo = perguntas[index].tipo
+		formset[index].__init__
+
+	for form in formset:
+		print(form)
+
+	return formset
+
+
+def many_formsets(perguntas, id):
+	pass
+
 
 def receber_formularios(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
