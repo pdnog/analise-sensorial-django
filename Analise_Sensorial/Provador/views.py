@@ -18,9 +18,8 @@ def home_provador(request):
 def page_respostas(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
 	perguntas = Pergunta.objects.filter(analise_id=id)
-	dicionario = {}
 
-	
+	dicionario = many_asks(perguntas)
 	dicionario['forms'] = formularios(perguntas, id)
 	dicionario['amostras'] = range(analise.quantidade_amostras)
 	dicionario['id'] = id
@@ -30,7 +29,10 @@ def page_respostas(request, id):
 
 
 """ Lógicas de sistema """
-#Esse método é responsavel por pegar as perguntas e transformas-las em forms
+
+""" Esse método é responsavel por pegar as perguntas e transformas-las em forms, utilizado
+anteriormente """
+
 def formularios(perguntas, id):
 	#Iniciando variavéis
 	objetos = []
@@ -57,6 +59,7 @@ def formularios(perguntas, id):
 	#Adicionando a lista no dicionário
 	return objetos
 
+#Esse daqui é voltado para o formset, e repetição de forms do mesmo tipo 
 def formsets(perguntas):
 	GeneralFormset = formset_factory(General, extra=len(perguntas))
 	#kwargs = [{'tipo':x.tipo, 'ask':x.pergunta} for x in perguntas]
@@ -83,9 +86,39 @@ def formsets(perguntas):
 
 	return formset
 
+#Podemos utilizar o JS para fazer a repetição de inputs e ver algum jeito de pegar todos
+def many_asks(perguntas):
+	yes_or_no = []
+	hedonic_scale = []
+	essay = []
+	buy_intention = []
 
-def many_formsets(perguntas, id):
-	pass
+	for pergunta in perguntas:
+
+		if pergunta.tipo == 'PSN':
+			yes_or_no.append(pergunta)
+
+		elif pergunta.tipo == 'PHD':
+			hedonic_scale.append(pergunta)
+
+		elif pergunta.tipo == 'PDT':
+			essay.append(pergunta)
+
+		else:
+			buy_intention(pergunta)
+
+	dictionary = {}
+	dictionary['yes_or_no'] = yes_or_no
+	dictionary['hedonic_scale'] = hedonic_scale
+	dictionary['essay'] = essay
+	dictionary['buy_intention'] = buy_intention
+
+	dictionary['size_yes_or_no'] = len(yes_or_no)
+	dictionary['size_hedonic_scale'] = len(hedonic_scale)
+	dictionary['size_essay'] = len(essay)
+	dictionary['size_buy_intention'] = len(buy_intention)
+
+	return dictionary
 
 
 def receber_formularios(request, id):
@@ -104,5 +137,3 @@ class form_to_renderizar(object):
 	def __init__(self, descricao, formulario):
 		self.descricao = descricao
 		self.formulario = formulario
-
-		

@@ -7,6 +7,16 @@
 		{% for numero in amostras %}
 		<form class="form-horizontal" method="POST" action="/salvarRespostas/{{id}}">
 		{% csrf_token %}
+		
+		</form>
+		{% endfor %}
+
+</div>
+{% endblock %}
+
+<!--{% for numero in amostras %}
+		<form class="form-horizontal" method="POST" action="/salvarRespostas/{{id}}">
+		{% csrf_token %}
 			<button type="submit" class="btn btn-success">Enviar</button>
 			<div class="col-md-12" style="border:1px solid;
 			margin-top:10px;
@@ -20,7 +30,4 @@
 			{% endfor %}
 			</div>
 		</form>
-		{% endfor %}
-
-</div>
-{% endblock %}
+		{% endfor %}-->
