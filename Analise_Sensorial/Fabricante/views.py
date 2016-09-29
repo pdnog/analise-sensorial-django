@@ -25,13 +25,12 @@ def gerar_teste_page(request, id):
 	verificacao_usuario(request, analise)
 	if analise.possui_amostras:
 		amostras = retornar_amostras(id)
-		print(amostras)
-		return verificar(request, {'analise':id, 
-			'numeros_presentes':analise.possui_amostras, 'amostras':amostras}, 
+		return verificar(request, {'analise':id,
+			'numeros_presentes':analise.possui_amostras, 'amostras':amostras},
 			"Fabricante/numeros_page.html")
 	else:
-		return verificar(request, {'analise':id, 
-			'numeros_presentes':analise.possui_amostras,}, 
+		return verificar(request, {'analise':id,
+			'numeros_presentes':analise.possui_amostras,},
 			"Fabricante/numeros_page.html")
 
 def gerar_amostras_action(request, id):
@@ -51,7 +50,7 @@ def CadastrarFormAnalise(request):
 			analise = form.save(commit=False)
 			#Adicionei o usuário, que é obrigatório
 			idTeste = get_test(request)
-			usuario = User.objects.get(id = idTeste)	
+			usuario = User.objects.get(id = idTeste)
 			analise.user = usuario
 			analise.possui_amostras = False
 			analise.ativado = False
@@ -108,7 +107,7 @@ def retornaAnalises(request):
 
 	#Só para utilizar o get ?pagina=1 na url
 	pagina = request.GET.get('pagina')
-	try: 
+	try:
 		analises = paginacao.page(pagina)
 	except PageNotAnInteger:
 		analises = paginacao.page(1)
@@ -118,7 +117,7 @@ def retornaAnalises(request):
 	#request.session['analises'] = analise
 	if analise is None:
 		return HttpResponse("<h1>Nenhuma Análise Cadastrada</h1>")
-	else:	
+	else:
 		return verificar(request, {'analises': analises}, 'Fabricante/retornaAnalise.html')
 
 
@@ -129,7 +128,7 @@ def page_perguntas(request, id):
 	paginacao = Paginator(pergunta,10)
 	#Só para utilizar o get ?pagina=1 na url
 	pagina = request.GET.get('pagina')
-	try: 
+	try:
 		perguntas = paginacao.page(pagina)
 	except PageNotAnInteger:
 		perguntas = paginacao.page(1)
@@ -170,7 +169,7 @@ def editarPergunta(request, id):
 	else:
 		form = FormInserirPerguntas(instance = pergunta)
 	return verificar(request, {'form':form,'id':pergunta.id,'analiseID':analise.id}, 'Fabricante/editarPergunta.html')
-	
+
 def deletarPergunta(request, id):
 	pergunta = get_object_or_404(Pergunta, id = id)
 	analise = pergunta.analise

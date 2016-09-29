@@ -4,12 +4,61 @@
 {% load bootstrap %}
 <div class="col-md-10 col-md-offset-1">
 		<!-- Deixar cada amostra em uma página-->
-		{% for numero in amostras %}
-		<form class="form-horizontal" method="POST" action="/salvarRespostas/{{id}}">
+		<form class="form-horizontal" method="GET" action="/salvarRespostas/{{id}}">
 		{% csrf_token %}
-		
+			{% if hedonica %}
+				{% for pergunta in hedonica%}
+				<label for="{{pergunta.id}}">{{pergunta.pergunta}}</label>
+				<select class="form-control" name="{{pergunta.id}}" id="{{pergunta.id}}">
+					<option>Desgostei extremamente (detestei)</option>
+					<option>Desgostei muito</option>
+					<option>Desgostei moderadamente</option>
+					<option>Desgostei ligeiramente</option>
+					<option>Nem gostei / Nem desgostei</option>
+					<option>Gostei ligeiramente</option>
+					<option>Gostei moderadamente</option>
+					<option>Gostei muito</option>
+					<option>Gostei muitíssimo (adorei)</option>
+				</select>
+				{% endfor %}
+			{% endif %}
+
+			{% if boolean %}
+				{% for pergunta in boolean %}
+				<label for={{pergunta.id}}>{{pergunta.pergunta}}</label>
+				<div class="radio">
+				 <label><input type="radio" name="{{pergunta.id}}">Sim</label>
+				</div>
+				<div class="radio">
+				 <label><input type="radio" name="{{pergunta.id}}">Não</label>
+				</div>
+				{% endfor %}
+			{% endif %}
+
+			{% if descritiva %}
+				{% for pergunta in descritiva %}
+				<label for={{pergunta.id}}>{{pergunta.pergunta}}</label>
+				<textarea class="form-control"
+					name="{{pergunta.id}}"
+					id="{{pergunta.id}}" rows="5"></textarea>
+				{% endfor %}
+			{% endif %}
+
+			{% if intencao_compra %}
+				{% for pergunta in intencao_compra%}
+				<label for={{pergunta.id}}>{{pergunta.pergunta}}</label>
+				<select class="form-control" name="{{pergunta.id}}" id="{{pergunta.id}}">
+					<option>Certamente não compraria o produto</option>
+					<option>Possivelmente não compraria o produto</option>
+					<option>Talvez comprasse / Talvez não comprasse</option>
+					<option>Possivelmente compraria o produto</option>
+					<option>Certamente compraria o produto</option>
+				</select>
+				{% endfor %}
+			{% endif%}
+
+			<button type="submit" class="btn btn-success">Enviar</button>
 		</form>
-		{% endfor %}
 
 </div>
 {% endblock %}

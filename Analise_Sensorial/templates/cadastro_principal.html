@@ -1,11 +1,12 @@
 {% extends 'Base.html'%}
 {% block titulo %} Cadastro {% endblock%}
-{% block conteudo %}
-	<div class = "container introdution">
+{% block links %}
 		<div class="btn-group btn-group-justified">
 		<a href="/Fabricante/" class="btn btn-default">Fabricante</a>
 		<a href="/Provador/" class="btn btn-success">Provador</a>
 		</div>
-	</div><br>
-	<div class= "container">{% block cadastro %}{% endblock %}</div>
+{% endblock %}
+
+{% block conteudo %}
+<div class= "container">{% block cadastro %}{% endblock %}</div>
 {% endblock %}
