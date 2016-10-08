@@ -28,7 +28,7 @@ class FormAnaliseSensorial(forms.ModelForm):
 	   	self.fields['time_Final'].label = "Hora final:"
 	   	self.fields['quantidade_pessoas'].label = 'Quantidade de pessoas:'
 	   	self.fields['quantidade_amostras'].label = 'Quantidade de amostras:'
-	   	
+
 	   	#Tornando campos obrigatórios em caso de submissão do formuário
 	   	self.fields["nome"].required = True
 	   	self.fields['descricao'].required = False
@@ -68,7 +68,7 @@ class FormAnaliseSensorialEditar(forms.ModelForm):
 	   	self.fields['nome'].label = "Nome:"
 	   	self.fields['time_Inicio'].label = "Hora inicial:"
 	   	self.fields['time_Final'].label = "Hora final:"
-	   	
+
 	   	#Tornando campos obrigatórios em caso de submissão do formuário
 	   	self.fields["nome"].required = True
 	   	self.fields['descricao'].required = False
@@ -84,7 +84,7 @@ class FormAnaliseSensorialEditar(forms.ModelForm):
 	   	self.fields["data_Final"].help_text = "Data de término da análise sensorial"
 	   	self.fields['time_Inicio'].help_text = "Hora de inicio da análise sensorial"
 	   	self.fields['time_Final'].help_text = "Hora de término da análise sensorial"
-         
+
 #Não necessita usar analise aqui, pois quando ele clicar em perguntas,
 #já irá pegar o id da análise selecionada
 class FormInserirPerguntas(forms.ModelForm):
@@ -112,7 +112,7 @@ class FormInserirPerguntas(forms.ModelForm):
 		#Definindo qauntidade de linhas do textfield
 		self.fields['pergunta'].widget.attrs['rows'] = 5
 
-	
+
 class FormDissertativa(forms.ModelForm):
 	class Meta:
 		model = PerguntaDissertativa
@@ -126,16 +126,16 @@ class FormDissertativa(forms.ModelForm):
 
 class FormPerguntaSimNao(forms.ModelForm):
 	YESNO_CHOICES = ((True, 'Não'), (False, 'Sim'))
-	sim = forms.TypedChoiceField(choices=YESNO_CHOICES, widget=forms.RadioSelect)
+	resposta = forms.TypedChoiceField(choices=YESNO_CHOICES, widget=forms.RadioSelect)
 
 	class Meta:
 		model = PerguntaSimNao
-		fields = ('sim',)
+		fields = ('resposta',)
 
 	def __init__(self, *args, **kwargs):
 		super(FormPerguntaSimNao, self).__init__(*args, **kwargs)
-		self.fields['sim'].label = ''
-			
+		self.fields['resposta'].label = ''
+
 class FormHedonica(forms.ModelForm):
 	class Meta:
 		model = PerguntaHedonica
@@ -158,13 +158,13 @@ class FormIntencaoCompra(forms.ModelForm):
 class General(forms.Form):
 	#Campo para a pergunta de sim ou não
 	YESNO_CHOICES = ((True, 'Não'), (False, 'Sim'))
-	yes_or_no = forms.TypedChoiceField(choices=YESNO_CHOICES, 
+	yes_or_no = forms.TypedChoiceField(choices=YESNO_CHOICES,
 		widget=forms.RadioSelect, disabled=True, label='')
 
 	#Campo para a pergunta hedônica
 	SCALE_CHOICES = ((1, 'Desgostei extremamente (detestei)'),
 		(2, 'Desgostei muito'),
-		(3, 'Desgostei moderadamente'), 
+		(3, 'Desgostei moderadamente'),
 		(4, 'Desgostei ligeiramente'),
 		(5, 'Nem gostei / Nem desgostei'),
 		(6, 'Gostei ligeiramente'),
@@ -176,7 +176,7 @@ class General(forms.Form):
 	hedonic_scale = forms.TypedChoiceField(choices=SCALE_CHOICES, disabled=True, label='')
 
 	#Campo para a pergunta dissertativa
-	essay = forms.CharField(widget=forms.Textarea(attrs={'size':3}), 
+	essay = forms.CharField(widget=forms.Textarea(attrs={'size':3}),
 		disabled=True, label='')
 
 
@@ -206,6 +206,6 @@ class General(forms.Form):
 
 		elif(self.tipo=='PDT'):
 			fields = ('essay',)
-			
+
 		elif(self.tipo=='PIC'):
 			fields = ('buy_intention',)

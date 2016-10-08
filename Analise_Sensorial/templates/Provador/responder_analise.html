@@ -4,21 +4,25 @@
 {% load bootstrap %}
 <div class="col-md-10 col-md-offset-1">
 		<!-- Deixar cada amostra em uma página-->
-		<form class="form-horizontal" method="GET" action="/salvarRespostas/{{id}}">
+		<form class="form-horizontal" method="GET" action="/page_respostas/{{id}}">
 		{% csrf_token %}
+			<input type='hidden' value="True" name="controle"/>
+			<!--<label for="amostra">Amostra:</label>
+			<input class="form-control" id="amostra" name="amostra" type="text"></input>-->
+
 			{% if hedonica %}
 				{% for pergunta in hedonica%}
 				<label for="{{pergunta.id}}">{{pergunta.pergunta}}</label>
 				<select class="form-control" name="{{pergunta.id}}" id="{{pergunta.id}}">
-					<option>Desgostei extremamente (detestei)</option>
-					<option>Desgostei muito</option>
-					<option>Desgostei moderadamente</option>
-					<option>Desgostei ligeiramente</option>
-					<option>Nem gostei / Nem desgostei</option>
-					<option>Gostei ligeiramente</option>
-					<option>Gostei moderadamente</option>
-					<option>Gostei muito</option>
-					<option>Gostei muitíssimo (adorei)</option>
+					<option value="1">Desgostei extremamente (detestei)</option>
+					<option value="2">Desgostei muito</option>
+					<option value="3">Desgostei moderadamente</option>
+					<option value="4">Desgostei ligeiramente</option>
+					<option value="5">Nem gostei / Nem desgostei</option>
+					<option value="6">Gostei ligeiramente</option>
+					<option value="7">Gostei moderadamente</option>
+					<option value="8">Gostei muito</option>
+					<option value="9">Gostei muitíssimo (adorei)</option>
 				</select>
 				{% endfor %}
 			{% endif %}
@@ -27,10 +31,10 @@
 				{% for pergunta in boolean %}
 				<label for={{pergunta.id}}>{{pergunta.pergunta}}</label>
 				<div class="radio">
-				 <label><input type="radio" name="{{pergunta.id}}">Sim</label>
+				 <label><input type="radio" name="{{pergunta.id}}" value="True">Sim</label>
 				</div>
 				<div class="radio">
-				 <label><input type="radio" name="{{pergunta.id}}">Não</label>
+				 <label><input type="radio" name="{{pergunta.id}}" value="False">Não</label>
 				</div>
 				{% endfor %}
 			{% endif %}
@@ -48,11 +52,11 @@
 				{% for pergunta in intencao_compra%}
 				<label for={{pergunta.id}}>{{pergunta.pergunta}}</label>
 				<select class="form-control" name="{{pergunta.id}}" id="{{pergunta.id}}">
-					<option>Certamente não compraria o produto</option>
-					<option>Possivelmente não compraria o produto</option>
-					<option>Talvez comprasse / Talvez não comprasse</option>
-					<option>Possivelmente compraria o produto</option>
-					<option>Certamente compraria o produto</option>
+					<option value="1">Certamente não compraria o produto</option>
+					<option value="2">Possivelmente não compraria o produto</option>
+					<option value="3">Talvez comprasse / Talvez não comprasse</option>
+					<option value="4">Possivelmente compraria o produto</option>
+					<option value="5">Certamente compraria o produto</option>
 				</select>
 				{% endfor %}
 			{% endif%}

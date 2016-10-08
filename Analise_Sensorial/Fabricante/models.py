@@ -72,14 +72,13 @@ class Pergunta(models.Model):
 		return self.pergunta
 
 class PerguntaSimNao(Pergunta):
-	nao = models.BooleanField(default=False, verbose_name='Não')
-	sim = models.BooleanField(default=False, verbose_name='Sim')
+	resposta = models.BooleanField(default=False)
 
 
 class PerguntaHedonica(Pergunta):
 	escala = ((1, 'Desgostei extremamente (detestei)'),
 		(2, 'Desgostei muito'),
-		(3, 'Desgostei moderadamente'), 
+		(3, 'Desgostei moderadamente'),
 		(4, 'Desgostei ligeiramente'),
 		(5, 'Nem gostei / Nem desgostei'),
 		(6, 'Gostei ligeiramente'),

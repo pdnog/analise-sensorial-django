@@ -23,11 +23,11 @@
     		<td>{{analise.nome}}</td>
     		<td>{{analise.user.first_name}}</td>
     		<!-- Enviar o id da análise selecionada-->
-    		<td><a href="/page_respostas/{{ analise.id }}" class="btn btn-success">Fazer</a></td>
+    		<td><a href="/page_respostas/{{ analise.id }}?controle=False" class="btn btn-success">Fazer</a></td>
     	</tr>
     	{% endfor %}
     </tbody>
-  </table> 
+  </table>
 {% else %}
 <h3>Nenhuma análise está ativa</h3>
 {% endif %}

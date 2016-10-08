@@ -14,42 +14,57 @@ def home_provador(request):
 	analises = AnaliseSensorial.objects.filter(ativado=True)
 	return verificar(request, {"analises":analises}, "Provador/home_provador.html")
 
+#USADO PARA SABER QUANTAS PÁGINAS DE FORMULÁRIOS QUE IREMOS CRIAR
+contador_amostras = 0
 
 def page_respostas(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
 	perguntas = Pergunta.objects.filter(analise_id=id)
 
-	"""if request.method == 'GET':
+	#RECENBENDO O CONTROLE DE LAYOUT
+	controle = request.GET['controle']
+
+	if controle == 'True':
 		respostas = []
 
+		#RECEBENDO TODOS OS FORMULÁRIOS
 		for index in range(len(perguntas)):
 			if str(perguntas[index].id) in request.GET:
-				respostas[index] = request.GET['' + str(perguntas[index].id)]
+				respostas.append(request.GET['' + str(perguntas[index].id)])
+				resposta = request.GET['' + str(perguntas[index].id)]
 
-		print(respostas)
+				#SALVANDO AS PERGUNTAS
+				if perguntas[index].tipo == 'PHD':
+					pergunta = PerguntaHedonica.objects.get(id=perguntas[index].id)
+					#pergunta.hedonica = int(resposta)
+				elif perguntas[index].tipo == 'PSN':
+					pergunta = PerguntaSimNao.objects.get(id=perguntas[index].id)
+				elif perguntas[index].tipo == 'PDT':
+					pergunta = PerguntaDissertativa.objects.get(id=perguntas[index].id)
+				else:
+					pergunta = PerguntaIntencaoCompra.objects.get(id=perguntas[index].id)
 
-		return redirect('/Home_Provador/')"""
+		print (respostas)
+		return redirect('/Home_Provador/')
 
-	if True==False:
-		pass
+	#QUANDO FOR FALSO ELE IRÁ INICIAR O TESTE SENSORIAL
 	else:
-		dicionario = many_asks(perguntas)
-		dicionario['amostras'] = range(analise.quantidade_amostras)
-		dicionario['id'] = id
-
+		dicionario = formularios(perguntas, id)
 
 	#Tenho que ver como concatenar várias perguntas de tipos diferentes
 	return verificar(request, dicionario, 'Provador/responder_analise.html')
 
 
 """ Lógicas de sistema """
-def many_asks(perguntas):
+def formularios(perguntas, id):
+	#CRIANDO VARIÁVEIS
 	hedonica = []
 	boolean = []
 	intencao_compra = []
 	descritiva = []
 
 	for pergunta in perguntas:
+		#CRIANDO OBJETOS PARA SEREM RENDERIZADOS PELO TEMPLATE
 		object = Word(None, None, None)
 		object.pergunta = pergunta.pergunta
 		object.id = pergunta.id
@@ -66,31 +81,15 @@ def many_asks(perguntas):
 		else:
 			pass
 
+	#ADCIONANDO LISTAS NO DICIONÁRIO
 	dicionario = {}
+	dicionario['id'] = id
 	dicionario['hedonica'] = hedonica
 	dicionario['boolean'] = boolean
 	dicionario['descritiva'] = descritiva
 	dicionario['intencao_compra'] = intencao_compra
 
 	return dicionario
-
-def receber_formularios(request, id):
-	analise = get_object_or_404(AnaliseSensorial, id=id)
-	perguntas = Pergunta.objects.filter(analise_id=id)
-
-	if request.method == 'GET':
-		respostas = []
-
-		for index in range(len(perguntas)):
-			if str(perguntas[index].id) in request.GET:
-				respostas.append(request.GET['' + str(perguntas[index].id)])
-
-		print(respostas)
-
-		return redirect('/Home_Provador/')
-
-	return redirect('/Home_Provador/')
-
 
 """ Classes de concatenação """
 #Classe usada para concatenar a pergunta com o input do formulário

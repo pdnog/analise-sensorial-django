@@ -63,6 +63,6 @@ urlpatterns = [
     #Para provador
     url(r'^Home_Provador', home_provador),
     url(r'^page_respostas/(?P<id>[^\.]+)', page_respostas),
-    url(r'^salvarRespostas/(?P<id>[^\.]+)', receber_formularios)
+    #url(r'^salvarRespostas/(?P<id>[^\.]+)', receber_formularios)
 
 ]
