@@ -68,7 +68,7 @@ def CadastrarFormAnalise(request):
 
 #Edita os dados do fábricante
 def editaRed(request):
-	return edita(request, FormFabricanteEditar)
+	return edita(request, FormFabricanteEditar, "MostraAnalise")
 
 #Edita os dados da análise
 def editaAnalise(request, id):

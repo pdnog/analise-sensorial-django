@@ -51,11 +51,13 @@ class FormProvador(UserCreationForm):
 	"""docstring for FormProvador"""
 	class Meta:
 		model = Provador
-		fields = ("username", "email", "data_nascimento")
+		fields = ( 'first_name', 'last_name',"username", "email", "data_nascimento")
 		
 	def __init__(self, *args, **kwargs):
 		super(FormProvador, self).__init__(*args, **kwargs)
+		self.fields['first_name'].widget.attrs['placeholder'] = 'Nome'
 		self.fields['username'].widget.attrs['placeholder'] = "Usuário"
+		self.fields['last_name'].widget.attrs['placeholder'] = 'Sobrenome'
 		self.fields['email'].widget.attrs['placeholder'] = "Email"
 		self.fields['password1'].widget.attrs['placeholder'] = "Senha"
 		self.fields['password2'].widget.attrs['placeholder'] = "Confirmar senha"

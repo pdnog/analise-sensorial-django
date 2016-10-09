@@ -140,7 +140,7 @@ def Logout(request):
 
 """Funções default para o sistema devem ficar nessa página:"""
 
-def edita(request, formulario):
+def edita(request, formulario, html):
 	idTeste = get_test(request)
 	#Pegando o usuário 
 	usuario = User.objects.get(id = idTeste)	
@@ -150,10 +150,12 @@ def edita(request, formulario):
 		if form.is_valid():
 			form.save()
 			#Falta colocar uma confirmação de "editou!"
-			return redirect('/Funcionalidades/')
+			return redirect('/'+ html +'/')
+		else:
+			return render(request,{'form':form}, 'editar.html')
 	else:
 		form = formulario(instance=usuario)
-	return verificar(request,{'form':form}, 'editar.html')
+	return render(request,{'form':form}, 'editar.html')
 
 #Pegando a sessão teste
 def get_test(request):
