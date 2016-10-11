@@ -13,7 +13,7 @@
 			{% if hedonica %}
 				{% for pergunta in hedonica%}
 				<label for="{{pergunta.id}}">{{pergunta.pergunta}}</label>
-				<select class="form-control" name="{{pergunta.id}}" id="{{pergunta.id}}">
+				<select required class="form-control" name="{{pergunta.id}}" id="{{pergunta.id}}">
 					<option value="1">Desgostei extremamente (detestei)</option>
 					<option value="2">Desgostei muito</option>
 					<option value="3">Desgostei moderadamente</option>
@@ -31,10 +31,10 @@
 				{% for pergunta in boolean %}
 				<label for={{pergunta.id}}>{{pergunta.pergunta}}</label>
 				<div class="radio">
-				 <label><input type="radio" name="{{pergunta.id}}" value="True">Sim</label>
+				 <label><input required type="radio" name="{{pergunta.id}}" value="True">Sim</label>
 				</div>
 				<div class="radio">
-				 <label><input type="radio" name="{{pergunta.id}}" value="False">Não</label>
+				 <label><input type="radio" required name="{{pergunta.id}}" value="False">Não</label>
 				</div>
 				{% endfor %}
 			{% endif %}
@@ -42,7 +42,7 @@
 			{% if descritiva %}
 				{% for pergunta in descritiva %}
 				<label for={{pergunta.id}}>{{pergunta.pergunta}}</label>
-				<textarea class="form-control"
+				<textarea required class="form-control"
 					name="{{pergunta.id}}"
 					id="{{pergunta.id}}" rows="5"></textarea>
 				{% endfor %}
@@ -51,7 +51,7 @@
 			{% if intencao_compra %}
 				{% for pergunta in intencao_compra%}
 				<label for={{pergunta.id}}>{{pergunta.pergunta}}</label>
-				<select class="form-control" name="{{pergunta.id}}" id="{{pergunta.id}}">
+				<select required class="form-control" name="{{pergunta.id}}" id="{{pergunta.id}}">
 					<option value="1">Certamente não compraria o produto</option>
 					<option value="2">Possivelmente não compraria o produto</option>
 					<option value="3">Talvez comprasse / Talvez não comprasse</option>
