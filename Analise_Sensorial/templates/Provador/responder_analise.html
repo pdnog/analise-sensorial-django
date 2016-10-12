@@ -7,8 +7,8 @@
 		<form class="form-horizontal" method="GET" action="/page_respostas/{{id}}">
 		{% csrf_token %}
 			<input type='hidden' value="True" name="controle"/>
-			<!--<label for="amostra">Amostra:</label>
-			<input class="form-control" id="amostra" name="amostra" type="text"></input>-->
+			<label for="amostra">Amostra:</label>
+			<input required class="form-control" id="amostra" name="amostra" type="text"></input>
 
 			{% if hedonica %}
 				{% for pergunta in hedonica%}

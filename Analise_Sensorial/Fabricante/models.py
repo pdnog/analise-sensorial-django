@@ -53,7 +53,10 @@ class Amostra(models.Model):
 
 class Pergunta(models.Model):
 	analise = models.ForeignKey(AnaliseSensorial, on_delete=models.CASCADE)
+	teste = models.ForeignKey(Teste, on_delete=models.CASCADE, null=True)
+	amostra = models.ForeignKey(Amostra, on_delete=models.CASCADE, null=True)
 	pergunta = models.TextField()
+	default = models.BooleanField(default=False)
 
 	TYPE = (
 		('PSN', 'Pergunta sim/não'),

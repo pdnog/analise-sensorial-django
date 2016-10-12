@@ -124,7 +124,7 @@ def retornaAnalises(request):
 def page_perguntas(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
 	verificacao_usuario(request, analise)
-	pergunta = Pergunta.objects.filter(analise_id = id)
+	pergunta = Pergunta.objects.filter(analise_id = id, default=True)
 	paginacao = Paginator(pergunta,10)
 	#Só para utilizar o get ?pagina=1 na url
 	pagina = request.GET.get('pagina')
@@ -146,7 +146,9 @@ def cadastrar_pergunta(request, id):
 		pergunta = form.cleaned_data['pergunta']
 		tipo = form.cleaned_data['tipo']
 
-		if tipo == 'PHD':
+		objeto = Pergunta.objects.create(analise_id = id,
+			pergunta = pergunta, tipo = tipo, default = True)
+		"""if tipo == 'PHD':
 			salvar = PerguntaHedonica.objects.create(analise_id = id, pergunta=pergunta, tipo=tipo)
 		elif tipo == 'PSN':
 			salvar = PerguntaSimNao.objects.create(analise_id=id, pergunta=pergunta, tipo=tipo)
@@ -155,7 +157,7 @@ def cadastrar_pergunta(request, id):
 			salvar = PerguntaDissertativa.objects.create(analise_id=id, pergunta=pergunta, tipo=tipo)
 		else:
 			salvar = PerguntaIntencaoCompra.objects.create(analise_id=id, pergunta=pergunta, tipo=tipo)
-
+			"""
 	return redirect('/Perguntas/' + id)
 
 def editarPergunta(request, id):

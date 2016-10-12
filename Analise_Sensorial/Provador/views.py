@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import redirect, get_object_or_404
-from webpage.views import verificar
+from webpage.views import verificar, verificacao_usuario, get_test
 from django.forms import formset_factory, BaseFormSet
 from django.utils.functional import curry
 from Fabricante.models import *
@@ -20,23 +20,35 @@ contador_amostras = 0
 def page_respostas(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
 	perguntas = Pergunta.objects.filter(analise_id=id)
+	id_provador = get_test(request)
 
+	#PRECISA-SE RECEBER O ID DO PROVADOR QUE ESTÁ FAZENDO O TESTE
 	#RECENBENDO O CONTROLE DE LAYOUT
 	controle = request.GET['controle']
+	id_amostra = request.GET['amostra']
+
+	#RECEBENDO AMOSTRAS, TESTES E PROVADOR PARA CRIAR A NOVA PERGUNTA
+	amostra = get_object_or_404(Amostra, id_amostra)
+	provador = get_object_or_404(Provador, id_provador)
+	teste = get_object_or_404(Teste, amostra.teste.id)
+	teste.provador = provador
 
 	if controle == 'True':
-		respostas = []
+		respostas = {}
 
 		#RECEBENDO TODOS OS FORMULÁRIOS
 		for index in range(len(perguntas)):
-			if str(perguntas[index].id) in request.GET:
-				respostas.append(request.GET['' + str(perguntas[index].id)])
-				resposta = request.GET['' + str(perguntas[index].id)]
+			chave = str(perguntas[index].id)
+			if chave in request.GET:
+				resposta[chave] = request.GET['' + chave]
 
 				#SALVANDO AS PERGUNTAS
 				if perguntas[index].tipo == 'PHD':
-					pergunta = PerguntaHedonica.objects.get(id=perguntas[index].id)
-					#pergunta.hedonica = int(resposta)
+					#PRECISA-SE CADASTRAR NOVAS PERGUNTAS
+					pergunta = PerguntaHedonica.objects.create(analise_id=id,
+						pergunta = pergunta[index].pergrunta, hedonica = resposta[chave],
+						amostra = amostra, teste = teste)
+					#pergunta.hedonica = resposta[chave]
 				elif perguntas[index].tipo == 'PSN':
 					pergunta = PerguntaSimNao.objects.get(id=perguntas[index].id)
 				elif perguntas[index].tipo == 'PDT':
