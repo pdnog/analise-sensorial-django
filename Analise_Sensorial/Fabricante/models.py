@@ -3,6 +3,14 @@ from django.contrib.auth.models import User
 from django.contrib.admin import widgets
 from webpage.models import Provador
 
+TYPE = (
+	('PSN', 'Pergunta sim/não'),
+	('PHD', 'Pergunta hedônica'),
+	('PDT', 'Pergunta dissertativa'),
+	('PIC', 'Pergunta de inteção de compra'),
+	)
+
+
 # Create your models here.
 class AnaliseSensorial(models.Model):
 	nome = models.CharField(max_length=255)
@@ -53,18 +61,7 @@ class Amostra(models.Model):
 
 class Pergunta(models.Model):
 	analise = models.ForeignKey(AnaliseSensorial, on_delete=models.CASCADE)
-	teste = models.ForeignKey(Teste, on_delete=models.CASCADE, null=True)
-	amostra = models.ForeignKey(Amostra, on_delete=models.CASCADE, null=True)
 	pergunta = models.TextField()
-	default = models.BooleanField(default=False)
-
-	TYPE = (
-		('PSN', 'Pergunta sim/não'),
-		('PHD', 'Pergunta hedônica'),
-		('PDT', 'Pergunta dissertativa'),
-		('PIC', 'Pergunta de inteção de compra'),
-		)
-
 	tipo = models.CharField(choices=TYPE, max_length=4)
 
 	class Meta:
@@ -74,11 +71,35 @@ class Pergunta(models.Model):
 	def __str__(self):
 		return self.pergunta
 
-class PerguntaSimNao(Pergunta):
+class Resposta(models.Model):
+	analise = models.ForeignKey(AnaliseSensorial, on_delete=models.CASCADE)
+	teste = models.ForeignKey(Teste, on_delete=models.CASCADE)
+	amostra = models.ForeignKey(Amostra, on_delete=models.CASCADE)
+	pergunta = models.ForeignKey(Pergunta, on_delete=models.CASCADE)
+	tipo = models.CharField(choices=TYPE, max_length=4)
+
+	class Meta:
+		verbose_name = 'Resposta'
+		verbose_name_plural = 'Respostas'
+
+	def __str__(self):
+		retorno = "teste-" + str(self.teste.id) + "-amostra-" + str(self.amostra.id) + "-id-" + str(self.id)
+		return retorno
+
+	def __otherType__(self, otherType):
+		otherType.analise = self.analise
+		otherType.teste = self.teste
+		otherType.amostra = self.amostra
+		otherType.tipo = self.tipo
+		otherType.pergunta = self.pergunta
+
+		return otherType
+
+
+class Boolean(Resposta):
 	resposta = models.BooleanField(default=False)
 
-
-class PerguntaHedonica(Pergunta):
+class Hedonica(Resposta):
 	escala = ((1, 'Desgostei extremamente (detestei)'),
 		(2, 'Desgostei muito'),
 		(3, 'Desgostei moderadamente'),
@@ -89,13 +110,13 @@ class PerguntaHedonica(Pergunta):
 		(8, 'Gostei muito'),
 		(9, 'Gostei muitíssimo (adorei)'),
 		)
-	hedonica = models.IntegerField(choices=escala, null=True)
+	resposta = models.IntegerField(choices=escala, null=True)
 
-class PerguntaDissertativa(Pergunta):
-	descricao = models.TextField()
+class Dissertativa(Resposta):
+	resposta = models.TextField()
 
 
-class PerguntaIntencaoCompra(Pergunta):
+class IntencaoCompra(Resposta):
 	LEVEL = (
 		(1, 'Certamente não compraria o produto'),
 		(2, 'Possivelmente não compraria o produto'),
@@ -104,4 +125,4 @@ class PerguntaIntencaoCompra(Pergunta):
 		(5, 'Certamente compraria o produto')
 		)
 
-	compra = models.IntegerField(choices=LEVEL, null=True)
+	resposta = models.IntegerField(choices=LEVEL, null=True)

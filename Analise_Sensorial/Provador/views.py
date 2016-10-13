@@ -8,6 +8,7 @@ from django.db import connection,transaction
 from django.core.exceptions import *
 from Fabricante.forms import *
 
+
 # Create your views here.
 """ Renderização de paginas """
 def home_provador(request):
@@ -25,36 +26,65 @@ def page_respostas(request, id):
 	#PRECISA-SE RECEBER O ID DO PROVADOR QUE ESTÁ FAZENDO O TESTE
 	#RECENBENDO O CONTROLE DE LAYOUT
 	controle = request.GET['controle']
-	id_amostra = request.GET['amostra']
-
-	#RECEBENDO AMOSTRAS, TESTES E PROVADOR PARA CRIAR A NOVA PERGUNTA
-	amostra = get_object_or_404(Amostra, id_amostra)
-	provador = get_object_or_404(Provador, id_provador)
-	teste = get_object_or_404(Teste, amostra.teste.id)
-	teste.provador = provador
 
 	if controle == 'True':
 		respostas = {}
+
+		#RECEBENDO AMOSTRAS, TESTES E PROVADOR PARA CRIAR A NOVA PERGUNTA
+		id_amostra = request.GET['amostra']
+		provador = get_object_or_404(Provador, id=id_provador)
+
+		#INICIANDO VARIÁVEL
+		amostra = None
+		hedonica, intencao_compra, dissertativa, boolean = []
+		new_respostas = []
+
+		try:
+			amostra = Amostra.objects.get(numero=id_amostra, analise_id = id)
+			print("That's ok, have one 'amostra' with this pk" )
+		except Exception as e:
+			#TRATANDO EXCESSÕES NO QUAL O USUÁRIO DIGITE O NÚMERO DE UMA AMOSTRA QUE
+			#NÃO HÁ NO BANCO DE DADOS
+			print("Do have not any 'amostra' with this pk")
+
+		try:
+			teste = Teste.objects.get(id=amostra.teste.id)
+			teste.provador = provador
+			print("That's ok, have one 'teste' with this pk" )
+		except Exception as e:
+			print("Do have not any 'teste' with this pk or not have 'amostra' to this 'teste'")
+
+		print(amostra.id)
+		for pergunta in perguntas:
+			lista_respostas.append(
+				(
+					str(analise.id),
+					str(amostra.id),
+					str(teste.id),
+					str(pergunta.tipo),
+					str(pergunta.id)
+				)
+			)
+
+		cursor = connection.cursor()
+		query = "INSERT INTO fabricante_resposta (analise_id, amostra_id, teste_id, tipo, pergunta_id) VALUES (%s, %s, %s, %s, %s);"
+		cursor.executemany(query, new_respostas)
+
+		#SEGUNDA PARTE
+		second_query = "SELECT id FROM fabricante_resposta WHERE analise_id = %(analise_id)s AND amostra_id = %(amostra_id)s;"
+		dict = {}
+		dict['analise_id'] = analise.id
+		dict['amostra_id'] = amostra.id
+		cursor.execute(second_query, dict)
 
 		#RECEBENDO TODOS OS FORMULÁRIOS
 		for index in range(len(perguntas)):
 			chave = str(perguntas[index].id)
 			if chave in request.GET:
-				resposta[chave] = request.GET['' + chave]
-
-				#SALVANDO AS PERGUNTAS
-				if perguntas[index].tipo == 'PHD':
-					#PRECISA-SE CADASTRAR NOVAS PERGUNTAS
-					pergunta = PerguntaHedonica.objects.create(analise_id=id,
-						pergunta = pergunta[index].pergrunta, hedonica = resposta[chave],
-						amostra = amostra, teste = teste)
-					#pergunta.hedonica = resposta[chave]
-				elif perguntas[index].tipo == 'PSN':
-					pergunta = PerguntaSimNao.objects.get(id=perguntas[index].id)
-				elif perguntas[index].tipo == 'PDT':
-					pergunta = PerguntaDissertativa.objects.get(id=perguntas[index].id)
-				else:
-					pergunta = PerguntaIntencaoCompra.objects.get(id=perguntas[index].id)
+				respostas[chave] = request.GET['' + chave]
+				tipo = perguntas[index].tipo
+				new_respostas.append((str(analise.id), str(amostra.id), str(teste.id),
+				str(tipo), str(perguntas[index].id)))
 
 		print (respostas)
 		return redirect('/Home_Provador/')
@@ -88,10 +118,8 @@ def formularios(perguntas, id):
 			boolean.append(object)
 		elif pergunta.tipo == 'PDT':
 			descritiva.append(object)
-		elif pergunta.tipo == 'PIC':
-			intencao_compra.append(object)
 		else:
-			pass
+			intencao_compra.append(object)
 
 	#ADCIONANDO LISTAS NO DICIONÁRIO
 	dicionario = {}

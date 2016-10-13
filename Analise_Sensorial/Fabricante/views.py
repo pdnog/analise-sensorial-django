@@ -52,14 +52,24 @@ def CadastrarFormAnalise(request):
 			idTeste = get_test(request)
 			usuario = User.objects.get(id = idTeste)
 			analise.user = usuario
-			analise.possui_amostras = False
+			analise.possui_amostras = True
 			analise.ativado = False
 			#Salvei
 			analise.save()
 			#Criando testes
 			print (analise.id)
 			print (analise.quantidade_pessoas)
+			#LEMBRE_SEEEEEEEE
+			#VIU?
+			#FILHA DA MÂE ESSE ERRO
+			#PASSEI 1 HORA PARA DESCOBRIR
+			#NÃO FAÇA CAGADA
+			#PELO AMOR DE DEUS OU SEJA LÁ SUA RELIGIÃO
+			#GERAR TESTES SEMPRE TERÁ QUE VIR ANTES DE GERAR AMOSTRAS
 			gerar_testes(analise.id, analise.quantidade_pessoas)
+			gerar_amostras(analise.id, analise.quantidade_amostras)
+			#--------------------------------------------------------------
+			#--------------------------------------------------------------
 			return redirect('/MostraAnalise/')
 	else:
 		form = FormAnaliseSensorial()
@@ -124,7 +134,7 @@ def retornaAnalises(request):
 def page_perguntas(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
 	verificacao_usuario(request, analise)
-	pergunta = Pergunta.objects.filter(analise_id = id, default=True)
+	pergunta = Pergunta.objects.filter(analise_id = id)
 	paginacao = Paginator(pergunta,10)
 	#Só para utilizar o get ?pagina=1 na url
 	pagina = request.GET.get('pagina')
@@ -147,17 +157,8 @@ def cadastrar_pergunta(request, id):
 		tipo = form.cleaned_data['tipo']
 
 		objeto = Pergunta.objects.create(analise_id = id,
-			pergunta = pergunta, tipo = tipo, default = True)
-		"""if tipo == 'PHD':
-			salvar = PerguntaHedonica.objects.create(analise_id = id, pergunta=pergunta, tipo=tipo)
-		elif tipo == 'PSN':
-			salvar = PerguntaSimNao.objects.create(analise_id=id, pergunta=pergunta, tipo=tipo)
-			pass
-		elif tipo == 'PDT':
-			salvar = PerguntaDissertativa.objects.create(analise_id=id, pergunta=pergunta, tipo=tipo)
-		else:
-			salvar = PerguntaIntencaoCompra.objects.create(analise_id=id, pergunta=pergunta, tipo=tipo)
-			"""
+			pergunta = pergunta, tipo = tipo)
+
 	return redirect('/Perguntas/' + id)
 
 def editarPergunta(request, id):

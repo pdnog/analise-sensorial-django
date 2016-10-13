@@ -116,6 +116,7 @@ def Login(request):
 				#Efetuando login
 				login(request, user)
 				request.session['nome'] = user.first_name
+				request.session['usuario'] = username
 				request.session['id'] = user.id
 			#Descobrindo qual o tipo do usuário
 			#Isso aqui será alterado
@@ -131,7 +132,7 @@ def Login(request):
 
 
 def Logout(request):
-	try:	
+	try:
 		request.session.clear()
 	except KeyError:
 		print("Errado")
@@ -142,8 +143,8 @@ def Logout(request):
 
 def edita(request, formulario):
 	idTeste = get_test(request)
-	#Pegando o usuário 
-	usuario = User.objects.get(id = idTeste)	
+	#Pegando o usuário
+	usuario = User.objects.get(id = idTeste)
 	if request.method == "POST":
 		#Uso o instance para instanciar o objeto para o formulário
 		form = formulario(request.POST, instance = usuario)
@@ -164,8 +165,10 @@ def get_test(request):
 #Verificãção de login- toda página criada será preciso chama-la
 def verificar(request, dicionario, html):
 	nome = get_name(request)
+	username = request.session.get('username')
 	dicionario['nome_usuario'] = nome
-	if nome is not None:
+	dicionario['username'] = username
+	if nome is not None or username is not None:
 		return render(request, html, dicionario)
 	else:
 		return redirect('/')

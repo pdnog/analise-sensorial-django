@@ -1,4 +1,4 @@
-{% extends 'Base_logado.html' %} {% block conteudo %} 
+{% extends 'Base_logado.html' %} {% block conteudo %}
 {% load bootstrap %} {% load staticfiles %}
 
 <script type="text/javascript">
@@ -39,31 +39,31 @@
 				<td>{{a.nome}}</td>
 				<td>{{a.data_Inicio}}</td>
 				<td>{{a.data_Final}}</td>
-				{% if not a.ativado %}
+
 				<td>
 					<a href="/EditarAnalise/{{ a.id }}"
 					class="btn btn-success btn-sm">Editar</a>
 					<!-- Recebe o layout do modal fade de editar-->
-			
-				  	<a href="/NumerosAnalise/{{ a.id }}/numeros/" class="btn btn-primary btn-sm">Números</a>
+
+				  	<a href="/GerarPdf/{{a.id}}" class="btn btn-primary btn-sm">PDF</a>
 				  	<a href="/Perguntas/{{a.id}}" class="btn btn-warning btn-sm">Perguntas</a>
-				  	
+
 					<a href="/DeletarAnalise/{{ a.id }}" class="btn btn-danger btn-sm">Deletar</a>
 					<!--<a href="/RetornaFormulario/{{a.id}}" class="btn btn-default btn-md">Formulário</a>-->
 				</td>
-				{% else %}
-				<td>Sua análise está ativada, você não pode fazer alterações nela </td>
-				{% endif %}
+
+			<!--	<td>Sua análise está ativada, você não pode fazer alterações nela </td> -->
+
 			</tr>
 			{% endfor %}
-			
-			
-			
+
+
+
 		</tbody>
 	</table>
 
 	<ul class="pager">
-    
+
         {% if analises.has_previous %}
             <li><a href="?pagina={{ analises.previous_page_number }}">Anterior</a></li>
         {% endif %}
@@ -81,8 +81,8 @@
 	<h2>Nenhuma análise encontrada</h2>
 	{% endif %}
 
-	
-	
+
+
 </div>
 
 {% endblock %}
