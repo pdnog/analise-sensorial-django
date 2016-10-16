@@ -36,8 +36,11 @@ def page_respostas(request, id):
 
 		#INICIANDO VARIÁVEL
 		amostra = None
-		hedonica, intencao_compra, dissertativa, boolean = []
-		new_respostas = []
+		hedonica = []
+		intencao_compra = []
+		dissertativa = []
+		boolean = []
+		lista_respostas = []
 
 		try:
 			amostra = Amostra.objects.get(numero=id_amostra, analise_id = id)
@@ -55,6 +58,7 @@ def page_respostas(request, id):
 			print("Do have not any 'teste' with this pk or not have 'amostra' to this 'teste'")
 
 		print(amostra.id)
+
 		for pergunta in perguntas:
 			lista_respostas.append(
 				(
@@ -66,27 +70,69 @@ def page_respostas(request, id):
 				)
 			)
 
+		#INSERINDO RESPOSTAS NO BANCO DE DADOS
 		cursor = connection.cursor()
+		#ESTÁ DANDO ERRO QUANDO TENTO INSERIR DA MANEIRA CERTA
 		query = "INSERT INTO fabricante_resposta (analise_id, amostra_id, teste_id, tipo, pergunta_id) VALUES (%s, %s, %s, %s, %s);"
-		cursor.executemany(query, new_respostas)
+		cursor.executemany(query, lista_respostas)
 
 		#SEGUNDA PARTE
-		second_query = "SELECT id FROM fabricante_resposta WHERE analise_id = %(analise_id)s AND amostra_id = %(amostra_id)s;"
-		dict = {}
-		dict['analise_id'] = analise.id
-		dict['amostra_id'] = amostra.id
-		cursor.execute(second_query, dict)
+		respostas_id_and_perguntas_id = Resposta.objects.filter(analise_id = analise.id, amostra_id = amostra.id)
 
+		#Primeiro tenho que pegar o id da resposta e o pergunta_id da tabela resposta
+		#Então eu pego as perguntas de acordo com o pergunta_id do select nas respostas
+		#Então eu crio 4 novos inserts, um pra cada tipo e os cadastro sem criar objetos
 		#RECEBENDO TODOS OS FORMULÁRIOS
-		for index in range(len(perguntas)):
-			chave = str(perguntas[index].id)
-			if chave in request.GET:
-				respostas[chave] = request.GET['' + chave]
-				tipo = perguntas[index].tipo
-				new_respostas.append((str(analise.id), str(amostra.id), str(teste.id),
-				str(tipo), str(perguntas[index].id)))
+		for resposta in respostas_id_and_perguntas_id:
+			id = resposta.id
+			pergunta_pk = resposta.pergunta.id
+			tipo = resposta.tipo
 
-		print (respostas)
+			if str(pergunta_pk) in request.GET:
+				#RECEBENDO OS DADOS DO FORMULÁRIO
+				resposta_do_provador = request.GET[''+ str(pergunta_pk)]
+
+				if tipo == "PHD":
+					hedonica.append((str(id), str(resposta_do_provador)))
+				elif tipo == "PSN":
+					boolean.append((str(id), str(resposta_do_provador)))
+				elif tipo == "PDT":
+					dissertativa.append((str(id), str(resposta_do_provador)))
+				else:
+					intencao_compra.append((str(id), str(resposta_do_provador)))
+
+		#INSERT NO MODEL HEDONICA
+		try:
+			query_PHD = "INSERT INTO fabricante_hedonica (resposta_ptr_id, resposta) VALUES (%s, %s)"
+			cursor.executemany(query_PHD, hedonica)
+		except Exception as e:
+			print("Erro no formato de dado da resposta do 'fabricante_hedonica'")
+			print(str(e))
+
+		#INSERT NO MODEL BOOLEAN
+		try:
+			query_PSN = "INSERT INTO fabricante_boolean (resposta_ptr_id, resposta) VALUES (%s, %s)"
+			cursor.executemany(query_PSN, boolean)
+		except Exception as e:
+			print("Erro no formato de dado da resposta do 'fabricante_boolean'")
+			print(str(e))
+
+		#INSERT NO MODEL DISSERTATIVA
+		try:
+			query_PDT = "INSERT INTO fabricante_dissertativa (resposta_ptr_id, resposta) VALUES (%s, %s)"
+			cursor.executemany(query_PDT, dissertativa)
+		except Exception as e:
+			print("Erro no formato de dado da resposta do 'fabricante_dissertativa'")
+			print(str(e))
+
+		#INSERT NO MODEL INTENCAOCOMPRA
+		try:
+			query_ITC = "INSERT INTO fabricante_intencaocompra (resposta_ptr_id, resposta) VALUES (%s, %s)"
+			cursor.executemany(query_ITC, intencao_compra)
+		except Exception as e:
+			print("Erro no formato de dado da resposta do 'fabricante_intencaocompra'")
+			print(str(e))
+
 		return redirect('/Home_Provador/')
 
 	#QUANDO FOR FALSO ELE IRÁ INICIAR O TESTE SENSORIAL
