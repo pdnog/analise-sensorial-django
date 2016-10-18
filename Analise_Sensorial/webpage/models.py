@@ -32,7 +32,11 @@ class Fabricante(User):
 class Provador(User):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 	data_nascimento = models.DateField("Data de Nascimento")
-	
+	sexoChoices = (
+		(u"1", "Masculino"),
+		(u"2", "Feminino"),
+	)
+	sexo = models.CharField(max_length = 1, choices = sexoChoices, default = u"1")
 	class Meta:
 		verbose_name = "Provador"
 		verbose_name_plural = "Provadores"

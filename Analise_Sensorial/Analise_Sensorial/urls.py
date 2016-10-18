@@ -17,6 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from webpage.views import *
 from Fabricante.views import *
+from Fabricante.graficos import graficoTeste
 from Provador.views import *
 from Fabricante.pdf import *
 
@@ -64,5 +65,7 @@ urlpatterns = [
     url(r'^Home_Provador', home_provador),
     url(r'^page_respostas/(?P<id>[^\.]+)', page_respostas),
     #url(r'^salvarRespostas/(?P<id>[^\.]+)', receber_formularios)
-
+    
+    #Gráficos:
+    url(r'^graficoTeste/(?P<id>[^\.]+)', graficoTeste),
 ]

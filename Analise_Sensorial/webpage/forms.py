@@ -38,7 +38,7 @@ class FormFabricanteEditar(forms.ModelForm):
    		self.fields['first_name'].widget.attrs['placeholder'] = 'Nome'
    		self.fields['last_name'].widget.attrs['placeholder'] = 'Sobrenome'
    		self.fields['email'].widget.attrs['placeholder'] = 'Email'
-
+   		
    		#Tornando campos obrigatórios em caso de submissão do formuário
    		self.fields["first_name"].required = True
    		self.fields['email'].required = True
@@ -51,15 +51,18 @@ class FormProvador(UserCreationForm):
 	"""docstring for FormProvador"""
 	class Meta:
 		model = Provador
-		fields = ("username", "email", "data_nascimento")
+		fields = ('first_name', 'last_name', "username",'sexo', "email", "data_nascimento",)
 		
 	def __init__(self, *args, **kwargs):
 		super(FormProvador, self).__init__(*args, **kwargs)
 		self.fields['username'].widget.attrs['placeholder'] = "Usuário"
+		self.fields['last_name'].widget.attrs['placeholder'] = 'Sobrenome'
+		self.fields['first_name'].widget.attrs['placeholder'] = 'Nome'
+		self.fields['sexo'].widget.attrs['placeholder'] = 'Sexo'
 		self.fields['email'].widget.attrs['placeholder'] = "Email"
 		self.fields['password1'].widget.attrs['placeholder'] = "Senha"
 		self.fields['password2'].widget.attrs['placeholder'] = "Confirmar senha"
-		
+		self.fields['username'].help_text = "Utilize um nome único com até 30 caracteres"
 		self.fields["data_nascimento"].help_text = "Utilize o formato dd/mm/aaaa" 
 		#Tornar campos obrigatórios ou retirar
 		self.fields['email'].required = True
