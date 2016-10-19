@@ -17,7 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from webpage.views import *
 from Fabricante.views import *
-from Fabricante.graficos import graficoTeste
+from Fabricante.graficos import *
 from Provador.views import *
 from Fabricante.pdf import *
 
@@ -68,4 +68,5 @@ urlpatterns = [
     
     #Gráficos:
     url(r'^graficoTeste/(?P<id>[^\.]+)', graficoTeste),
+    url(r'^graficoIdade/(?P<id>[^\.]+)', graficoIdade),
 ]
