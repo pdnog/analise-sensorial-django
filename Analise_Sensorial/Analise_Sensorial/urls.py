@@ -69,4 +69,6 @@ urlpatterns = [
     #Gráficos:
     url(r'^graficoTeste/(?P<id>[^\.]+)', graficoTeste),
     url(r'^graficoIdade/(?P<id>[^\.]+)', graficoIdade),
+    url(r'^graficoBooleano/(?P<id>[^\.]+)', graficoPerguntasBolleanas),
+    
 ]
