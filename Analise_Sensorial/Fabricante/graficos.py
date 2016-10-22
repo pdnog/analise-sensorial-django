@@ -5,13 +5,13 @@ from Fabricante.views import *
 from django.template.context_processors import request
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import date
-#O ID da analise é requerido 
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+#O ID da analise é requerido
 def graficoTeste(request, id):
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
     #Pegando os testes daquela análise
-    
+
     masculino = 0
     feminino = 0
     testes = Teste.objects.filter(analise = id)
@@ -21,37 +21,37 @@ def graficoTeste(request, id):
                 masculino +=1
             else:
                 feminino += 1
-    
-    
+
+
     data = ((masculino, feminino), ('r', '#00FF33'), ('Masculino', 'Feminino'))
     xPositions = np.arange(len(data[0]))
     barWidth = 0.50  # Largura da barra
-    
+
     _ax = plt.axes()  # Cria axes
-    
+
     # bar(left, height, width=0.8, bottom=None, hold=None, **kwargs)
     _chartBars = plt.bar(xPositions, data[0], barWidth, color=data[1],
                          yerr=5, align='center')  # Gera barras
-    
+
     for bars in _chartBars:
         # text(x, y, s, fontdict=None, withdash=False, **kwargs)
         _ax.text(bars.get_x() + (bars.get_width() / 2.0), bars.get_height() + 5,
                  bars.get_height(), ha='center')  # Label acima das barras
-    
+
     _ax.set_xticks(xPositions)
     _ax.set_xticklabels(data[2])
-    
+
     plt.xlabel('Sexo')
     plt.ylabel('Quantidade')
     plt.grid(True)
     plt.legend(_chartBars, data[2])
-    
+
     canvas = FigureCanvas(plt.figure(1))
     response =  HttpResponse(content_type="image/png")
     canvas.print_png(response)
     return response
-    
-"""Esse método será utilizado para calcular a idade, pode ser utilizado 
+
+"""Esse método será utilizado para calcular a idade, pode ser utilizado
 aqui, nos gráficos, como também para verificar se a análise sensorial é
 para pessoas maiores de 18 anos"""
 def calculaIdade(birthday):
@@ -60,11 +60,8 @@ def calculaIdade(birthday):
     if today.month < birthday.month or today.month == birthday.month and today.day < birthday.day:
         y -= 1
     return y
-    
+
 def graficoIdade(request, id):
-    #Imports do matplotlib:
-    import matplotlib.pyplot as plt
-    from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
     zeroDoze = 0
     trezeVinte = 0
     vinteUmTrinta = 0
@@ -72,12 +69,12 @@ def graficoIdade(request, id):
     quarentaUmCinquenta =0
     cinquentaSessenta = 0
     maisSessenta = 0
-    
+
     #Verifica as idades válidas
     valido = True
     testes = Teste.objects.filter(analise = id)
     for teste in testes:
-        if teste.provador is not None:    
+        if teste.provador is not None:
             idade = calculaIdade(teste.provador.data_nascimento)
             if idade > 0:
                 if idade >= 0 and idade <= 12:
@@ -96,12 +93,12 @@ def graficoIdade(request, id):
                     maisSessenta += 1
             else:
                 valido = False
-    
-        
+
+
     labels = '0 a 12 anos','13 a 20 anos','21 a 30 anos','31 a 40 anos', '41 a 50 anos', '51 a 60 anos','60 > anos'
-    fracs=[zeroDoze, trezeVinte, vinteUmTrinta, trintaUmQuarenta, 
+    fracs=[zeroDoze, trezeVinte, vinteUmTrinta, trintaUmQuarenta,
         quarentaUmCinquenta, cinquentaSessenta, maisSessenta]
-    explode = (0,0,0,0,0,0,0)    
+    explode = (0,0,0,0,0,0,0)
     pie = plt.pie(fracs, explode=explode, labels=labels, shadow=True, autopct='%1.1f%%',startangle=90)
     plt.legend(pie[0], labels, loc="best")
     plt.axis('equal')
@@ -112,9 +109,6 @@ def graficoIdade(request, id):
     return response
 
 def graficoPerguntasBolleanas(request, id):
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
     respostasBooleanas = Boolean.objects.filter(analise = id)
     sim = 0
     nao = 0
@@ -127,28 +121,27 @@ def graficoPerguntasBolleanas(request, id):
     data = ((nao, sim), ('r', '#00FF33'), ('Não', 'Sim'))
     xPositions = np.arange(len(data[0]))
     barWidth = 0.50  # Largura da barra
-    
+
     _ax = plt.axes()  # Cria axes
-    
+
     # bar(left, height, width=0.8, bottom=None, hold=None, **kwargs)
     _chartBars = plt.bar(xPositions, data[0], barWidth, color=data[1],
                          yerr=5, align='center')  # Gera barras
-    
+
     for bars in _chartBars:
         # text(x, y, s, fontdict=None, withdash=False, **kwargs)
         _ax.text(bars.get_x() + (bars.get_width() / 2.0), bars.get_height() + 5,
                  bars.get_height(), ha='center')  # Label acima das barras
-    
+
     _ax.set_xticks(xPositions)
     _ax.set_xticklabels(data[2])
-    
+
     plt.xlabel('Resposta')
     #plt.ylabel('Quantidade')
     plt.grid(True)
     plt.legend(_chartBars, data[2])
-    
+
     canvas = FigureCanvas(plt.figure(1))
     response =  HttpResponse(content_type="image/png")
     canvas.print_png(response)
     return response
-

@@ -12,8 +12,10 @@ from Fabricante.forms import *
 # Create your views here.
 """ Renderização de paginas """
 def home_provador(request):
+	dicionario = {}
 	analises = AnaliseSensorial.objects.filter(ativado=True)
-	return verificar(request, {"analises":analises}, "Provador/home_provador.html")
+	dicionario['analises'] = analises
+	return verificar(request, dicionario, "Provador/home_provador.html")
 
 #USADO PARA SABER QUANTAS PÁGINAS DE FORMULÁRIOS QUE IREMOS CRIAR
 contador_amostras = 0
@@ -41,7 +43,6 @@ def page_respostas(request, id):
 		dissertativa = []
 		boolean = []
 		lista_respostas = []
-
 
 		try:
 			amostra = Amostra.objects.get(numero=id_amostra, analise_id = id)

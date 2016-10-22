@@ -6,7 +6,8 @@ from django.conf import settings
 from webpage.models import *
 from webpage.utilitarios import confirmacao_cadastro
 from django.http import HttpResponse
-
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 #Jogando o formulário para o html
@@ -117,6 +118,7 @@ def Login(request):
 				login(request, user)
 				request.session['nome'] = user.first_name
 				request.session['usuario'] = username
+				request.session['tipo'] = tipo.tipo
 				request.session['id'] = user.id
 			#Descobrindo qual o tipo do usuário
 			#Isso aqui será alterado
@@ -134,6 +136,7 @@ def Login(request):
 def Logout(request):
 	try:
 		request.session.clear()
+		logout(request)
 	except KeyError:
 		print("Errado")
 	return redirect('/')
@@ -166,6 +169,7 @@ def get_test(request):
 def verificar(request, dicionario, html):
 	nome = get_name(request)
 	username = request.session.get('usuario')
+	tipo = request.session.get('tipo')
 	dicionario['nome_usuario'] = nome
 	dicionario['username'] = username
 	if username is not None:

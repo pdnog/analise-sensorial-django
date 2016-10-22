@@ -65,10 +65,10 @@ urlpatterns = [
     url(r'^Home_Provador', home_provador),
     url(r'^page_respostas/(?P<id>[^\.]+)', page_respostas),
     #url(r'^salvarRespostas/(?P<id>[^\.]+)', receber_formularios)
-    
+
     #Gráficos:
     url(r'^graficoTeste/(?P<id>[^\.]+)', graficoTeste),
     url(r'^graficoIdade/(?P<id>[^\.]+)', graficoIdade),
     url(r'^graficoBooleano/(?P<id>[^\.]+)', graficoPerguntasBolleanas),
-    
+
 ]
