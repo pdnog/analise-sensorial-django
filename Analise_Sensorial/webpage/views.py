@@ -165,10 +165,10 @@ def get_test(request):
 #Verificãção de login- toda página criada será preciso chama-la
 def verificar(request, dicionario, html):
 	nome = get_name(request)
-	username = request.session.get('username')
+	username = request.session.get('usuario')
 	dicionario['nome_usuario'] = nome
 	dicionario['username'] = username
-	if nome is not None or username is not None:
+	if username is not None:
 		return render(request, html, dicionario)
 	else:
 		return redirect('/')

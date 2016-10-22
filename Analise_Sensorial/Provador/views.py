@@ -32,7 +32,7 @@ def page_respostas(request, id):
 
 		#RECEBENDO AMOSTRAS, TESTES E PROVADOR PARA CRIAR A NOVA PERGUNTA
 		id_amostra = request.GET['amostra']
-		provador = get_object_or_404(Provador, id=id_provador)
+		provador = Provador.objects.get(user_id=id_provador)
 
 		#INICIANDO VARIÁVEL
 		amostra = None
@@ -41,6 +41,7 @@ def page_respostas(request, id):
 		dissertativa = []
 		boolean = []
 		lista_respostas = []
+
 
 		try:
 			amostra = Amostra.objects.get(numero=id_amostra, analise_id = id)
@@ -52,12 +53,16 @@ def page_respostas(request, id):
 
 		try:
 			teste = Teste.objects.get(id=amostra.teste.id)
-			teste.provador = provador
+			print(teste)
+			print(provador)
+			#print(amostra.teste.id)
+			#teste.provador.id = id_provador
 			print("That's ok, have one 'teste' with this pk" )
 		except Exception as e:
 			print("Do have not any 'teste' with this pk or not have 'amostra' to this 'teste'")
+			#print(str(amostra.teste.id) + " - no erro")
 
-		print(amostra.id)
+		#print(amostra.id)
 
 		for pergunta in perguntas:
 			lista_respostas.append(
