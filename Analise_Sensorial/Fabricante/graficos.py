@@ -151,3 +151,4 @@ def graficoPerguntasBolleanas(request, id):
     response =  HttpResponse(content_type="image/png")
     canvas.print_png(response)
     return response
+
