@@ -3,6 +3,7 @@ from Fabricante.models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.admin import widgets
 from functools import partial
+from django.forms.widgets import TextInput
 
 class FormAnaliseSensorial(forms.ModelForm):
 	class Meta:
@@ -18,7 +19,8 @@ class FormAnaliseSensorial(forms.ModelForm):
 	   	self.fields['data_Final'].widget.attrs['placeholder'] = 'Data final'
 	   	self.fields['quantidade_pessoas'].widget.attrs['placeholder'] = 'Quantidade de pessoas'
 	   	self.fields['quantidade_amostras'].widget.attrs['placeholder'] = 'Quantidade de amostras'
-
+	   	self.fields['data_Inicio'].widget = TextInput(attrs={'id':'data'})
+	   	
 	   	#Colocando as labels no campo
 	   	self.fields['descricao'].label = "Descrição:"
 	   	self.fields['data_Inicio'].label = "Data inicial:"
