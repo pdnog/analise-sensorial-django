@@ -66,9 +66,12 @@ urlpatterns = [
     url(r'^page_respostas/(?P<id>[^\.]+)', page_respostas),
     #url(r'^salvarRespostas/(?P<id>[^\.]+)', receber_formularios)
 
-    #Gráficos:
+
+#Gráficos:
     url(r'^graficoTeste/(?P<id>[^\.]+)', graficoTeste),
     url(r'^graficoIdade/(?P<id>[^\.]+)', graficoIdade),
     url(r'^graficoBooleano/(?P<id>[^\.]+)', graficoPerguntasBolleanas),
+    url(r'^graficoIntencaoCompra/(?P<id>[^\.]+)', graficoIntencaoCompra),
+    url(r'^graficoHedonica/(?P<id>[^\.]+)', graficoHedonica),
 
 ]

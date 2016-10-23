@@ -145,3 +145,133 @@ def graficoPerguntasBolleanas(request, id):
     response =  HttpResponse(content_type="image/png")
     canvas.print_png(response)
     return response
+
+def graficoHedonica(request, id):
+    respostasHedonicas = Hedonica.objects.filter(analise = id)
+    desgosteiExtremamente = 0
+    desgosteiMuito = 0
+    desgosteiModeradamente = 0
+    desgosteiLigeiramente = 0
+    neutro = 0
+    gosteiLigeiramente = 0
+    gosteiModeradamente = 0
+    gosteiMuito = 0
+    gosteiExtremamente = 0
+    contadorProvador = 0
+    testes = Teste.objects.filter(analise = id)
+    for teste in testes:
+        if teste.provador is not None:
+            contadorProvador += 1
+    
+    
+    for i in respostasHedonicas:
+        if i.tipo=="PHD":
+            if i.resposta == 1:
+                desgosteiExtremamente +=1
+            elif i.resposta == 2:
+                desgosteiMuito += 2
+            elif i.resposta == 3:
+                desgosteiModeradamente += 3
+            elif i.resposta == 4:
+                desgosteiLigeiramente += 4
+            elif i.resposta == 5:
+                neutro += 5
+            elif i.resposta == 6:
+                gosteiLigeiramente += 6
+            elif i.resposta == 7:
+                gosteiModeradamente += 7
+            elif i.resposta == 8:
+                gosteiMuito += 8
+            elif i.resposta == 9:
+                gosteiExtremamente += 9
+    aceitacao = []
+    aceitacao.append((desgosteiExtremamente + desgosteiMuito + desgosteiModeradamente+ desgosteiLigeiramente+
+               neutro+ gosteiLigeiramente+ gosteiModeradamente+ gosteiMuito + gosteiExtremamente)/contadorProvador)
+    cor = ('r')
+        
+    data = (aceitacao, cor, "Aceitação")
+    barWidth = 0.50  # Largura da barra
+
+    _ax = plt.axes()  # Cria axes
+
+    # bar(left, height, width=0.8, bottom=None, hold=None, **kwargs)
+    _chartBars = plt.bar(aceitacao, data[0], barWidth, color=data[1],
+                         yerr=5, align='center')  # Gera barras
+
+    for bars in _chartBars:
+        # text(x, y, s, fontdict=None, withdash=False, **kwargs)
+        _ax.text(bars.get_x() + (bars.get_width() / 2.0), bars.get_height() + 5,
+                 bars.get_height(), ha='center')  # Label acima das barras
+
+    _ax.set_xticks(aceitacao)
+    _ax.set_xticklabels(data[2])
+
+    #plt.xlabel('Sexo')
+    plt.ylabel('Aceitação Hedonica')
+    plt.grid(True)
+    
+
+    canvas = FigureCanvas(plt.figure(1))
+    response =  HttpResponse(content_type="image/png")
+    canvas.print_png(response)
+    return response
+
+def graficoIntencaoCompra(request, id):
+    respostasIntencao = IntencaoCompra.objects.filter(analise = id)
+    testes = Teste.objects.filter(analise = id)
+    certamenteNao = 0
+    possivelmenteNao = 0
+    talvez = 0
+    certamenteSim = 0
+    possivelmenteSim = 0
+    contadorProvador = 0
+    for teste in testes:
+        if teste.provador is not None:
+            contadorProvador += 1
+    
+    for i in respostasIntencao:
+        if i.tipo=="PIC":
+            if i.resposta == 1:
+                certamenteNao +=1
+            elif i.resposta == 2:
+                possivelmenteNao +=1
+            elif i.resposta == 3:
+                talvez += 1
+            elif i.resposta == 4:
+                possivelmenteSim += 1
+            elif i.resposta == 5:
+                certamenteSim += 1
+                
+    context = (certamenteNao, possivelmenteNao,talvez, possivelmenteSim, certamenteSim)
+    cor = ('#ff00cb','#873c43','#643c87', '#3c8784','#f4f4f4')
+    label = ('Certamente Não', 'Possivelmente Não', 'Talvez', 'Possivelmente Sim', 'Certamente Sim')
+        
+    data = (context, cor, label)
+    
+    xPositions = np.arange(len(data[0]))
+    barWidth = 0.50  # Largura da barra
+
+    _ax = plt.axes()  # Cria axes
+
+    # bar(left, height, width=0.8, bottom=None, hold=None, **kwargs)
+    _chartBars = plt.bar(xPositions, data[0], barWidth, color=data[1],
+                         yerr=5, align='center')  # Gera barras
+
+    for bars in _chartBars:
+        # text(x, y, s, fontdict=None, withdash=False, **kwargs)
+        _ax.text(bars.get_x() + (bars.get_width() / 2.0), bars.get_height() + 5,
+                 bars.get_height(), ha='center')  # Label acima das barras
+
+    _ax.set_xticks(xPositions)
+    _ax.set_xticklabels(data[2])
+
+    #plt.xlabel('Sexo')
+    plt.ylabel('Intenção de Compra')
+    plt.grid(True)
+    plt.legend(_chartBars, data[2])
+
+    canvas = FigureCanvas(plt.figure(1))
+    response =  HttpResponse(content_type="image/png")
+    canvas.print_png(response)
+    return response
+
