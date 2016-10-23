@@ -72,21 +72,30 @@
         	todayHighlight: "true"
         });
 
-        $('#input').clockpicker({
-    		placement: 'top',
-    		align: 'right',
-    		autoclose: true,
-    		'default': 'now'
-		});
+        var mq = window.matchMedia( "(min-width: 500px)" );
+        dicionario = {}
 
-		$('#input1').clockpicker({
-    		placement: 'top',
-    		align: 'right',
-    		autoclose: true,
-    		'default': 'now'
-		});
+        if(mq.matches){
+        	dicionario = {
+        		placement: 'bottom', 
+        		align: 'right',
+        		autoclose: true,
+        		'default': 'now'
+        	}
+        }else{
+        	dicionario = {
+        		placement: 'top', 
+        		align: 'right',
+        		autoclose: true,
+        		'default': 'now'
+        	}
+        }
+        
+        $('#input').clockpicker(dicionario);
+		$('#input1').clockpicker(dicionario);
 
       });
 
+    </script>
     </script>
 {% endblock %}
