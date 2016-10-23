@@ -19,7 +19,11 @@ class FormAnaliseSensorial(forms.ModelForm):
 	   	self.fields['data_Final'].widget.attrs['placeholder'] = 'Data final'
 	   	self.fields['quantidade_pessoas'].widget.attrs['placeholder'] = 'Quantidade de pessoas'
 	   	self.fields['quantidade_amostras'].widget.attrs['placeholder'] = 'Quantidade de amostras'
+
 	   	self.fields['data_Inicio'].widget = TextInput(attrs={'id':'data'})
+	   	self.fields['data_Final'].widget = TextInput(attrs={'id':'data1'})
+	   	self.fields['time_Inicio'].widget = TextInput(attrs={'id':'input'})
+	   	self.fields['time_Final'].widget = TextInput(attrs={'id':'input1'})
 	   	
 	   	#Colocando as labels no campo
 	   	self.fields['descricao'].label = "Descrição:"

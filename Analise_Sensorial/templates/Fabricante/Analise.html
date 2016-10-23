@@ -59,10 +59,34 @@
 </form>
 <script>
       $(document).ready(function () {
+
         $('#data').datepicker({
             format: "dd/mm/yyyy",
-            language: "pt-BR"
+            language: "pt-BR",
+            todayHighlight: "true"
         });
+
+        $('#data1').datepicker({
+        	format: "dd/mm/yyyy",
+        	language: "pt-BR",
+        	todayHighlight: "true"
+        });
+
+        $('#input').clockpicker({
+    		placement: 'top',
+    		align: 'right',
+    		autoclose: true,
+    		'default': 'now'
+		});
+
+		$('#input1').clockpicker({
+    		placement: 'top',
+    		align: 'right',
+    		autoclose: true,
+    		'default': 'now'
+		});
+
       });
+
     </script>
 {% endblock %}
