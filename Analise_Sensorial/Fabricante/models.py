@@ -35,7 +35,8 @@ class AnaliseSensorial(models.Model):
 class Teste(models.Model):
 	#Esse campo será incrementado mais para frente
 	analise = models.ForeignKey(AnaliseSensorial, on_delete=models.CASCADE)
-	provador = models.OneToOneField(Provador, on_delete=models.CASCADE, null=True)
+	#Deve-se usar a classe usuário
+	provador = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 	class Meta:
 		verbose_name = 'Teste sensorial'

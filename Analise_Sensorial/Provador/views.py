@@ -20,7 +20,7 @@ def home_provador(request):
 #USADO PARA SABER QUANTAS PÁGINAS DE FORMULÁRIOS QUE IREMOS CRIAR
 contador_amostras = 0
 
-def page_respostas(request, id):
+def page_resposta(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
 	perguntas = Pergunta.objects.filter(analise_id=id)
 	id_provador = get_test(request)
@@ -147,6 +147,122 @@ def page_respostas(request, id):
 
 	#Tenho que ver como concatenar várias perguntas de tipos diferentes
 	return verificar(request, dicionario, 'Provador/responder_analise.html')
+
+
+def page_respostas(request, id):
+	#Conexão 01
+	analise = get_object_or_404(AnaliseSensorial, id=id)
+	#Conexão 02
+	perguntas = Pergunta.objects.filter(analise_id=id)
+	id_provador = get_test(request)
+
+	#PRECISA-SE RECEBER O ID DO PROVADOR QUE ESTÁ FAZENDO O TESTE
+	#RECENBENDO O CONTROLE DE LAYOUT
+	controle = request.GET['controle']
+
+	if controle == "True":
+
+		#Recebendo amostra
+		numero_amostra = request.GET['amostra']
+
+		#Recuperando provador
+		#Conexão 03
+		provador = User.objects.get(id=id_provador)
+		print(provador)
+
+		#INICIANDO VARIÁVEL
+		amostra = None
+		teste = None
+		hedonica = []
+		intencao_compra = []
+		dissertativa = []
+		boolean = []
+		lista_respostas = []
+
+
+		try:
+			#Conexão 04
+			#Recuperando amostra e teste para cadastrar respsotas
+			amostra = Amostra.objects.get(numero=numero_amostra, analise_id=id)
+			print("That's ok, have one 'amostra' with this pk" )
+		except Exception as e:
+			print("Do have not any 'amostra' with this pk")
+
+			#Error: Amostra matching query does not exist.
+			print(str(e))
+			#Aqui seria bom renderizar uma página de 404
+
+		try:
+			#Conexão 05
+			teste = Teste.objects.get(id=amostra.teste.id)
+			teste.provador = provador
+			teste.save()
+
+		except Exception as e:
+			#raise e
+			print(e)
+
+
+		#Para cada pergunta eu devo ter a resposta correspondente através do ID
+		try:
+			for pergunta in perguntas:
+				tipo = pergunta.tipo
+
+				#Recebendo pergunta do template
+				resposta_template = request.GET['' + str(pergunta.id)]
+
+				#Conexão06
+				if tipo == "PHD":
+					objeto = Hedonica.objects.create(
+						analise=analise,
+						teste=teste,
+						amostra=amostra,
+						pergunta=pergunta,
+						tipo=tipo,
+						resposta=resposta_template
+					)
+
+				elif tipo == "PSN":
+					objeto = Boolean.objects.create(
+						analise=analise,
+						teste=teste,
+						amostra=amostra,
+						pergunta=pergunta,
+						tipo=tipo
+					)
+
+					if(resposta_template=='True'):
+						objeto.resposta = True
+					else:
+						objeto.resposta = False
+
+				elif tipo == "PDT":
+					objeto = Dissertativa.objects.create(
+						analise=analise,
+						teste=teste,
+						amostra=amostra,
+						pergunta=pergunta,
+						tipo=tipo,
+						resposta=resposta_template
+					)
+				else:
+					objeto = IntencaoCompra.objects.create(
+						analise=analise,
+						teste=teste,
+						amostra=amostra,
+						pergunta=pergunta,
+						tipo=tipo,
+						resposta=resposta_template
+					)
+		except Exception as e:
+			print(str(e))
+
+		return redirect('/Home_Provador/')
+	else:
+		dicionario = formularios(perguntas, id)
+
+	return verificar(request, dicionario, 'Provador/responder_analise.html')
+			
 
 
 """ Lógicas de sistema """
