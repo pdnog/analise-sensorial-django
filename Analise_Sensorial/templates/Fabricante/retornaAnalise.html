@@ -47,20 +47,27 @@
 
 				  	<a href="/GerarPdf/{{a.id}}" class="btn btn-primary btn-sm">PDF</a>
 				  	<a href="/Perguntas/{{a.id}}" class="btn btn-warning btn-sm">Perguntas</a>
-					<a href="/graficoTeste/{{a.id}}">Grafico</a>
-					<a href="/graficoIdade/{{a.id}}">GIdade</a>
-					<a href="/graficoBooleano/{{a.id}}">GSimNao</a>
-					<a href="/graficoHedonica/{{a.id}}">GHedonica</a>
-					<a href="/graficoIntencaoCompra/{{a.id}}">GIntencao</a>
+				  	<a href="/graficos/{{a.id}}" class="btn btn-default btn-sm">Gráficos</a>
+					<!-- <div class="dropdown">
+						<button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">Gráficos<span class="caret"></span></button>
+  						<ul class="dropdown-menu">
+    						<li><a href="#">Intenção Compra</a></li>
+    						<li><a href="#">Sim ou Não</a></li>
+    						<li><a href="/graficos/{{a.id}}">Hedônico</a></li>
+  						</ul>
+					</div>
+					 -->
+					<!-- <a href="/graficos/{{a.id}}">Graficos</a> -->
 					<a href="/DeletarAnalise/{{ a.id }}" class="btn btn-danger btn-sm">Deletar</a>
-
+					
 				</td>
 
 			<!--	<td>Sua análise está ativada, você não pode fazer alterações nela </td> -->
 
 			</tr>
 			{% endfor %}
-
+	
+	
 
 
 		</tbody>

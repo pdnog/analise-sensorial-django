@@ -5,13 +5,17 @@ from Fabricante.views import *
 from django.template.context_processors import request
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import date
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+def paginaGraficos(request, id):
+    return verificar(request,{'id':id}, 'Fabricante/graficos.html')
+
 #O ID da analise é requerido
 def graficoTeste(request, id):
     #Pegando os testes daquela análise
-
+    #close("all")
     masculino = 0
     feminino = 0
     testes = Teste.objects.filter(analise = id)
@@ -62,6 +66,7 @@ def calculaIdade(birthday):
     return y
 
 def graficoIdade(request, id):
+    #close("all")
     zeroDoze = 0
     trezeVinte = 0
     vinteUmTrinta = 0
@@ -109,6 +114,7 @@ def graficoIdade(request, id):
     return response
 
 def graficoPerguntasBolleanas(request, id):
+    #close("all")
     respostasBooleanas = Boolean.objects.filter(analise = id)
     sim = 0
     nao = 0
@@ -147,6 +153,7 @@ def graficoPerguntasBolleanas(request, id):
     return response
 
 def graficoHedonica(request, id):
+    #close("all")
     respostasHedonicas = Hedonica.objects.filter(analise = id)
     desgosteiExtremamente = 0
     desgosteiMuito = 0
@@ -188,25 +195,22 @@ def graficoHedonica(request, id):
     aceitacao.append((desgosteiExtremamente + desgosteiMuito + desgosteiModeradamente+ desgosteiLigeiramente+
                neutro+ gosteiLigeiramente+ gosteiModeradamente+ gosteiMuito + gosteiExtremamente)/contadorProvador)
     cor = ('r')
-        
     data = (aceitacao, cor, "Aceitação")
-    barWidth = 0.50  # Largura da barra
+    barWidth = 0.35  # Largura da barra
 
     _ax = plt.axes()  # Cria axes
 
-    # bar(left, height, width=0.8, bottom=None, hold=None, **kwargs)
     _chartBars = plt.bar(aceitacao, data[0], barWidth, color=data[1],
-                         yerr=5, align='center')  # Gera barras
+                         yerr=2, align='center')  # Gera barras
 
     for bars in _chartBars:
         # text(x, y, s, fontdict=None, withdash=False, **kwargs)
-        _ax.text(bars.get_x() + (bars.get_width() / 2.0), bars.get_height() + 5,
+        _ax.text(bars.get_x() + (bars.get_width() / 2.), bars.get_height()/2.0,
                  bars.get_height(), ha='center')  # Label acima das barras
 
     _ax.set_xticks(aceitacao)
     _ax.set_xticklabels(data[2])
-
-    #plt.xlabel('Sexo')
+    _ax.set_title('Gráficos da Escala Hedônica')
     plt.ylabel('Aceitação Hedonica')
     plt.grid(True)
     
@@ -217,6 +221,7 @@ def graficoHedonica(request, id):
     return response
 
 def graficoIntencaoCompra(request, id):
+    #close("all")
     respostasIntencao = IntencaoCompra.objects.filter(analise = id)
     testes = Teste.objects.filter(analise = id)
     certamenteNao = 0
@@ -269,7 +274,6 @@ def graficoIntencaoCompra(request, id):
     plt.ylabel('Intenção de Compra')
     plt.grid(True)
     plt.legend(_chartBars, data[2])
-
     canvas = FigureCanvas(plt.figure(1))
     response =  HttpResponse(content_type="image/png")
     canvas.print_png(response)
