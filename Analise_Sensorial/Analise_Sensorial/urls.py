@@ -67,12 +67,18 @@ urlpatterns = [
     #url(r'^salvarRespostas/(?P<id>[^\.]+)', receber_formularios)
 
 
-#Gráficos:
-    url(r'^graficos/(?P<id>[^\.]+)', paginaGraficos),
+    #Gráficos:
+    #url(r'^graficos/(?P<id>[^\.]+)', paginaGraficos),
     url(r'^graficoTeste/(?P<id>[^\.]+)', graficoTeste),
     url(r'^(?P<id>[^\.]+)/graficoIntencaoTeste.png$', graficoTeste),
     url(r'^(?P<id>[^\.]+)/graficoIdade.png$', graficoIdade),
     url(r'^(?P<id>[^\.]+)/graficoBooleano.png$', graficoPerguntasBolleanas),
     url(r'^(?P<id>[^\.]+)/graficoIntencaoCompra.png$', graficoIntencaoCompra),
     url(r'^(?P<id>[^\.]+)/graficoHedonica.png$', graficoHedonica),
+    url(r'^paginaGraficosBooleanos/(?P<id>[^\.]+)', paginaGraficosBooleanos),
+    url(r'^paginaGraficosIntencaoCompra/(?P<id>[^\.]+)', paginaGraficosIntencaoCompra),
+    url(r'^paginaGraficosHedonica/(?P<id>[^\.]+)', paginaGraficosHedonica),
+    url(r'^paginaGraficosIdade/(?P<id>[^\.]+)', paginaGraficosIdade),
+#Excel
+    url(r'^excel', excel),
 ]

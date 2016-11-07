@@ -3,11 +3,24 @@
 {% block pagina %}
 {% load bootstrap %}
 <div class="container col-md-offset-1 col-md-10" style="margin-top:20px">
+{% if hedonica %}
 <img src="/{{id}}/graficoHedonica.png">
-<img src="/{{id}}/graficoIntencaoTeste.png">
-<img src="/{{id}}/graficoIdade.png">
+{% endif %}
+{% if intencaoCompra %}
+<img src="/{{id}}/graficoIntencaoCompra.png">
+<!-- Esse aqui é do sexo, implementar depois <img src="/{{id}}/graficoIntencaoTeste.png"> -->
+{% endif %}
+{% if booleano %}
 <img src="/{{id}}/graficoBooleano.png">
-<img src="/{{id}}/graficoIntencaoCompra.png">  
+{% endif %}
+{% if idade %}
+<img src="/{{id}}/graficoIdade.png">
+{% endif %}
+
+
+
+
+  
         	
 </form>
 </div>

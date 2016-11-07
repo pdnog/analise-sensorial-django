@@ -5,14 +5,22 @@ from Fabricante.views import *
 from django.template.context_processors import request
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import date
+import django_excel as excel
 
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-def paginaGraficos(request, id):
-    return verificar(request,{'id':id}, 'Fabricante/graficos.html')
-
+import math
+def paginaGraficosBooleanos(request, id):
+    return verificar(request,{'id':id, 'booleano':True}, 'Fabricante/graficos.html')
+def paginaGraficosIntencaoCompra(request, id):
+    return verificar(request,{'id':id, 'intencaoCompra':True}, 'Fabricante/graficos.html')
+def paginaGraficosHedonica(request, id):
+    return verificar(request,{'id':id, 'hedonica':True}, 'Fabricante/graficos.html')
+def paginaGraficosIdade(request, id):
+    return verificar(request,{'id':id, 'idade':True}, 'Fabricante/graficos.html')
 #O ID da analise é requerido
+#Gráfico do Sexo (Não utilizado ainda)
 def graficoTeste(request, id):
     #Pegando os testes daquela análise
     #close("all")
@@ -32,7 +40,7 @@ def graficoTeste(request, id):
     barWidth = 0.50  # Largura da barra
 
     _ax = plt.axes()  # Cria axes
-
+    plt.clf()
     # bar(left, height, width=0.8, bottom=None, hold=None, **kwargs)
     _chartBars = plt.bar(xPositions, data[0], barWidth, color=data[1],
                          yerr=5, align='center')  # Gera barras
@@ -105,6 +113,7 @@ def graficoIdade(request, id):
         quarentaUmCinquenta, cinquentaSessenta, maisSessenta]
     explode = (0,0,0,0,0,0,0)
     pie = plt.pie(fracs, explode=explode, labels=labels, shadow=True, autopct='%1.1f%%',startangle=90)
+    plt.clf()
     plt.legend(pie[0], labels, loc="best")
     plt.axis('equal')
     plt.tight_layout()
@@ -129,7 +138,19 @@ def graficoPerguntasBolleanas(request, id):
     barWidth = 0.50  # Largura da barra
 
     _ax = plt.axes()  # Cria axes
-
+    #isso apaga o cache, pras figuras não se sobrescreverem
+    plt.clf()
+    #plt.yticks(range(0,10))
+    #Isso aqui é para o gráfico começar a partir da coordenada (0,0)
+    low = min(data[0])
+    high = max(data[0])
+    plt.ylim([math.ceil(low-0.5*(high-low)), math.ceil(high+0.5*(high-low))])
+    #Isso aqui remove a parte de baixo do gráfico, os números que ficariam ali
+    plt.tick_params(axis='x',          # changes apply to the x-axis
+    which='both',      # both major and minor ticks are affected
+    bottom='off',      # ticks along the bottom edge are off
+    top='off',         # ticks along the top edge are off
+    labelbottom='off')
     # bar(left, height, width=0.8, bottom=None, hold=None, **kwargs)
     _chartBars = plt.bar(xPositions, data[0], barWidth, color=data[1],
                          yerr=5, align='center')  # Gera barras
@@ -196,13 +217,19 @@ def graficoHedonica(request, id):
                neutro+ gosteiLigeiramente+ gosteiModeradamente+ gosteiMuito + gosteiExtremamente)/contadorProvador)
     cor = ('r')
     data = (aceitacao, cor, "Aceitação")
-    barWidth = 0.35  # Largura da barra
+    barWidth = 0.1  # Largura da barra
 
     _ax = plt.axes()  # Cria axes
-
+    plt.clf()
+    plt.tick_params(axis='x',          # changes apply to the x-axis
+    which='both',      # both major and minor ticks are affected
+    bottom='off',      # ticks along the bottom edge are off
+    top='off',         # ticks along the top edge are off
+    labelbottom='off')
     _chartBars = plt.bar(aceitacao, data[0], barWidth, color=data[1],
                          yerr=2, align='center')  # Gera barras
-
+    
+    
     for bars in _chartBars:
         # text(x, y, s, fontdict=None, withdash=False, **kwargs)
         _ax.text(bars.get_x() + (bars.get_width() / 2.), bars.get_height()/2.0,
@@ -257,7 +284,7 @@ def graficoIntencaoCompra(request, id):
     barWidth = 0.50  # Largura da barra
 
     _ax = plt.axes()  # Cria axes
-
+    plt.clf()
     # bar(left, height, width=0.8, bottom=None, hold=None, **kwargs)
     _chartBars = plt.bar(xPositions, data[0], barWidth, color=data[1],
                          yerr=5, align='center')  # Gera barras
@@ -279,3 +306,9 @@ def graficoIntencaoCompra(request, id):
     canvas.print_png(response)
     return response
 
+def excel(request):
+    return excel.make_response_(sheet, "xls")
+    """
+    data = [[1,1],[2,2]]
+    return excel.make_response_from_array(data, 'xls',  file_name="batata")
+    """

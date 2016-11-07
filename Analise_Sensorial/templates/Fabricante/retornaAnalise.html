@@ -47,16 +47,20 @@
 
 				  	<a href="/GerarPdf/{{a.id}}" class="btn btn-primary btn-sm">PDF</a>
 				  	<a href="/Perguntas/{{a.id}}" class="btn btn-warning btn-sm">Perguntas</a>
-				  	<a href="/graficos/{{a.id}}" class="btn btn-default btn-sm">Gráficos</a>
-					<!-- <div class="dropdown">
-						<button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">Gráficos<span class="caret"></span></button>
+					<div class="btn-group">
+                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">Gráficos<span class="caret"></span></button>
   						<ul class="dropdown-menu">
-    						<li><a href="#">Intenção Compra</a></li>
-    						<li><a href="#">Sim ou Não</a></li>
-    						<li><a href="/graficos/{{a.id}}">Hedônico</a></li>
+    						<li><a href="/paginaGraficosIntencaoCompra/{{a.id}}">Intenção Compra</a></li>
+    						<li><a href="/paginaGraficosBooleanos/{{a.id}}">Sim ou Não</a></li>
+    						<li><a href="/paginaGraficosHedonica/{{a.id}}">Hedônico</a></li>
+    						<!--Ainda não em uso <li><a href="/paginaGraficosIdade/{{a.id}}">Idade</a></li>  -->
   						</ul>
+                	</div>
+					<!-- <div class="dropdown">
+						
 					</div>
 					 -->
+					 <a href="/excel/">Excel</a>
 					<!-- <a href="/graficos/{{a.id}}">Graficos</a> -->
 					<a href="/DeletarAnalise/{{ a.id }}" class="btn btn-danger btn-sm">Deletar</a>
 					
