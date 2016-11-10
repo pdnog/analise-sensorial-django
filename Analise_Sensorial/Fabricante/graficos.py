@@ -5,7 +5,7 @@ from Fabricante.views import *
 from django.template.context_processors import request
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import date
-import django_excel as excel
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -285,12 +285,12 @@ def graficoIntencaoCompra(request, id):
 
     _ax = plt.axes()  # Cria axes
     plt.clf()
-    # bar(left, height, width=0.8, bottom=None, hold=None, **kwargs)
+    
     _chartBars = plt.bar(xPositions, data[0], barWidth, color=data[1],
                          yerr=5, align='center')  # Gera barras
 
     for bars in _chartBars:
-        # text(x, y, s, fontdict=None, withdash=False, **kwargs)
+        
         _ax.text(bars.get_x() + (bars.get_width() / 2.0), bars.get_height() + 5,
                  bars.get_height(), ha='center')  # Label acima das barras
 
@@ -306,8 +306,28 @@ def graficoIntencaoCompra(request, id):
     canvas.print_png(response)
     return response
 
-def excel(request):
-    return excel.make_response_(sheet, "xls")
+def excel(request, id):
+    import django_excel as excel
+    cont = 0
+    resposta = Resposta.objects.filter(analise=id)
+    pergunta = Pergunta.objects.filter(analise=id)
+    dicionarioTitulos = ["Provador"]
+    dicionarioRespostas = []
+    for i in pergunta:
+        dicionarioTitulos.append(str(i.pergunta))
+        
+    """for i in resposta:
+        cont+=1
+        
+        dicionarioRespostas.append(cont)
+    """
+    list = [dicionarioTitulos]
+    return excel.make_response_from_array(list, 'xls')
+    """qs = AnaliseSensorial.objects.all()
+    column_names = ['nome']
+    sheet = excel.pe.get_sheet(query_sets=qs, column_names=column_names)
+    sheet.row[0] = ["Nome da Análise", "b"]
+    return excel.make_response(sheet, "xls")"""
     """
     data = [[1,1],[2,2]]
     return excel.make_response_from_array(data, 'xls',  file_name="batata")

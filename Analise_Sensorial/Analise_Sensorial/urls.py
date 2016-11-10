@@ -80,5 +80,5 @@ urlpatterns = [
     url(r'^paginaGraficosHedonica/(?P<id>[^\.]+)', paginaGraficosHedonica),
     url(r'^paginaGraficosIdade/(?P<id>[^\.]+)', paginaGraficosIdade),
 #Excel
-    url(r'^excel', excel),
+    url(r'^excel/(?P<id>[^\.]+)', excel),
 ]
