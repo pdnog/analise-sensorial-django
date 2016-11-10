@@ -309,19 +309,35 @@ def graficoIntencaoCompra(request, id):
 def excel(request, id):
     import django_excel as excel
     cont = 0
+    list = []
     resposta = Resposta.objects.filter(analise=id)
     pergunta = Pergunta.objects.filter(analise=id)
-    dicionarioTitulos = ["Provador"]
-    dicionarioRespostas = []
-    for i in pergunta:
-        dicionarioTitulos.append(str(i.pergunta))
+    list.append(["Pergunta"])
+    for i in pergunta:    
+        a = []
+        if i.tipo == "PSN":
+            boolean = Boolean.objects.filter(analise = id)
+            a.append(i.pergunta)
+            for j in boolean:
+                r = "Não"
+                if j.resposta == 1:
+                    r = "Sim"            
+                a.append(r)
+        if i.tipo == "PHD":
+            a.append(i.pergunta)
+            hedonica = Hedonica.objects.filter(analise = id)
+            for j in hedonica: 
+                r = j.resposta           
+                a.append(str(r))
+        if i.tipo == "PIC":
+            a.append(i.pergunta)
+            intencao = IntencaoCompra.objects.filter(analise = id)
+            for j in intencao:            
+                a.append(str(j))
         
-    """for i in resposta:
-        cont+=1
-        
-        dicionarioRespostas.append(cont)
-    """
-    list = [dicionarioTitulos]
+        list.append(a)
+                
+    
     return excel.make_response_from_array(list, 'xls')
     """qs = AnaliseSensorial.objects.all()
     column_names = ['nome']
