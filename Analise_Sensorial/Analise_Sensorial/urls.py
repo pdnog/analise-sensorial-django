@@ -18,6 +18,7 @@ from django.contrib import admin
 from webpage.views import *
 from Fabricante.views import *
 from Fabricante.graficos import *
+from Fabricante.relatorio import *
 from Provador.views import *
 from Fabricante.pdf import *
 
@@ -60,6 +61,7 @@ urlpatterns = [
     url(r'^SalvarPergunta/(?P<id>[^\.]+)', cadastrar_pergunta),
     url(r'^EditarPergunta/(?P<id>[^\.]+)', editarPergunta),
     url(r'^DeletarPergunta/(?P<id>[^\.]+)', deletarPergunta),
+    url(r'^Relatorio/(?P<id>[^\.]+)', relatorio_final),
 
     #Para provador
     url(r'^Home_Provador', home_provador),
