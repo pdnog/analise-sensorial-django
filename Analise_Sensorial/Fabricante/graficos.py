@@ -19,6 +19,7 @@ def paginaGraficosHedonica(request, id):
     return verificar(request,{'id':id, 'hedonica':True}, 'Fabricante/graficos.html')
 def paginaGraficosIdade(request, id):
     return verificar(request,{'id':id, 'idade':True}, 'Fabricante/graficos.html')
+"""
 #O ID da analise é requerido
 #Gráfico do Sexo (Não utilizado ainda)
 def graficoTeste(request, id):
@@ -63,9 +64,9 @@ def graficoTeste(request, id):
     canvas.print_png(response)
     return response
 
-"""Esse método será utilizado para calcular a idade, pode ser utilizado
+Esse método será utilizado para calcular a idade, pode ser utilizado
 aqui, nos gráficos, como também para verificar se a análise sensorial é
-para pessoas maiores de 18 anos"""
+para pessoas maiores de 18 anos
 def calculaIdade(birthday):
     today = date.today()
     y = today.year - birthday.year
@@ -121,10 +122,11 @@ def graficoIdade(request, id):
     response =  HttpResponse(content_type="image/png")
     canvas.print_png(response)
     return response
-
+"""
 def graficoPerguntasBolleanas(request, id):
     #close("all")
-    respostasBooleanas = Boolean.objects.filter(analise = id)
+    respostasBooleanas = Boolean.objects.filter(pergunta = id)
+    
     sim = 0
     nao = 0
     for i in respostasBooleanas:
@@ -175,7 +177,9 @@ def graficoPerguntasBolleanas(request, id):
 
 def graficoHedonica(request, id):
     #close("all")
-    respostasHedonicas = Hedonica.objects.filter(analise = id)
+    respostasHedonicas = Hedonica.objects.filter(pergunta = id)
+    pergunta = Pergunta.objects.get(pk=id)
+    testes = Teste.objects.filter(analise = pergunta.analise)
     desgosteiExtremamente = 0
     desgosteiMuito = 0
     desgosteiModeradamente = 0
@@ -186,7 +190,6 @@ def graficoHedonica(request, id):
     gosteiMuito = 0
     gosteiExtremamente = 0
     contadorProvador = 0
-    testes = Teste.objects.filter(analise = id)
     for teste in testes:
         if teste.provador is not None:
             contadorProvador += 1
@@ -251,7 +254,7 @@ def graficoIntencaoCompra(request, id):
     #close("all")
     respostasIntencao = IntencaoCompra.objects.filter(pergunta = id)
     pergunta = Pergunta.objects.get(pk=id)
-    testes = Teste.objects.filter(analise = pergunta.analise )
+    testes = Teste.objects.filter(analise = pergunta.analise)
     certamenteNao = 0
     possivelmenteNao = 0
     talvez = 0

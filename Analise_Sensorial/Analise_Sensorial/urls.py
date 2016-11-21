@@ -71,9 +71,9 @@ urlpatterns = [
 
     #Gráficos:
     #url(r'^graficos/(?P<id>[^\.]+)', paginaGraficos),
-    url(r'^graficoTeste/(?P<id>[^\.]+)', graficoTeste),
-    url(r'^(?P<id>[^\.]+)/graficoIntencaoTeste.png$', graficoTeste),
-    url(r'^(?P<id>[^\.]+)/graficoIdade.png$', graficoIdade),
+    #url(r'^graficoTeste/(?P<id>[^\.]+)', graficoTeste),
+    #url(r'^(?P<id>[^\.]+)/graficoIntencaoTeste.png$', graficoTeste),
+    #url(r'^(?P<id>[^\.]+)/graficoIdade.png$', graficoIdade),
     url(r'^(?P<id>[^\.]+)/graficoBooleano.png$', graficoPerguntasBolleanas),
     url(r'^(?P<id>[^\.]+)/graficoIntencaoCompra.png$', graficoIntencaoCompra),
     url(r'^(?P<id>[^\.]+)/graficoHedonica.png$', graficoHedonica),
