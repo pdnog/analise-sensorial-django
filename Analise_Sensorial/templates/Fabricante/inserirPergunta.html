@@ -52,19 +52,31 @@ function fecharModal(){
       <tr>
 
         <th>Perguntas</th>
+        <th>tipo</th>
         <th>Ações</th>
 
       </tr>
     </thead>
     <tbody>
-      {% for p in perguntas%}
+      {% for key, value in tipo.items %}
+      
       <tr>
-        <td>{{p.pergunta}}</td>
-        <td class="col-md-2"><a href="/EditarPergunta/{{ p.id }}"
-					class="btn btn-success btn-sm">Editar</a>
-					<a href="/DeletarPergunta/{{ p.id }}" class="btn btn-danger btn-sm">Deletar</a></td>
-
+        <td>{{key}}</td>
+        <td>{{value.0}}</td>
+        <td class="col-md-2">
+        			<a href="/EditarPergunta/{{ key.id }}" class="btn btn-success btn-sm">Editar</a>
+					<a href="/DeletarPergunta/{{ key.id }}" class="btn btn-danger btn-sm">Deletar</a>
+					{% if key.tipo == 'PIC'%}
+					<a href="/paginaGraficosIntencaoCompra/{{key.id}}" class="btn btn-default btn-sm">Gráficos</a>
+					{%elif key.tipo == 'PHD'%}
+					<a href="/paginaGraficosHedonica/{{key.id}}" class="btn btn-default btn-sm">Gráficos</a>
+					{%elif key.tipo == 'PSN'%}
+					<a href="/paginaGraficosBooleanos/{{key.id}}" class="btn btn-default btn-sm">Gráficos</a>
+					
+					{% endif %}
+		</td>
       </tr>
+      
       {% endfor %}
     </tbody>
   </table>

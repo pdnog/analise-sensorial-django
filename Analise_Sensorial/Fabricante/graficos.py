@@ -249,8 +249,9 @@ def graficoHedonica(request, id):
 
 def graficoIntencaoCompra(request, id):
     #close("all")
-    respostasIntencao = IntencaoCompra.objects.filter(analise = id)
-    testes = Teste.objects.filter(analise = id)
+    respostasIntencao = IntencaoCompra.objects.filter(pergunta = id)
+    pergunta = Pergunta.objects.get(pk=id)
+    testes = Teste.objects.filter(analise = pergunta.analise )
     certamenteNao = 0
     possivelmenteNao = 0
     talvez = 0

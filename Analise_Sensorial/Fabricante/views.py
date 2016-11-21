@@ -145,8 +145,22 @@ def page_perguntas(request, id):
 	except EmptyPage:
 		perguntas = paginacao.page(paginacao.num_pages)
 	form = FormInserirPerguntas()
-	#print(perguntas)
-	return verificar(request, {'perguntas':perguntas, 'id':id, 'form':form}, 'Fabricante/inserirPergunta.html')
+	tipo = {}
+	for i in pergunta:
+		if i.tipo=="PIC":
+			tipo[i] = []
+			tipo[i].append('Intenção Compra')
+		if i.tipo=="PSN":
+			tipo[i] = []
+			tipo[i].append('Sim ou Não')
+		if i.tipo=="PHD":
+			tipo[i] = []
+			tipo[i].append('Hedônica')
+		if i.tipo=="PDT":
+			tipo[i] = []
+			tipo[i].append('Dissertativa')
+	return verificar(request, {'perguntas':perguntas, 'id':id,
+							 'form':form, 'tipo':tipo}, 'Fabricante/inserirPergunta.html')
 
 def cadastrar_pergunta(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
