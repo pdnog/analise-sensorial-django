@@ -78,14 +78,14 @@ WSGI_APPLICATION = 'Analise_Sensorial.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'bancodedados',
     }
-}
+}"""
 
-"""
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
@@ -96,7 +96,7 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-"""
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
