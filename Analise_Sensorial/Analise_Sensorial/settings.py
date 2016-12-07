@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'Analise_Sensorial.wsgi.application'
 
 #Essas configuração devem ser mudadas entre nosso computadores
 #MYSQL
-"""DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'TESTE',
@@ -99,9 +99,9 @@ WSGI_APPLICATION = 'Analise_Sensorial.wsgi.application'
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
-}"""
+}
 
-#POSTGRESQL
+"""#POSTGRESQL
 DATABASES = {
     'default':{
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -111,7 +111,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',
     }
-}
+}"""
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
