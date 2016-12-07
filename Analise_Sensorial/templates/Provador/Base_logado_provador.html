@@ -1,63 +1,58 @@
-{% extends 'Base.html' %}
-{% block titulo %}{{ nome_usuario }} {% endblock %}
-{% block cabecalho %}
-{% load staticfiles%}
+{% extends 'Base.html' %} {% block titulo %}{{ nome_usuario }} {% endblock %} {% block cabecalho %} {% load staticfiles%}
 <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Análise Sensorial</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-apple"></span>
+            <a class="navbar-brand" href="#">Análise Sensorial</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-apple"></span>
         Análise Sensorial<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="/Home_Provador/"><span class="glyphicon glyphicon-th-list"></span> Análises Disponíveis</a></li>
-          </ul>
-        </li>
+                    <ul class="dropdown-menu">
+                        <li><a href="/Home_Provador/"><span class="glyphicon glyphicon-th-list"></span> Análises Disponíveis</a></li>
+                    </ul>
+                </li>
 
-        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span>
         {{username}}<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-          <li><a href="#modalEditar" data-toggle="modal"><span class="glyphicon glyphicon-cog"></span>Editar Perfil</a></li>
-            <!-- <li><a href="/GoEdit/"><span class="glyphicon glyphicon-cog"></span>Editar Perfil</a></li> -->
-          </ul>
-        </li>
-        <li>
-        <a href="/Logout/"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
-        </li>
-      </ul>
+                    <ul class="dropdown-menu">
+                        <li><a href="#modalEditar" data-toggle="modal"><span class="glyphicon glyphicon-cog"></span>Editar Perfil</a></li>
+                        <!-- <li><a href="/GoEdit/"><span class="glyphicon glyphicon-cog"></span>Editar Perfil</a></li> -->
+                    </ul>
+                </li>
+                <li>
+                    <a href="/Logout/"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
 {% load bootstrap %}
 <div class="modal fade" id="modalEditar">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3 class="modal-title">Editar</h3>
-      </div>
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Editar</h3>
+            </div>
 
-      <form class="form-horizontal" method="POST" action="/GoEdit/">
-      <div class="modal-body">
-          {% csrf_token %}
-	{{ form}}
-      </div>
-      <div class="modal-footer">
-      <button type="submit" class="btn btn-success">Editar</button>
-      <button class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-      </div>
-      </form>
+            <form class="form-horizontal" method="POST" action="/GoEdit/">
+                <div class="modal-body">
+                    {% csrf_token %} {{ form}}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Editar</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
 </div>
 
 
-{% endblock %}
-{% block conteudo %}{% endblock %}
+{% endblock %} {% block conteudo %}{% endblock %}

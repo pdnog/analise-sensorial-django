@@ -63,18 +63,18 @@ function fecharModal(){
       <tr>
         <td>{{key}}</td>
         <td>{{value.0}}</td>
-        <td class="col-md-2">
+        <td>
         			<a href="/EditarPergunta/{{ key.id }}" class="btn btn-success btn-sm">Editar</a>
-					<a href="/DeletarPergunta/{{ key.id }}" class="btn btn-danger btn-sm">Deletar</a>
+					
 					{% if key.tipo == 'PIC'%}
 					<a href="/paginaGraficosIntencaoCompra/{{key.id}}" class="btn btn-default btn-sm">Gráficos</a>
 					{%elif key.tipo == 'PHD'%}
 					<a href="/paginaGraficosHedonica/{{key.id}}" class="btn btn-default btn-sm">Gráficos</a>
 					{%elif key.tipo == 'PSN'%}
 					<a href="/paginaGraficosBooleanos/{{key.id}}" class="btn btn-default btn-sm">Gráficos</a>
-					
 					{% endif %}
-		</td>
+          <a href="/DeletarPergunta/{{ key.id }}" class="btn btn-danger btn-sm">Deletar</a>
+		    </td>
       </tr>
       
       {% endfor %}

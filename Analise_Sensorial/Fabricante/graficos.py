@@ -131,8 +131,8 @@ def graficoPerguntasBolleanas(request, id):
     nao = 0
     for i in respostasBooleanas:
         if i.tipo=="PSN":
-            if i.resposta == True:
-                sim +=1
+            if i.resposta == 1:
+                sim += 1
             else:
                 nao += 1
     data = ((nao, sim), ('r', '#00FF33'), ('Não', 'Sim'))

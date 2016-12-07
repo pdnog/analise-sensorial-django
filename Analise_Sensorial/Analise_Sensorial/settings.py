@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'bootstrapform',
     'Fabricante',
     'Provador',
+    #'psycopg2',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -77,6 +78,7 @@ WSGI_APPLICATION = 'Analise_Sensorial.wsgi.application'
 
 
 # Database
+#SQLite
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 """DATABASES = {
     'default': {
@@ -86,17 +88,30 @@ WSGI_APPLICATION = 'Analise_Sensorial.wsgi.application'
 }"""
 
 
-DATABASES = {
+#Essas configuração devem ser mudadas entre nosso computadores
+#MYSQL
+"""DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'TESTE',
-        'USER': 'root',
+        'USER': 'john',
         'PASSWORD': 'senha123',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
-}
+}"""
 
+#POSTGRESQL
+DATABASES = {
+    'default':{
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'server',
+        'USER': 'user_geral',
+        'PASSWORD': 'senha123',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators

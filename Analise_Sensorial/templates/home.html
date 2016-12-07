@@ -1,81 +1,76 @@
-{% extends 'Base.html'%}
-{% block titulo %} Home {% endblock%}
-{% block conteudo %}
+{% extends 'Base.html'%} {% block titulo %} Home {% endblock%} {% block conteudo %}
 <!-- Carousel -->
 <div class="container-fluid" style="padding:0">
-  
-  
+
+
     <div class="carousel fade-carousel slide" data-ride="carousel" data-interval="4000" id="bs-carousel">
-  <!-- Overlay -->
-  
+        <!-- Overlay -->
 
-  <!-- Indicators -->
-  <ol class="carousel-indicators">
-    <li data-target="#bs-carousel" data-slide-to="0" class="active"></li>
-    <li data-target="#bs-carousel" data-slide-to="1"></li>
-    <li data-target="#bs-carousel" data-slide-to="2"></li>
-  </ol>
-  
-  <!-- Wrapper for slides -->
-  <div class="carousel-inner">
-    <div class="item slides active">
-  		<div class="overlay"></div>
-      <div class="slide-1"></div>
-      <div class="hero">
-        <hgroup>
-            <h1>Nós temos a solução</h1>        
-            <h3>Faça já a sua análise sensorial de forma prática!</h3>
-        </hgroup>
-        <button class="btn btn-hero btn-lg" role="button" onclick="location.href='/Cadastro_principal_page'">Cadastre-se</button>
-      </div>
+
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#bs-carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#bs-carousel" data-slide-to="1"></li>
+            <li data-target="#bs-carousel" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            <div class="item slides active">
+                <div class="overlay"></div>
+                <div class="slide-1"></div>
+                <div class="hero">
+                    <hgroup>
+                        <h1>Nós temos a solução</h1>
+                        <h3>Faça já a sua análise sensorial de forma prática!</h3>
+                    </hgroup>
+                    <button class="btn btn-hero btn-lg" role="button" onclick="location.href='/Cadastro_principal_page'">Cadastre-se</button>
+                </div>
+            </div>
+            <div class="item slides">
+                <div class="slide-2"></div>
+                <div class="hero">
+                    <hgroup>
+                        <h1>Praticidade</h1>
+                        <h3>Recolha e manuseie seus dados através dos smartphones dos seus provadores</h3>
+                    </hgroup>
+                    <!-- <button class="btn btn-hero btn-lg" role="button">See all features</button> -->
+                </div>
+            </div>
+            <div class="item slides">
+                <div class="slide-3"></div>
+                <div class="hero">
+                    <hgroup>
+                        <h1>Facilidade</h1>
+                        <h3>Ferramenta útil pra você que tem que gerenciar vários dados de vários produtos</h3>
+                    </hgroup>
+                    <!--<button class="btn btn-hero btn-lg" role="button">See all features</button>-->
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="item slides">
-      <div class="slide-2"></div>
-      <div class="hero">        
-        <hgroup>
-            <h1>Praticidade</h1>        
-            <h3>Recolha e manuseie seus dados através dos smartphones dos seus provadores</h3>
-        </hgroup>       
-        <!-- <button class="btn btn-hero btn-lg" role="button">See all features</button> -->
-      </div>
+    <!-- Aqui é as funcionalidades -->
+    {% load staticfiles %}
+    <div class="container homeFuncionalidades">
+        <div class="row opacity">
+            <div class="col-md-4 col-sx-2">
+                <center>
+                    <img src="{% static 'img/icone1.png'%}" class="img-responsive">
+                </center>
+                <h1 style="text-align:center">Cadastre sua pesquisa</h1>
+            </div>
+            <div class="col-md-4 col-sx-2">
+                <center>
+                    <img src="{% static 'img/icone2.png'%}" height="222" width="222">
+                </center>
+                <h1 style="text-align:center">Crie seu formulário</h1>
+            </div>
+            <div class="col-md-4 col-sx-2">
+                <center>
+                    <img src="{% static 'img/icone3.png'%}" height="222" width="222">
+                </center>
+                <h1 style="text-align:center">Gere seus gráficos</h1>
+            </div>
+        </div>
     </div>
-    <div class="item slides">
-      <div class="slide-3"></div>
-      <div class="hero">        
-        <hgroup>
-            <h1>Facilidade</h1>        
-            <h3>Ferramenta útil pra você que tem que gerenciar vários dados de vários produtos</h3>
-        </hgroup>
-        <button class="btn btn-hero btn-lg" role="button">See all features</button>
-      </div>
-    </div>
-  </div> 
-</div>
-<!-- Aqui é as funcionalidades -->
-{% load staticfiles %}
-<div class="container homeFuncionalidades" >
-	<div class="row opacity">
-		<div class="col-md-4 col-sx-2">
-			<center>
-			<img src="{% static 'img/icone1.png'%}" class="img-responsive">
-			</center>
-			<h1 style="text-align:center">Cadastre sua pesquisa</h1>
-		</div>
-		<div class="col-md-4 col-sx-2">
-			<center>
-			<img src="{% static 'img/icone2.png'%}" height="222" width="222">
-			</center>
-			<h1 style="text-align:center">Crie seu formulário</h1>
-		</div>
-		<div class="col-md-4 col-sx-2">
-			<center>
-			<img src="{% static 'img/icone3.png'%}" height="222" width="222">
-			</center>
-			<h1 style="text-align:center">Gere seus gráficos</h1>
-		</div>
-	</div>
-</div>
-{% endblock %}
-
-
-
+    {% endblock %}
