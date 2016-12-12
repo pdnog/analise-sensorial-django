@@ -23,7 +23,12 @@ from reportlab.graphics.widgets.markers import makeMarker
 from reportlab.lib import colors
 
 def put_string(dictionary):
-	label = '<font size=%s>%s</font>' % (dictionary['size'], dictionary['text'])
+	label = ''
+	if dictionary['type'] == 'negrito':
+		label = '<font size=%s><b>%s</b></font>' % (dictionary['size'], dictionary['text'])
+	else:
+		label = '<font size=%s>%s</font>' % (dictionary['size'], dictionary['text'])
+
 	dictionary['elements'].append(Paragraph(label, dictionary['styles'][dictionary['style']]))
 	dictionary['elements'].append(Spacer(1, dictionary['spacer']))
 
@@ -53,6 +58,7 @@ def relatorio_final(request, id):
 	dictionary['text'] = 'Relatório sobre a analise sensorial: ' + str(analise.nome)
 	dictionary['style'] = 'title'
 	dictionary['spacer'] = 20
+	dictionary['type'] = 'normal'
 	put_string(dictionary)
 	#----------------------------------------------------------------------------------
 
@@ -60,6 +66,7 @@ def relatorio_final(request, id):
 	dictionary['size'] = '14'
 	dictionary['spacer'] = 12
 	dictionary['style'] = 'BodyText'
+	dictionary['type'] = 'normal'
 
 	dictionary['text'] = 'Nome: ' + str(analise.nome)
 	put_string(dictionary)
@@ -77,7 +84,25 @@ def relatorio_final(request, id):
 	put_string(dictionary)
 	#-----------------------------------------------------------------------------------
 
+	#Recebendo perguntas
+	perguntas = Pergunta.objects.filter(analise_id = analise.id)
 
+	"""if perguntas:
+		print("Sim, há perguntas")
+	else:
+		print("Não, não há")"""
+
+
+	#Renderizar as perguntas
+	dictionary['elements'].append(Spacer(1, 24))
+	dictionary['type'] = 'negrito'
+
+	for pergunta in perguntas:
+		dictionary['text'] = pergunta.pergunta
+		put_string(dictionary)
+
+
+	#-----------------------------------------------------------------------------------
 
 
 
