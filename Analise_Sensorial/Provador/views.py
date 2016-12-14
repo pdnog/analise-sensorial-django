@@ -11,8 +11,6 @@ from Fabricante.forms import *
 
 # Create your views here.
 """ Renderização de paginas """
-
-
 def home_provador(request):
     dicionario = {}
     analises = AnaliseSensorial.objects.filter(ativado=True)
@@ -20,7 +18,6 @@ def home_provador(request):
     return verificar(request, dicionario, "Provador/home_provador.html")
 
 # USADO PARA SABER QUANTAS PÁGINAS DE FORMULÁRIOS QUE IREMOS CRIAR
-
 contador_amostras = 0
 def page_respostas(request, id):
     # Conexão 01
@@ -143,10 +140,7 @@ def page_respostas(request, id):
     else:
         return verificar(request, dicionario, 'Provador/responder_analise.html')
 
-
 """ Lógicas de sistema """
-
-
 def formularios(perguntas, id):
     # CRIANDO VARIÁVEIS
     hedonica = []
@@ -182,8 +176,6 @@ def formularios(perguntas, id):
 
 """ Classes de concatenação """
 # Classe usada para concatenar a pergunta com o input do formulário
-
-
 class Word(object):
     """docstring Word"""
 
