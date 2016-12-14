@@ -164,7 +164,7 @@ def graficoPerguntasBolleanas(request, id):
 
     _ax.set_xticks(xPositions)
     _ax.set_xticklabels(data[2])
-
+    plt.ylabel('Pergunta Booleana')
     plt.xlabel('Resposta')
     #plt.ylabel('Quantidade')
     plt.grid(True)
@@ -220,28 +220,30 @@ def graficoHedonica(request, id):
                neutro+ gosteiLigeiramente+ gosteiModeradamente+ gosteiMuito + gosteiExtremamente)/contadorProvador)
     cor = ('r')
     data = (aceitacao, cor, "Aceitação")
-    barWidth = 0.1  # Largura da barra
-
+    barWidth = 10  # Largura da barra
+    xPositions = np.arange(len(data[0]))
     _ax = plt.axes()  # Cria axes
+    _ax.set_yticks(np.arange(0, 9, 1))
     plt.clf()
     plt.tick_params(axis='x',          # changes apply to the x-axis
     which='both',      # both major and minor ticks are affected
     bottom='off',      # ticks along the bottom edge are off
     top='off',         # ticks along the top edge are off
     labelbottom='off')
-    _chartBars = plt.bar(aceitacao, data[0], barWidth, color=data[1],
+    
+    _chartBars = plt.bar(xPositions, data[0], barWidth, alpha=0.8, color=data[1],
                          yerr=2, align='center')  # Gera barras
     
-    
+    label = 'batata'
     for bars in _chartBars:
         # text(x, y, s, fontdict=None, withdash=False, **kwargs)
-        _ax.text(bars.get_x() + (bars.get_width() / 2.), bars.get_height()/2.0,
-                 bars.get_height(), ha='center')  # Label acima das barras
+        _ax.text(bars.get_x() + (bars.get_width() / 2), bars.get_height()+5, label,
+                  ha='center')  # Label acima das barras
 
     _ax.set_xticks(aceitacao)
     _ax.set_xticklabels(data[2])
     _ax.set_title('Gráficos da Escala Hedônica')
-    plt.ylabel('Aceitação Hedonica')
+    plt.ylabel('Aceitação Hedonica: ' + str(data[0]))
     plt.grid(True)
     
 
@@ -284,11 +286,24 @@ def graficoIntencaoCompra(request, id):
         
     data = (context, cor, label)
     
+    
     xPositions = np.arange(len(data[0]))
     barWidth = 0.50  # Largura da barra
 
     _ax = plt.axes()  # Cria axes
+    
+    
     plt.clf()
+    
+    plt.tick_params(axis='x',          # changes apply to the x-axis
+    which='both',      # both major and minor ticks are affected
+    bottom='off',      # ticks along the bottom edge are off
+    top='off',         # ticks along the top edge are off
+    labelbottom='off')
+    
+    low = min(data[0])
+    high = max(data[0])
+    plt.ylim([math.ceil(low-0.5*(high-low)), math.ceil(high+0.5*(high-low))])
     
     _chartBars = plt.bar(xPositions, data[0], barWidth, color=data[1],
                          yerr=5, align='center')  # Gera barras
@@ -314,10 +329,31 @@ def excel(request, id):
     import django_excel as excel
     cont = 0
     list = []
-    resposta = Resposta.objects.filter(analise=id)
-    pergunta = Pergunta.objects.filter(analise=id)
-    list.append(["Pergunta"])
-    for i in pergunta:    
+    respostas = Resposta.objects.filter(analise=id)
+    perguntas = Pergunta.objects.filter(analise=id)
+    a = []
+    hedonica = []
+    boolean = []
+    intencao_compra = []
+    for pergunta in perguntas:
+        object = Word(None, None, None)
+        object.pergunta = pergunta.pergunta
+        object.id = pergunta.id
+        object.tipo = pergunta.tipo
+    #Tentar recuperar o id do tipo de resposta atraves do id da pergunta 
+    #Colocar todas as perguntas em um array, pegar os tipos e sair distribuindo as respostas
+        if pergunta.tipo == 'PHD':
+            hedonica = Hedonica.objects.get(pk = pergunta.id)
+            a.append(str(hedonica.resposta))
+        elif pergunta.tipo == 'PSN':
+            boolean = Boolean.objects.get(pk = pergunta.id)
+            a.append(str(boolean.resposta))
+        else:
+            intencao = IntencaoCompra.objects.get(pk = pergunta.id)
+            a.append(str(intencao.resposta))
+        list.append(a)
+
+    """    
         a = []
         if i.tipo == "PSN":
             boolean = Boolean.objects.filter(analise = id)
@@ -340,7 +376,7 @@ def excel(request, id):
                 a.append(str(j))
         
         list.append(a)
-                
+    """     
     
     return excel.make_response_from_array(list, 'xls')
     """qs = AnaliseSensorial.objects.all()
@@ -352,3 +388,10 @@ def excel(request, id):
     data = [[1,1],[2,2]]
     return excel.make_response_from_array(data, 'xls',  file_name="batata")
     """
+class Word(object):
+    """docstring Word"""
+
+    def __init__(self, pergunta, tipo, id):
+        self.pergunta = pergunta
+        self.tipo = tipo
+        self.id = id
