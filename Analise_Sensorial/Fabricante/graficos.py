@@ -327,71 +327,25 @@ def graficoIntencaoCompra(request, id):
 
 def excel(request, id):
     import django_excel as excel
-    cont = 0
     list = []
-    respostas = Resposta.objects.filter(analise=id)
-    perguntas = Pergunta.objects.filter(analise=id)
-    a = []
-    hedonica = []
-    boolean = []
-    intencao_compra = []
-    for pergunta in perguntas:
-        object = Word(None, None, None)
-        object.pergunta = pergunta.pergunta
-        object.id = pergunta.id
-        object.tipo = pergunta.tipo
-    #Tentar recuperar o id do tipo de resposta atraves do id da pergunta 
-    #Colocar todas as perguntas em um array, pegar os tipos e sair distribuindo as respostas
-        if pergunta.tipo == 'PHD':
-            hedonica = Hedonica.objects.get(pk = pergunta.id)
-            a.append(str(hedonica.resposta))
-        elif pergunta.tipo == 'PSN':
-            boolean = Boolean.objects.get(pk = pergunta.id)
-            a.append(str(boolean.resposta))
-        else:
-            intencao = IntencaoCompra.objects.get(pk = pergunta.id)
-            a.append(str(intencao.resposta))
-        list.append(a)
-
-    """    
-        a = []
-        if i.tipo == "PSN":
-            boolean = Boolean.objects.filter(analise = id)
-            a.append(i.pergunta)
-            for j in boolean:
-                r = "Não"
-                if j.resposta == 1:
-                    r = "Sim"            
-                a.append(r)
-        if i.tipo == "PHD":
-            a.append(i.pergunta)
-            hedonica = Hedonica.objects.filter(analise = id)
-            for j in hedonica: 
-                r = j.resposta           
-                a.append(str(r))
-        if i.tipo == "PIC":
-            a.append(i.pergunta)
-            intencao = IntencaoCompra.objects.filter(analise = id)
-            for j in intencao:            
-                a.append(str(j))
-        
-        list.append(a)
-    """     
+    testando = []
+    respostaIntencao = excelRetornaRespostas(IntencaoCompra,'PIC',id)
+    respostaBoolean = excelRetornaRespostas(Boolean, 'PSN', id)
+    respostaHedonica = excelRetornaRespostas(Hedonica, 'PHD', id)
+    list.append(respostaIntencao)
+    list.append(respostaHedonica)
+    list.append(respostaBoolean)
+    for i in range(len(respostaBoolean)):
+        testando.append([respostaBoolean[i], respostaHedonica[i], respostaIntencao[i]])
     
-    return excel.make_response_from_array(list, 'xls')
-    """qs = AnaliseSensorial.objects.all()
-    column_names = ['nome']
-    sheet = excel.pe.get_sheet(query_sets=qs, column_names=column_names)
-    sheet.row[0] = ["Nome da Análise", "b"]
-    return excel.make_response(sheet, "xls")"""
-    """
-    data = [[1,1],[2,2]]
-    return excel.make_response_from_array(data, 'xls',  file_name="batata")
-    """
-class Word(object):
-    """docstring Word"""
-
-    def __init__(self, pergunta, tipo, id):
-        self.pergunta = pergunta
-        self.tipo = tipo
-        self.id = id
+    return excel.make_response_from_array(testando, 'xls')
+def excelRetornaRespostas(tipoPergunta, sigla,id):
+    analise = AnaliseSensorial.objects.get(pk = id)
+    perguntas = Pergunta.objects.filter(analise=analise.id)
+    respostas = []
+    for pergunta in perguntas:
+        if pergunta.tipo == sigla:
+                respostasTipo = tipoPergunta.objects.filter(pergunta = pergunta.id)
+                for i in respostasTipo:
+                    respostas.append(i.resposta)
+    return respostas
