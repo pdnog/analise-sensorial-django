@@ -5,7 +5,7 @@ from io import BytesIO
 #from reportlab.lib.pagesizes import letter, A4
 #from random import randint
 #from io import StringIO
-#from Fabricante.metodos import transcricao_numero_letra
+from Fabricante.metodos import transcricao_numero_letra
 from django.http import HttpResponse
 from Fabricante.models import *
 from django.shortcuts import redirect, get_object_or_404
@@ -18,6 +18,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 
 #Gráficos
+from reportlab.graphics.charts.barcharts import VerticalBarChart
 from reportlab.graphics.shapes import Drawing, Rect, String, Group, Line
 from reportlab.graphics.widgets.markers import makeMarker
 from reportlab.lib import colors
@@ -87,23 +88,175 @@ def relatorio_final(request, id):
 	#Recebendo perguntas
 	perguntas = Pergunta.objects.filter(analise_id = analise.id)
 
-	"""if perguntas:
-		print("Sim, há perguntas")
-	else:
-		print("Não, não há")"""
-
-
 	#Renderizar as perguntas
 	dictionary['elements'].append(Spacer(1, 24))
 	dictionary['type'] = 'negrito'
 
 	for pergunta in perguntas:
 		dictionary['text'] = pergunta.pergunta
+		dictionary['size'] = '18'
+		dictionary['type'] = 'negrito'
 		put_string(dictionary)
 
+		for index in range(analise.quantidade_amostras):
+			dictionary['text'] = 'Amostra %s' % transcricao_numero_letra(index)
+			dictionary['type'] = 'Normal'
+			dictionary['size'] = '14'
+			put_string(dictionary)
 
+			grafico = Drawing(400, 150)
+			#data = [(34, 25),]
+			cartoon = VerticalBarChart()
+
+			#Colocar tamanho do gráfico
+			cartoon.height = 125
+			cartoon.width = 500
+
+			#Colocando os dados no gráfico
+			#cartoon.data = data
+			cartoon.strokeColor = colors.black
+
+			#Aplicando valores maximos e minimos para o gráfico
+			cartoon.valueAxis.valueMin = 0
+			cartoon.valueAxis.valueMax = 60 #Aqui ficará a 'quantidade_pessoas'
+			cartoon.valueAxis.valueStep = 5 #Diferença entre os ponto no y
+
+			#Organizando informações na coordenada x
+			#cartoon.categoryAxis.categoryNames = ['Sim','Não',]
+
+			#Arrumando as labels do gráfico
+			cartoon.categoryAxis.labels.boxAnchor = 'ne'
+			cartoon.categoryAxis.labels.dx = 10
+
+			#Aplicando a cor nas barras
+			#cartoon.bars[(0,0)].fillColor = colors.green
+			#cartoon.bars[(0,1)].fillColor = colors.red
+
+			#Aqui ficará a divisão
+			if pergunta.tipo == 'PSN':
+				respostas = Boolean.objects.filter(
+					analise_id = id,
+					pergunta_id=pergunta.id,
+					amostra__tipo=transcricao_numero_letra(index)
+				)
+
+				contador_true = 0
+				contador_false = 0
+
+				for resposta in respostas:
+					if resposta.resposta == True:
+						contador_true += 1
+					else:
+						contador_false += 1
+
+				#Caracterizando o grafico de acordo
+				data = [(contador_true, contador_false),]
+				cartoon.data = data
+				cartoon.categoryAxis.categoryNames = ['Sim', 'Não']
+				cartoon.bars[(0,0)].fillColor = colors.green
+				cartoon.bars[(0,1)].fillColor = colors.red
+
+			elif pergunta.tipo == 'PHD':
+				respostas = Hedonica.objects.filter(
+					analise_id=id,
+					pergunta_id=pergunta.id,
+					amostra__tipo=transcricao_numero_letra(index)
+				)
+
+				#Variáveis
+				h_01 = 0
+				h_02 = 0
+				h_03 = 0
+				h_04 = 0
+				h_05 = 0
+				h_06 = 0
+				h_07 = 0
+				h_08 = 0
+				h_09 = 0
+
+				for resposta in respostas:
+					if resposta.resposta == 1:
+						h_01 += 1
+					elif resposta.resposta == 2:
+						h_02 += 1
+					elif resposta.resposta == 3:
+						h_03 += 1
+					elif resposta.resposta == 4:
+						h_04 += 1
+					elif resposta.resposta == 5:
+						h_05 += 1
+					elif resposta.resposta == 6:
+						h_06 += 1
+					elif resposta.resposta == 7:
+						h_07 += 1
+					elif resposta.resposta == 8:
+						h_08 += 1
+					else:
+						h_09 += 1
+
+
+				data = [(h_01, h_02, h_03, h_04, h_05, h_06, h_07, h_08, h_09,)]
+				cartoon.data = data
+				cartoon.categoryAxis.categoryNames = [
+					'Desgostei extremamente',
+					'Desgostei muito',
+					'Desgostei moderadamente',
+					'Desgostei ligeiramente',
+					'Nem gostei / Nem desgostei',
+					'Gostei ligeiramente',
+					'Gostei moderadamente',
+					'Gostei muito',
+					'Gostei muitíssimo'
+				]
+
+				cartoon.bars[(0,0)].fillColor = colors.green
+				cartoon.bars[(0,1)].fillColor = colors.red
+				cartoon.bars[(0,2)].fillColor = colors.yellow
+				cartoon.bars[(0,3)].fillColor = colors.blue
+				cartoon.bars[(0,4)].fillColor = colors.pink
+				cartoon.bars[(0,5)].fillColor = colors.gray
+				cartoon.bars[(0,6)].fillColor = colors.purple
+				cartoon.bars[(0,7)].fillColor = colors.black
+				cartoon.bars[(0,8)].fillColor = colors.orange
+
+				cartoon.categoryAxis.labels.dx = 8
+				cartoon.categoryAxis.labels.dy = -2
+				cartoon.categoryAxis.labels.angle = 30
+
+			elif pergunta.tipo == 'PDT':
+				pass
+			else:
+				pass
+
+			grafico.add(cartoon)
+			elements.append(grafico)
+			elements.append(Spacer(1,60))
 	#-----------------------------------------------------------------------------------
-
+	"""d = Drawing(400, 150)
+	data = [
+	        (13, 5),
+	        ]
+	bc = VerticalBarChart()
+	bc.x = 60
+	bc.height = 125
+	bc.width = 400
+	bc.data = data
+	bc.strokeColor = colors.black
+	bc.valueAxis.valueMin = 0
+	bc.valueAxis.valueMax = 50
+	bc.valueAxis.valueStep = 5  #Distancia entre pontos na linha y
+	bc.categoryAxis.labels.boxAnchor = 'ne'
+	bc.categoryAxis.labels.dx = 8
+	bc.categoryAxis.labels.dy = -2
+	bc.categoryAxis.labels.angle = 30
+	bc.categoryAxis.categoryNames = ['Sim','Não',]
+	#bc.categoryAxis.categoryNames['Sim'].Color = colors.green
+	bc.groupSpacing = 10
+	bc.barSpacing = 2
+	#bc.categoryAxis.style = 'stacked'  # Una variación del gráfico
+	d.add(bc)
+	#pprint.pprint(bc.getProperties())
+	elements.append(d)"""
 
 
 	arquivo.build(elements)
