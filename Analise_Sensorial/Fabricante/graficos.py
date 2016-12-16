@@ -11,6 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import math
+import itertools
 def paginaGraficosBooleanos(request, id):
     return verificar(request,{'id':id, 'booleano':True}, 'Fabricante/graficos.html')
 def paginaGraficosIntencaoCompra(request, id):
@@ -327,18 +328,30 @@ def graficoIntencaoCompra(request, id):
 
 def excel(request, id):
     import django_excel as excel
-    list = []
-    testando = []
-    respostaIntencao = excelRetornaRespostas(IntencaoCompra,'PIC',id)
-    respostaBoolean = excelRetornaRespostas(Boolean, 'PSN', id)
-    respostaHedonica = excelRetornaRespostas(Hedonica, 'PHD', id)
-    list.append(respostaIntencao)
-    list.append(respostaHedonica)
-    list.append(respostaBoolean)
-    for i in range(len(respostaBoolean)):
-        testando.append([respostaBoolean[i], respostaHedonica[i], respostaIntencao[i]])
+    import numpy as np
+    import math
+    lista = []
     
-    return excel.make_response_from_array(testando, 'xls')
+    
+    analise = AnaliseSensorial.objects.get(pk = id)
+    perguntas = Pergunta.objects.filter(analise=analise.id)
+    for pergunta in perguntas:
+        if pergunta.tipo == 'PIC':
+            respostaIntencao = excelRetornaRespostas(IntencaoCompra,'PIC',id)
+            lista.append(respostaIntencao)
+        elif pergunta.tipo == 'PSN':
+            respostaBoolean = excelRetornaRespostas(Boolean, 'PSN', id)
+            lista.append(respostaBoolean)
+        elif pergunta.tipo == 'PHD':
+            respostaHedonica = excelRetornaRespostas(Hedonica, 'PHD', id)
+            lista.append(respostaHedonica)
+    
+    
+    
+    
+    
+        
+    return excel.make_response_from_array(list(itertools.zip_longest(*lista)), 'xls')
 def excelRetornaRespostas(tipoPergunta, sigla,id):
     analise = AnaliseSensorial.objects.get(pk = id)
     perguntas = Pergunta.objects.filter(analise=analise.id)
@@ -349,3 +362,41 @@ def excelRetornaRespostas(tipoPergunta, sigla,id):
                 for i in respostasTipo:
                     respostas.append(i.resposta)
     return respostas
+
+"""
+def excel(request, id):
+    import django_excel as excel
+    cont = 0
+    list = []
+    resposta = Resposta.objects.filter(analise=id)
+    pergunta = Pergunta.objects.filter(analise=id)
+    dicionarioRespostas = []
+    a = []
+    for i in pergunta:    
+        if i.tipo == "PSN":
+            boolean = Boolean.objects.filter(analise = id)
+            for j in boolean:
+                r = "Não"
+                if j.resposta == 1:
+                    r = "Sim"            
+                a.append(r)
+        if i.tipo == "PHD":
+            
+            hedonica = Hedonica.objects.filter(analise = id)
+            for j in hedonica: 
+                r = j.resposta           
+                a.append(str(r))
+        if i.tipo == "PIC":
+            
+            intencao = IntencaoCompra.objects.filter(analise = id)
+            for j in intencao:            
+                a.append(str(j.resposta))
+        list.append(a) 
+    for i in resposta:
+-        cont+=1
+-        
+-        dicionarioRespostas.append(cont)
+-   
+    
+        
+    return excel.make_response_from_array(list, 'xls')  """
