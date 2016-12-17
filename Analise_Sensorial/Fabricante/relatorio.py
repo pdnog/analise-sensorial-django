@@ -118,9 +118,9 @@ def relatorio_final(request, id):
 
 			#Aplicando valores maximos e minimos para o gráfico
 			cartoon.valueAxis.valueMin = 0
-			cartoon.valueAxis.valueMax = 60 #Aqui ficará a 'quantidade_pessoas'
-			cartoon.valueAxis.valueStep = 5 #Diferença entre os ponto no y
-
+			cartoon.valueAxis.valueMax = analise.quantidade_pessoas#Aqui ficará a 'quantidade_pessoas'
+			cartoon.valueAxis.valueStep = (analise.quantidade_pessoas/10)
+			#Diferença entre os ponto no y
 			#Organizando informações na coordenada x
 			#cartoon.categoryAxis.categoryNames = ['Sim','Não',]
 
@@ -226,11 +226,53 @@ def relatorio_final(request, id):
 			elif pergunta.tipo == 'PDT':
 				pass
 			else:
-				pass
+				respostas = IntencaoCompra.objects.filter(
+					analise_id=id,
+					pergunta_id=pergunta.id,
+					amostra__tipo=transcricao_numero_letra(index)
+				)
+
+				ic_01 = 0
+				ic_02 = 0
+				ic_03 = 0
+				ic_04 = 0
+				ic_05 = 0
+
+				for resposta in respostas:
+					if resposta.resposta == 1:
+						ic_01 += 1
+					elif resposta.resposta == 2:
+						ic_02 += 1
+					elif resposta.resposta == 3:
+						ic_03 += 1
+					elif resposta.resposta == 4:
+						ic_04 += 1
+					else:
+						ic_05 += 1
+
+				data = [(ic_01, ic_02, ic_03, ic_04, ic_05),]
+				cartoon.data = data
+				cartoon.categoryAxis.categoryNames = [
+					'Certamente não compraria',
+					'Possivelmente não compraria',
+					'Talvez comprasse ou não comprasse',
+					'Possivelmente compraria',
+					'Certamente compraria'
+				]
+
+				cartoon.bars[(0,0)].fillColor = colors.green
+				cartoon.bars[(0,1)].fillColor = colors.red
+				cartoon.bars[(0,2)].fillColor = colors.yellow
+				cartoon.bars[(0,3)].fillColor = colors.blue
+				cartoon.bars[(0,4)].fillColor = colors.pink
+
+				cartoon.categoryAxis.labels.dx = 8
+				cartoon.categoryAxis.labels.dy = -2
+				cartoon.categoryAxis.labels.angle = 30
 
 			grafico.add(cartoon)
 			elements.append(grafico)
-			elements.append(Spacer(1,60))
+			elements.append(Spacer(1,70))
 	#-----------------------------------------------------------------------------------
 	"""d = Drawing(400, 150)
 	data = [

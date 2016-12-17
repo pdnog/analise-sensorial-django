@@ -132,8 +132,10 @@ def page_respostas(request, id):
         #Pegando variável global
         global contador_amostras
         contador_amostras += 1
+        print('contador: ' + str(contador_amostras))
 
         if contador_amostras==analise.quantidade_amostras:
+            contador_amostras = 0
             return redirect('/Home_Provador/')
         else:
             return verificar(request, dicionario, 'Provador/responder_analise.html')
