@@ -34,6 +34,10 @@ def put_string(dictionary):
 	dictionary['elements'].append(Spacer(1, dictionary['spacer']))
 
 
+def porcentagem(number, number_total):
+	porcento = (number/number_total) * 100
+	return porcento
+
 #Método certo
 def relatorio_final(request, id):
 	analise = get_object_or_404(AnaliseSensorial, id=id)
@@ -105,7 +109,6 @@ def relatorio_final(request, id):
 			put_string(dictionary)
 
 			grafico = Drawing(400, 150)
-			#data = [(34, 25),]
 			cartoon = VerticalBarChart()
 
 			#Colocar tamanho do gráfico
@@ -113,24 +116,16 @@ def relatorio_final(request, id):
 			cartoon.width = 500
 
 			#Colocando os dados no gráfico
-			#cartoon.data = data
 			cartoon.strokeColor = colors.black
 
 			#Aplicando valores maximos e minimos para o gráfico
 			cartoon.valueAxis.valueMin = 0
 			cartoon.valueAxis.valueMax = analise.quantidade_pessoas#Aqui ficará a 'quantidade_pessoas'
 			cartoon.valueAxis.valueStep = (analise.quantidade_pessoas/10)
-			#Diferença entre os ponto no y
-			#Organizando informações na coordenada x
-			#cartoon.categoryAxis.categoryNames = ['Sim','Não',]
 
 			#Arrumando as labels do gráfico
 			cartoon.categoryAxis.labels.boxAnchor = 'ne'
 			cartoon.categoryAxis.labels.dx = 10
-
-			#Aplicando a cor nas barras
-			#cartoon.bars[(0,0)].fillColor = colors.green
-			#cartoon.bars[(0,1)].fillColor = colors.red
 
 			#Aqui ficará a divisão
 			if pergunta.tipo == 'PSN':
@@ -155,6 +150,24 @@ def relatorio_final(request, id):
 				cartoon.categoryAxis.categoryNames = ['Sim', 'Não']
 				cartoon.bars[(0,0)].fillColor = colors.green
 				cartoon.bars[(0,1)].fillColor = colors.red
+
+				grafico.add(cartoon)
+				elements.append(grafico)
+				elements.append(Spacer(1,20))
+
+				porcentagem_sim = porcentagem(contador_true, analise.quantidade_pessoas)
+				porcentagem_nao = porcentagem(contador_false, analise.quantidade_pessoas)
+				dictionary['text'] = """Nessa questão {por_sim:.2f}{symbol} dos
+				provadores responderam SIM - {n} pessoa(s)
+				-  e {por_nao:.2f}{symbol} responderam
+				NÃO - {n2} pessoa(s).""" .format(symbol="%", por_sim=(porcentagem_sim), n=contador_true,
+				por_nao=porcentagem_nao, n2=contador_false)
+
+				dictionary['type'] = "Normal"
+				dictionary['size'] = "12"
+				put_string(dictionary)
+
+				elements.append(Spacer(1,20))
 
 			elif pergunta.tipo == 'PHD':
 				respostas = Hedonica.objects.filter(
@@ -223,8 +236,48 @@ def relatorio_final(request, id):
 				cartoon.categoryAxis.labels.dy = -2
 				cartoon.categoryAxis.labels.angle = 30
 
+				grafico.add(cartoon)
+				elements.append(grafico)
+				elements.append(Spacer(1,60))
+
+				#Variável de menor nome
+				q_p = analise.quantidade_pessoas
+
+				dictionary['text'] = """Resultados:
+				*{p_01}{symbol} - {n_01} pessoa(s) - responderam que <b>desgostaram extremamente</b> dessa amostra.\n
+				*{p_02}{symbol} - {n_02} pessoa(s) - responderam que <b>desgostaram muito</b> dessa amostra.\n
+				*{p_03}{symbol} - {n_03} pessoa(s) - responderam que <b>desgostaram moderadamente</b> dessa amostra.\n
+				*{p_04}{symbol} - {n_04} pessoa(s) - responderam que <b>desgostaram ligeiramente</b> dessa amostra.\n
+				*{p_05}{symbol} - {n_05} pessoa(s) - responderam que <b>nem gostaram, nem desgostaram</b> dessa amostra.\n
+				*{p_06}{symbol} - {n_06} pessoa(s) - responderam que <b>gostaram ligeiramente</b>  dessa amostra.\n
+				*{p_07}{symbol} - {n_07} pessoa(s) - responderam que <b>gostaram moderadamente</b> dessa amostra.\n
+				> {p_08}{symbol} - {n_08} pessoa(s) - responderam que <b>gostaram muito</b> dessa amostra.\n
+				> {p_09}{symbol} - {n_09} pessoa(s) - responderam que <b>gostaram extremamente</b> dessa amostra.\n
+				""".format(symbol="%",
+
+				#Porcentagens de concatenação de string
+				p_01=porcentagem(h_01, q_p), p_02=porcentagem(h_02, q_p),
+				p_03=porcentagem(h_03, q_p), p_04=porcentagem(h_04, q_p),
+				p_05=porcentagem(h_05, q_p), p_06=porcentagem(h_06, q_p),
+				p_07=porcentagem(h_07, q_p), p_08=porcentagem(h_08, q_p),
+				p_09=porcentagem(h_09, q_p),
+
+				#Número de pessoas
+				n_01=h_01, n_02=h_02, n_03=h_03, n_04=h_04,
+				n_05=h_05, n_06=h_06, n_07=h_07, n_08=h_08,
+				n_09=h_09)
+				dictionary['size'] = '12'
+				dictionary['type'] = 'Normal'
+				put_string(dictionary)
+				elements.append(Spacer(1,30))
 			elif pergunta.tipo == 'PDT':
-				pass
+				respostas = Dissertativa.objects.filter(
+					analise_id=id,
+					pergunta_id=pergunta.id,
+					amostra__tipo=transcricao_numero_letra(index)
+				)
+
+
 			else:
 				respostas = IntencaoCompra.objects.filter(
 					analise_id=id,
@@ -270,9 +323,9 @@ def relatorio_final(request, id):
 				cartoon.categoryAxis.labels.dy = -2
 				cartoon.categoryAxis.labels.angle = 30
 
-			grafico.add(cartoon)
-			elements.append(grafico)
-			elements.append(Spacer(1,70))
+				grafico.add(cartoon)
+				elements.append(grafico)
+				elements.append(Spacer(1,50))
 	#-----------------------------------------------------------------------------------
 	"""d = Drawing(400, 150)
 	data = [
