@@ -183,7 +183,7 @@ def imprimir_numeros(request):
 def criando_estrutura(request, id):
 	analise = get_object_or_404(AnaliseSensorial,id=id)
 	response = HttpResponse(content_type='application/pdf')
-	response['Content-Disposition'] = 'attachment; filename="relatorio.pdf"'
+	response['Content-Disposition'] = 'attachment; filename="numeros_aleatorios.pdf"'
 
 	#Iniciando variáveis
 	buff = BytesIO()

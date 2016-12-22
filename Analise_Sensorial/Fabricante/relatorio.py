@@ -243,32 +243,67 @@ def relatorio_final(request, id):
 				#Variável de menor nome
 				q_p = analise.quantidade_pessoas
 
-				dictionary['text'] = """Resultados:
-				*{p_01}{symbol} - {n_01} pessoa(s) - responderam que <b>desgostaram extremamente</b> dessa amostra.\n
-				*{p_02}{symbol} - {n_02} pessoa(s) - responderam que <b>desgostaram muito</b> dessa amostra.\n
-				*{p_03}{symbol} - {n_03} pessoa(s) - responderam que <b>desgostaram moderadamente</b> dessa amostra.\n
-				*{p_04}{symbol} - {n_04} pessoa(s) - responderam que <b>desgostaram ligeiramente</b> dessa amostra.\n
-				*{p_05}{symbol} - {n_05} pessoa(s) - responderam que <b>nem gostaram, nem desgostaram</b> dessa amostra.\n
-				*{p_06}{symbol} - {n_06} pessoa(s) - responderam que <b>gostaram ligeiramente</b>  dessa amostra.\n
-				*{p_07}{symbol} - {n_07} pessoa(s) - responderam que <b>gostaram moderadamente</b> dessa amostra.\n
-				> {p_08}{symbol} - {n_08} pessoa(s) - responderam que <b>gostaram muito</b> dessa amostra.\n
-				> {p_09}{symbol} - {n_09} pessoa(s) - responderam que <b>gostaram extremamente</b> dessa amostra.\n
-				""".format(symbol="%",
-
-				#Porcentagens de concatenação de string
-				p_01=porcentagem(h_01, q_p), p_02=porcentagem(h_02, q_p),
-				p_03=porcentagem(h_03, q_p), p_04=porcentagem(h_04, q_p),
-				p_05=porcentagem(h_05, q_p), p_06=porcentagem(h_06, q_p),
-				p_07=porcentagem(h_07, q_p), p_08=porcentagem(h_08, q_p),
-				p_09=porcentagem(h_09, q_p),
-
-				#Número de pessoas
-				n_01=h_01, n_02=h_02, n_03=h_03, n_04=h_04,
-				n_05=h_05, n_06=h_06, n_07=h_07, n_08=h_08,
-				n_09=h_09)
 				dictionary['size'] = '12'
 				dictionary['type'] = 'Normal'
+				dictionary['text'] = "Resultados: "
+				dictionary['spacer'] = 20
 				put_string(dictionary)
+
+				dictionary['spacer'] = 10
+				dictionary['text'] = """>{p_01:.2f}{symbol} - {n_01} pessoa(s) -
+				responderam que <b>desgostaram
+				extremamente</b> dessa amostra.""".format(symbol="%",
+				p_01=porcentagem(h_01, q_p), n_01=h_01)
+				put_string(dictionary)
+
+				dictionary['text'] = """>{p_02:.2f}{symbol} - {n_02} pessoa(s) -
+				responderam que <b>desgostaram muito
+				</b> dessa amostra.""".format(symbol="%",
+				p_02=porcentagem(h_02, q_p), n_02=h_02)
+				put_string(dictionary)
+
+				dictionary['text'] = """>{p_03:.2f}{symbol} - {n_03} pessoa(s) -
+				responderam que <b>desgostaram
+				moderadamente</b> dessa amostra.""".format(symbol="%",
+				p_03=porcentagem(h_03, q_p), n_03=h_03)
+				put_string(dictionary)
+
+				dictionary['text'] = """>{p_04:.2f}{symbol} - {n_04} pessoa(s) -
+				responderam que <b>desgostaram
+				ligeiramente</b> dessa amostra.""".format(symbol="%",
+				p_04=porcentagem(h_04, q_p), n_04=h_04)
+				put_string(dictionary)
+
+				dictionary['text'] = """>{p_05:.2f}{symbol} - {n_05} pessoa(s) -
+				responderam que <b>nem gostaram, nem desgostaram</b>
+				dessa amostra.""".format(symbol="%",
+				p_05=porcentagem(h_05, q_p), n_05=h_05)
+				put_string(dictionary)
+
+				dictionary['text'] = """>{p_06:.2f}{symbol} - {n_06} pessoa(s) -
+				responderam que <b>gostaram
+				ligeiramente</b> dessa amostra.""".format(symbol="%",
+				p_06=porcentagem(h_06, q_p), n_06=h_06)
+				put_string(dictionary)
+
+				dictionary['text'] = """>{p_07:.2f}{symbol} - {n_07} pessoa(s) -
+				responderam que <b>gostaram
+				moderadamente</b> dessa amostra.""".format(symbol="%",
+				p_07=porcentagem(h_07, q_p), n_07=h_07)
+				put_string(dictionary)
+
+				dictionary['text'] = """>{p_08:.2f}{symbol} - {n_08} pessoa(s) -
+				responderam que <b>gostaram
+				muito</b> dessa amostra.""".format(symbol="%",
+				p_08=porcentagem(h_08, q_p), n_08=h_08)
+				put_string(dictionary)
+
+				dictionary['text'] = """>{p_09:.2f}{symbol} - {n_09} pessoa(s) -
+				responderam que <b>gostaram
+				extremamente</b> dessa amostra.""".format(symbol="%",
+				p_09=porcentagem(h_09, q_p), n_09=h_09)
+				put_string(dictionary)
+
 				elements.append(Spacer(1,30))
 			elif pergunta.tipo == 'PDT':
 				respostas = Dissertativa.objects.filter(
@@ -277,7 +312,19 @@ def relatorio_final(request, id):
 					amostra__tipo=transcricao_numero_letra(index)
 				)
 
-
+				if respostas:
+					for resposta in respostas:
+						dictionary['text'] = "> " + str(resposta.resposta)
+						dictionary['type'] = 'Normal'
+						dictionary['size'] = '12'
+						dictionary['spacer'] = 10
+						put_string(dictionary)
+				else:
+					dictionary['text'] = "Nenhuma resposta cadastrada."
+					dictionary['type'] = 'Normal'
+					dictionary['size'] = '12'
+					dictionary['spacer'] = 10
+					put_string(dictionary)
 			else:
 				respostas = IntencaoCompra.objects.filter(
 					analise_id=id,
@@ -290,7 +337,7 @@ def relatorio_final(request, id):
 				ic_03 = 0
 				ic_04 = 0
 				ic_05 = 0
-
+				q_p = analise.quantidade_pessoas
 				for resposta in respostas:
 					if resposta.resposta == 1:
 						ic_01 += 1
@@ -325,34 +372,46 @@ def relatorio_final(request, id):
 
 				grafico.add(cartoon)
 				elements.append(grafico)
-				elements.append(Spacer(1,50))
-	#-----------------------------------------------------------------------------------
-	"""d = Drawing(400, 150)
-	data = [
-	        (13, 5),
-	        ]
-	bc = VerticalBarChart()
-	bc.x = 60
-	bc.height = 125
-	bc.width = 400
-	bc.data = data
-	bc.strokeColor = colors.black
-	bc.valueAxis.valueMin = 0
-	bc.valueAxis.valueMax = 50
-	bc.valueAxis.valueStep = 5  #Distancia entre pontos na linha y
-	bc.categoryAxis.labels.boxAnchor = 'ne'
-	bc.categoryAxis.labels.dx = 8
-	bc.categoryAxis.labels.dy = -2
-	bc.categoryAxis.labels.angle = 30
-	bc.categoryAxis.categoryNames = ['Sim','Não',]
-	#bc.categoryAxis.categoryNames['Sim'].Color = colors.green
-	bc.groupSpacing = 10
-	bc.barSpacing = 2
-	#bc.categoryAxis.style = 'stacked'  # Una variación del gráfico
-	d.add(bc)
-	#pprint.pprint(bc.getProperties())
-	elements.append(d)"""
+				elements.append(Spacer(1,60))
+				dictionary['size'] = '12'
+				dictionary['type'] = 'Normal'
+				dictionary['text'] = "Resultados: "
+				dictionary['spacer'] = 20
+				put_string(dictionary)
 
+				dictionary['spacer'] = 10
+				dictionary['text'] = """>{p_01:.2f}{symbol} - {n_01} pessoa(s) -
+				responderam que <b>Certamente não compraria
+				</b> dessa amostra.""".format(symbol="%",
+				p_01=porcentagem(ic_01, q_p), n_01=ic_01)
+				put_string(dictionary)
+
+				dictionary['text'] = """>{p_02:.2f}{symbol} - {n_02} pessoa(s) -
+				responderam que <b>possivelmente não compraria
+				</b> dessa amostra.""".format(symbol="%",
+				p_02=porcentagem(ic_02, q_p), n_02=ic_02)
+				put_string(dictionary)
+
+				dictionary['text'] = """>{p_03:.2f}{symbol} - {n_03} pessoa(s) -
+				responderam que <b>talvez não comprasse ou talvez comprasse
+				</b> dessa amostra.""".format(symbol="%",
+				p_03=porcentagem(ic_03, q_p), n_03=ic_03)
+				put_string(dictionary)
+
+				dictionary['text'] = """>{p_04:.2f}{symbol} - {n_04} pessoa(s) -
+				responderam que <b>possivelmente
+				compraria</b> dessa amostra.""".format(symbol="%",
+				p_04=porcentagem(ic_04, q_p), n_04=ic_04)
+				put_string(dictionary)
+
+				dictionary['text'] = """>{p_05:.2f}{symbol} - {n_05} pessoa(s) -
+				responderam que <b>certamente compraria</b>
+				dessa amostra.""".format(symbol="%",
+				p_05=porcentagem(ic_05, q_p), n_05=ic_05)
+				put_string(dictionary)
+
+				elements.append(Spacer(1,60))
+	#-----------------------------------------------------------------------------------
 
 	arquivo.build(elements)
 	response.write(buff.getvalue())
