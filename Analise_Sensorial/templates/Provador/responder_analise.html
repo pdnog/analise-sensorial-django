@@ -42,7 +42,7 @@
 			{% if descritiva %}
 				{% for pergunta in descritiva %}
 				<label for={{pergunta.id}}>{{pergunta.pergunta}}</label>
-				<textarea required class="form-control"
+				<textarea class="form-control"
 					name="{{pergunta.id}}"
 					id="{{pergunta.id}}" rows="5"></textarea>
 				{% endfor %}
