@@ -148,17 +148,24 @@ def edita(request, formulario):
 	idTeste = get_test(request)
 	#Pegando o usuário
 	usuario = User.objects.get(id = idTeste)
+	tipo = Tipagem.objects.get(user = usuario)
 	if request.method == "POST":
 		#Uso o instance para instanciar o objeto para o formulário
 		form = formulario(request.POST, instance = usuario)
 		if form.is_valid():
-			form.save()
-			#Falta colocar uma confirmação de "editou!"
-			return redirect('/MostraAnalise/')
+			if tipo.tipo == 'P':
+				form.save()
+				#Falta colocar uma confirmação de "editou!"
+				return redirect('/Home_Provador/')
+			else:
+				form.save()			
+				return redirect('/MostraAnalise/')
 	else:
 		form = formulario(instance=usuario)
-	return verificar(request,{'form':form}, 'editar.html')
-
+	if tipo.tipo == 'F':
+		return verificar(request,{'form':form}, 'editar.html')
+	else:
+		return verificar(request,{'form':form}, 'Provador/editarDados.html')
 #Pegando a sessão teste
 def get_test(request):
 	idTeste = request.session.get('id')

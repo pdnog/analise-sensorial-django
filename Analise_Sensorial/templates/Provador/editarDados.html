@@ -1,0 +1,18 @@
+{% extends 'Provador/Base_logado_provador.html' %}
+{% block conteudo %}
+{% load bootstrap %}
+
+<!-- col-md-offset-1 col-md-10 bug ao tentar colocar o tamanho correto-->
+<form class="form-horizontal" method="POST" action="/GoEdit/">{% csrf_token %}
+	<div class="col-md-8 col-md-offset-2">
+	<h2 class="text-success">Editar dados</h2>
+	{{ form | bootstrap}}
+	</div>
+	<div class="form-group">
+	    <div class="col-sm-offset-7 col-sm-5 col-md-offset-7  col-md-5">
+	      <button type="submit" class="btn btn-success btn-lg">Editar</button>
+				<a href="javascript:window.history.go(-1)" class="btn btn-danger btn-lg">Cancelar</a>
+	    </div>
+  	</div>
+</form>
+{% endblock %}
