@@ -1,0 +1,148 @@
+/*!
+ * Start Bootstrap - Freelancer Bootstrap Theme (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+body {
+	overflow-x: hidden;
+}
+
+p {
+	font-size: 14px;
+}
+
+p.small {
+	font-size: 12px;
+}
+
+a, a:hover, a:focus, a:active, a.active {
+	outline: 0;
+	color: #18bc9c;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-transform: uppercase;
+	font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 700;
+}
+
+hr.star-light, hr.star-primary {
+	margin: 25px auto 30px;
+	padding: 0;
+	max-width: 200px;
+	border: 0;
+	border-top: solid 5px;
+	text-align: center;
+}
+
+hr.star-light:after, hr.star-primary:after {
+	/*content: url({%dicio.png%}); */
+	display: inline-block;
+	position: relative;
+	top: -.8em;
+	padding: 0 .25em;
+	font-family: FontAwesome;
+	font-size: 2em;
+}
+
+hr.star-light {
+	border-color: #fff;
+}
+
+hr.star-light:after {
+	color: #fff;
+}
+
+hr.star-primary {
+	border-color: #2c3e50;
+}
+
+hr.star-primary:after {
+	color: #2c3e50;
+	background-color: #fff;
+}
+
+.img-centered {
+	margin: 0 auto;
+}
+
+header {
+	text-align: center;
+	color: #fff;
+	background: #18bc9c;
+}
+
+header .container {
+	padding-top: 80px;
+	padding-bottom: 50px;
+}
+
+header img {
+	display: block;
+	margin: 0 auto 20px;
+}
+
+header .intro-text .name {
+	display: block;
+	text-transform: uppercase;
+	font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 2em;
+	font-weight: 700;
+}
+
+header .intro-text .skills {
+	font-size: 1.25em;
+	font-weight: 300;
+}
+
+.sobre{
+	color:white;
+}
+.sobre .row .col-lg-12{
+	padding-top: 60px;
+	font-family:Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+	margin: 0;
+	font-size: 3em;
+}
+.sobre .row .col-lg-12{
+	padding-top: 60px;
+	font-family:Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+	margin: 0;
+	font-size: 3em;
+}
+.linha{
+	weidght:60px;
+}
+table{
+	border-collapse: collapse;
+}
+
+tr, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.corpo{
+	background-color:white;
+}
+.justificado{
+	text-align:justify; 
+	text-justify:inter-word
+}
+.footer-above{
+	color:white;
+	padding:32px;
+	background-color:#2C3E50;
+}
+.footer-below{
+	background-color:#233140;
+	color:white;
+	padding:20px;
+}
+.aga{
+	padding-bottom:3cm;
+}
+.effect:hover{
+	opacity:0.5;
+	filter: alpha(opacity=50);
+}
