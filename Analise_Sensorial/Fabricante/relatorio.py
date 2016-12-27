@@ -338,7 +338,7 @@ def relatorio_final(request, id):
 
                 if respostas:
                     for resposta in respostas:
-                        if resposta.resposta != None:
+                        if resposta.resposta != "":
                             dictionary['text'] = "> " + str(resposta.resposta)
                             dictionary['type'] = 'Normal'
                             dictionary['size'] = '12'
