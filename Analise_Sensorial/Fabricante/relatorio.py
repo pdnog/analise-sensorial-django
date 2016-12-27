@@ -338,11 +338,12 @@ def relatorio_final(request, id):
 
                 if respostas:
                     for resposta in respostas:
-                        dictionary['text'] = "> " + str(resposta.resposta)
-                        dictionary['type'] = 'Normal'
-                        dictionary['size'] = '12'
-                        dictionary['spacer'] = 10
-                        put_string(dictionary)
+                        if resposta.resposta == None:
+                            dictionary['text'] = "> " + str(resposta.resposta)
+                            dictionary['type'] = 'Normal'
+                            dictionary['size'] = '12'
+                            dictionary['spacer'] = 10
+                            put_string(dictionary)
                 else:
                     dictionary['text'] = "Nenhuma resposta cadastrada."
                     dictionary['type'] = 'Normal'
