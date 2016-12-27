@@ -331,9 +331,13 @@ def excel(request, id):
     import numpy as np
     import math
     lista = []
-    
+    aux=[]
     analise = AnaliseSensorial.objects.get(pk = id)
     perguntas = Pergunta.objects.filter(analise=analise.id)
+    
+    for pergunta in perguntas:  
+        aux.append(pergunta.pergunta)
+    
     for pergunta in perguntas:
         if pergunta.tipo == 'PIC':
             respostaIntencao = excelRetornaRespostas(IntencaoCompra,'PIC',id)
@@ -344,19 +348,19 @@ def excel(request, id):
         elif pergunta.tipo == 'PHD':
             respostaHedonica = excelRetornaRespostas(Hedonica, 'PHD', id)
             lista.append(respostaHedonica)
-    return excel.make_response_from_array(list(itertools.zip_longest(*lista)), 'xls')
+    lista = list(itertools.zip_longest(*lista))
+    lista.append(aux)
+    return excel.make_response_from_array(lista, 'xls')
 def excelRetornaRespostas(tipoPergunta, sigla,id):
     analise = AnaliseSensorial.objects.get(pk = id)
     perguntas = Pergunta.objects.filter(analise=analise.id)
     respostas = []
-    for pergunta in perguntas:
-        respostas.append(pergunta.pergunta)
-        break
+
     
+
     for pergunta in perguntas:
         
-        if pergunta.tipo == sigla:
-                
+        if pergunta.tipo == sigla:                
                 respostasTipo = tipoPergunta.objects.filter(pergunta = pergunta.id)
                 for i in respostasTipo:
                     respostas.append(i.resposta)
