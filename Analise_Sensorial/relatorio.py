@@ -11,6 +11,7 @@ from django.shortcuts import redirect, get_object_or_404
 from reportlab.lib.units import inch
 
 #Usando para o parágrafo 
+#Contribuicao pdnog
 from reportlab.platypus import (
     BaseDocTemplate, 
     PageTemplate, 
